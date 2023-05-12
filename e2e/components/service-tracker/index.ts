@@ -1,0 +1,8 @@
+export * as providersPage from './service-tracker-providers.page'
+export * as providersDashboardPage from './service-tracker-providers-dashboard.page'
+export * as providersDeliveriesPage from './service-tracker-providers-deliveries.page'
+export * as providersRostersPage from './service-tracker-providers-rosters.page'
+export * as providersAssessmentTcmPage from './service-tracker-providers-assessmentTCM.page'
+export * as bulkDeliveryManageGroupsPage from './service-tracker-bulk-delivery-manage-groups.page'
+export * as bulkDeliveryManageGroupsStudentsPage from './service-tracker-bulk-delivery-manage-groups-students.page'
+export * as bulkDeliveryDeliverPage from './service-tracker-bulk-delivery-deliver.page'

@@ -1,0 +1,5 @@
+{
+ "baseUrl": "https://qa.seis.org",
+ "apiBaseUrl": "https://qaapi.seis.org",
+ "env": "qa"
+}

@@ -1,0 +1,6 @@
+{
+ "dev": "dev",
+ "qa": "qa",
+ "prod": "prod",
+ "v4": "v4"
+}

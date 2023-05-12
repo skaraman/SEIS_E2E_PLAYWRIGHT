@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"resolveJsonModule":true,
+		"module": "commonjs",
+		"allowSyntheticDefaultImports": true
+	},
+	"files": [
+		"./global.d.ts",
+		"node_modules/jest-playwright-preset/types/global.d.ts",
+		"node_modules/expect-playwright/global.d.ts"
+	]
+}

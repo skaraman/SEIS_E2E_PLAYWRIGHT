@@ -1,0 +1,59 @@
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows files
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+Thumbs.db
+ehthumbs.db
+
+# macOS files
+.AppleDouble
+.AppleDB
+.AppleDesktop
+.DS_Store
+.LSOverride
+
+# Thumbnails
+._*
+
+# External disk files
+.Spotlight-V100
+.Trashes
+
+# Remote AFP share files
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Generated
+node_modules/
+bower_components/
+
+.idea/
+.tmp/
+build/
+report/
+typings/
+
+.eslintreport.json
+npm-debug.log
+npm-debug.log.*
+*.log
+
+# Throwaway
+t.*
+
+# Azurite
+__blobstorage__
+__azurite_db_*
+
+# test results
+
+test-results

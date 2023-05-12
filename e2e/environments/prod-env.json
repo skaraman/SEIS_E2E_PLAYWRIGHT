@@ -1,0 +1,5 @@
+{
+ "baseUrl": "https://seis.org",
+ "apiBaseUrl": "https://api.seis.org",
+ "env": "production"
+}

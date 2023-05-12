@@ -1,0 +1,5 @@
+{
+	"baseUrl": "https://devseisv4.sjcoe.org/",
+	"apiBaseUrl": "https://devseisv4api.sjcoe.org",
+	"env": "v4"
+}
