@@ -25,7 +25,7 @@ test.describe('SELPA > Administration Page Load Tests', () => {
 		await clickElement(page, locators.ADMINISTRATION)
 		await clickElement(page, locators.MANAGE_DOC_LIBRARY)
 		await verifyIfElementIsVisible(page, ManageDocumentLibraryPage.locators.HEADERS)
-		await newDocumentAddDelete(page)
+		await newDocumentAddDelete(page)                     
 	
 	})
 

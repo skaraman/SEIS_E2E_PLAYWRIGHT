@@ -25,7 +25,7 @@ export const clickReturnToIeps = async (page: Page): Promise<void> => {
 export const printAllFormsCurrentIep = async (page: Page): Promise<Page> => {
 	await clickElement(page, locators.CHECK_ALL)
 	await clickElement(page, locators.PRINT_SELECTED)
-	await page.getByRole('button', { name: 'Print' }).click();
+	await page.locator('[ng-click="vm.ok()"]').click();
 	await page.getByText('Processing print request in Print Queue.').isVisible()
 	const printWindow = await openWindow(page, async ()=>{
 	  await page.locator('.toast-title').click({timeout:70000})

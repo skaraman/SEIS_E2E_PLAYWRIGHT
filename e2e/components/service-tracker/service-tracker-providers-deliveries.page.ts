@@ -32,7 +32,7 @@ await page.locator('#ClaimsDate').click();
   await page.locator('#ClaimsDate').press('Tab');
   await page.locator('#s2id_attendanceCode').getByRole('link', { name: '--Select One--' }).click();
   await page.getByRole('option', { name: 'Unexcused Absence' }).click();
-  await page.getByRole('link', { name: '--Select One--' }).click();
+  await page.getByRole('link', { name: '--Select One--', exact: true }).click();
   await page.getByRole('option', { name: 'Bauxbatons' }).click();
   await page.getByRole('link', { name: '----Select One----' }).click();
   await page.getByRole('option', { name: 'Referred to community resources/agency' }).click();

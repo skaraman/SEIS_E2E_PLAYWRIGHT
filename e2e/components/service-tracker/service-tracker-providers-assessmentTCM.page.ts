@@ -18,7 +18,7 @@ export const fillOutEditAssessmentFields = async (page: Page): Promise<void> => 
 
  // await page.fill(locators.ASSESSMENT_DATE, "11/07/2022");
  await page.locator('#AssessmentDate').click();
-  await page.locator('.today').nth(0).click();
+  await page.locator('td.active.day').click();
 await page.locator("#assessmentType2").selectOption("string:1");
   await page.getByText('Group').first().click();
   await page.getByRole('link', { name: '--Select One--' }).click();
@@ -35,9 +35,9 @@ await page.locator("#assessmentType2").selectOption("string:1");
 export const fillOutAddTcmFields = async (page: Page): Promise<void> => {
   await page.locator('#TcmDate').click();
   await page.locator('.old.day').nth(0).click();
-  await page.getByRole('link', { name: '---Select One---' }).click();
+  await page.getByRole('link', { name: '---Select One---', exact: true }).click();
   await page.getByRole('option', { name: 'Developing Plan' }).click();
-  await page.getByRole('link', { name: '--Select One--' }).click();
+  await page.getByRole('link', { name: '--Select One--', exact: true }).click();
   await page.getByRole('option', { name: 'Bauxbatons' }).click();
   await page.getByRole('link', { name: '----Select One----' }).click();
   await page.getByRole('option', { name: 'Supported student on digital accommodations' }).click();

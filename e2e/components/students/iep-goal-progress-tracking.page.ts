@@ -30,7 +30,7 @@ export const printProgress = async (page: Page): Promise<void> => {
 	await page.getByRole('button', { name: 'Goals Menu' }).click();
 	await page.locator('a:has-text("Print Progress Report")').click();
 	await clickElement(page, locators.PRINT_BTN)
-	await page.getByRole('button', { name: 'Print' }).click();
+	await page.locator('[ng-click="vm.ok()"]').click();
 
 
 

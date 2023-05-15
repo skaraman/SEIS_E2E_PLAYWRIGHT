@@ -60,9 +60,9 @@ export const AddNewUser = async (page: Page)  => {
 	await page.locator('input[type="email"]').click();
 	await page.locator('input[type="email"]').fill('testing@sjcoe.net');
 	await page.getByRole('link', { name: '----Select One----' }).click();
-	await page.getByRole('option', { name: 'District' }).click();
+	await page.getByRole('option', { name: 'District', exact: true }).click();
 	await page.getByRole('link', { name: '-- Select One --' }).click();
-	await page.getByRole('option', { name: 'District' }).click();
+	await page.getByRole('option', { name: 'District Program Manager' }).click();
 	await page.getByRole('link', { name: '-----Select One-----' }).click();
 	await page.getByRole('option', { name: 'Demo District' }).click();
 	await page.getByLabel('No').check();

@@ -34,8 +34,8 @@ export const printBulkIep = async (
   await page.getByRole("button", { name: "Go" }).click();
   //await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
 await page.locator('#s2id_formID').click()
-  await page.getByRole("option", { name: "Referral" }).click();
-  await page.getByLabel(language).check();
+await page.getByRole('option', { name: 'Referral', exact: true }).click();
+await page.getByLabel(language).check();
   await page.getByRole("button", { name: "Submit Print Job" }).click();
   await page.getByText("Processing print request in Print Queue.").click();
   await page.getByRole("button", { name: "1 pending  " }).click();
@@ -70,7 +70,7 @@ export const printBulkIfspForms = async (page: Page) => {
   await page.getByRole("option", { name: "Bulk Print IFSP Forms" }).click();
   await page.getByRole("button", { name: "Go" }).click();
   await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
-  await page.getByRole("option", { name: "Services" }).click();
+  await page.getByRole('option', { name: 'Services', exact: true }).click();
   await page.getByRole("button", { name: "Submit Print Job" }).click();
   await page.getByText("Processing print request in Print Queue.").click();
   await page.getByRole("button", { name: "1 pending  " }).click();
@@ -85,15 +85,15 @@ export const printBulkIfspForms = async (page: Page) => {
   };
   export const filterOptionsAndCriteria = async (page: Page) => {
     await page.locator('.ui-sortable-handle').last().click();
-    await page.getByRole('option', { name: 'Age' }).click();
-  await page.getByRole('option', { name: 'Grade Level' }).click();
+    await page.getByRole('option', { name: 'Age', exact: true }).click();
+    await page.getByRole('option', { name: 'Grade Level' }).click();
   await page.keyboard.press('Tab')
   await page.getByRole('button', { name: 'OK' }).click();
   await page.getByText('Search Columns Saved.').isVisible();
   await page.locator('button:has-text("Add")').click();
   await page.locator('.row > .col-xs-1').first().click();
   await page.getByRole('link', { name: '-----Select One-----' }).click();
-  await page.getByRole('option', { name: 'Age' }).click();
+  await page.getByRole('option', { name: 'Age', exact: true }).click();
   await page.locator('input[name="number"]').click();
   await page.locator('input[name="number"]').fill('7');
   await page.locator('#searchBar div:has-text("Criteria -----Select One----- -----Select One----- 1 live multi. line. response ")').getByRole('button', { name: 'Search' }).click();

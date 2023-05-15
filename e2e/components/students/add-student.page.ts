@@ -48,7 +48,9 @@ export const addNewStudent = async (page: Page) => {
   const firstName = `firstName${generateString(5)}`;
 
   await enterTextDateField(page, locators.BIRTH_DATE, await createPastDate(momentEnum.year, 10))
+  await page.keyboard.press('Tab')
   await enterTextDateField(page, locators.DATE_ENROLLED_IN_LEA, await createPastDate(momentEnum.year, 5))
+  await page.keyboard.press('Tab')
 
   await enterTextField(page, locators.LAST_NAME_INPUT, lastName);
   await enterTextField(page, locators.FIRST_NAME_INPUT, firstName);
@@ -56,7 +58,7 @@ export const addNewStudent = async (page: Page) => {
   await page.locator("#s2id_Suffix > .select2-choice").click();
   await page.getByRole("option", { name: "JR - Junior" }).click();
   await page.getByRole("link", { name: "--- Select One ---" }).click();
-  await page.getByRole("option", { name: "Male" }).click();
+  await page.getByRole('option', { name: 'Male', exact: true }).click();
 
   await enterTextField(page, locators.DISTRICT_ID, generateNumbers(15));
   await page.locator("#s2id_ServiceDistrictID").getByRole("link", { name: "----Select One----" }).click();
