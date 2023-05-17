@@ -84,6 +84,12 @@ test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 	await page.waitForSelector(studentIepsPage.locators.TABLE)
 	await selectEligibility(page)
 	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+	if (
+		await page.locator('button:has-text("View Current IEP")').isVisible()
+	){
+		await page.locator('button:has-text("Cancel")').click()
+
+	}
 	await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
 	const [page1] = await Promise.all([page.waitForEvent('popup')])
 	await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
