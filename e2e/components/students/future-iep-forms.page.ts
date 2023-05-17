@@ -64,6 +64,13 @@ export const generateEsignaturePreMeeting = async (
     name: "Generate E-Signature Package",
   }); 
 
+  if (
+		await page.locator('button:has-text("View Current IEP")').isVisible()
+	){
+		await page.locator('button:has-text("Cancel")').click()
+
+	}
+
   if (!(await generatePackageButton.isVisible())) {
     // Cancel if generate button is not visible
     await page
@@ -174,6 +181,14 @@ export const validateEsignaturePage = async (
   await page.waitForSelector(studentIepsPage.locators.TABLE);
   await selectEligibility(page);
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS);
+/*   await page.waitForLoadState('networkidle')
+
+  if (
+		await page.locator('button:has-text("View Current IEP")').isVisible()
+	){
+		await page.locator('button:has-text("Cancel")').click()
+
+	} */
   await page.waitForNavigation();
   await page.getByRole("button", { name: "View E-Signed Document" }).click();
   await page.getByRole("button", { name: "Add Attachment" }).click();

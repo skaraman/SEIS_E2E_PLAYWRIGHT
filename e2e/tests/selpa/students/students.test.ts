@@ -62,7 +62,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
-		
+
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.VIEW_STUDENT_RECORD)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
@@ -86,7 +86,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await page.goBack()
 	})
 
-	test.only('Generate E-Signature Pre-meeting @HD-Test', async ({
+	test('Generate E-Signature Pre-meeting @HD-Test', async ({
 		page,
 		configs,
 		request,
@@ -97,6 +97,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await page.waitForNavigation()
+		await page.waitForLoadState('networkidle')
 		await generateEsignaturePreMeeting(page)
 		await validateEsignaturePage(page, configs, request)
 	})

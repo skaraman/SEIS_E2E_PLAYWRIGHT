@@ -84,6 +84,7 @@ test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 	await page.waitForSelector(studentIepsPage.locators.TABLE)
 	await selectEligibility(page)
 	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+	await page.waitForLoadState('networkidle')
 	if (
 		await page.locator('button:has-text("View Current IEP")').isVisible()
 	){
@@ -118,6 +119,7 @@ test('Print Future Ieps Form @Health-Check', async ({ page }) => {
 	await page.waitForSelector(studentIepsPage.locators.TABLE)
 	await selectEligibility(page)
 	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+	await page.waitForLoadState('networkidle')
 	if (
 		await page.locator('button:has-text("View Current IEP")').isVisible()
 	){
