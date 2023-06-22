@@ -86,7 +86,7 @@ test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 	await page.waitForLoadState('networkidle')
 	if (
-		await page.locator('button:has-text("View Current IEP")').isVisible()
+		await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
 	){
 		await page.locator('button:has-text("Cancel")').click()
 
@@ -121,7 +121,7 @@ test('Print Future Ieps Form @Health-Check', async ({ page }) => {
 	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 	await page.waitForLoadState('networkidle')
 	if (
-		await page.locator('button:has-text("View Current IEP")').isVisible()
+		await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
 	){
 		await page.locator('button:has-text("Cancel")').click()
 
