@@ -78,7 +78,7 @@ test('dashboard unaffirmed ieps help guide verify @Health-Check', async ({
 	test.expect(newPage).toHaveURL(/helpguides/)
 })
 
-test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
+test.only('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 	await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
 	await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 	await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -91,6 +91,7 @@ test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 		await page.locator('button:has-text("Cancel")').click()
 
 	}
+	await page.waitForTimeout(3000)
 	await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
 	const [page1] = await Promise.all([page.waitForEvent('popup')])
 	await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
