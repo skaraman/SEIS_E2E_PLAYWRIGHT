@@ -78,7 +78,7 @@ test('dashboard unaffirmed ieps help guide verify @Health-Check', async ({
 	test.expect(newPage).toHaveURL(/helpguides/)
 })
 
-test.only('Future Ieps Preview Form @Health-Check', async ({ page }) => {
+test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 	await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
 	await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 	await page.waitForSelector(studentIepsPage.locators.TABLE)
