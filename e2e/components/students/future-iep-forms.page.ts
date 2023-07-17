@@ -240,6 +240,16 @@ await enterTextField(page, studentIepsPage.locators.SEIS_ID, `${studentId}`)
 await page.getByRole('button', { name: 'Find' }).click();
 await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 
+
+await page.waitForLoadState('networkidle')
+if (
+  await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
+){
+  await page.locator('button:has-text("Cancel")').click()
+
+}
+await page.waitForTimeout(6000)
+
   // Create completed signature for student
 	await page.locator("tr:nth-child(10) > td").first().click();
   
@@ -348,6 +358,14 @@ await page.waitForTimeout(30000)
   await page.getByLabel('Last Eligibility Evaluation Date').check();
   await page.getByLabel('Projected Next Eligibility Evaluation Date').check();
   await page.getByRole('button', { name: 'Continue Affirm' }).click();
+  if (
+    await page.getByText('Alert - Meeting Date').isVisible()
+  ){
+    await page.locator('button:has-text("Continue")').last().click()
+  }
+
+  await page.waitForTimeout(4000)
+
   await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: 'Continue' }).click();
   await page.locator("tr:nth-child(10) > td").first().click();
