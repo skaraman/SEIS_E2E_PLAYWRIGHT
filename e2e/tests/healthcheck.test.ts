@@ -92,7 +92,8 @@ test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 
 	}
 	await page.waitForTimeout(6000)
-	await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
+	await page.locator("[title='Preview Form']").first().click()
+	//await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
 	const [page1] = await Promise.all([page.waitForEvent('popup')])
 	await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
 })
