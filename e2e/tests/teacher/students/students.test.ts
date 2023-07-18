@@ -123,6 +123,16 @@ test('Add/Print DRDP @HD-Test', async ({ page }) => {
 	await page.waitForSelector(studentIepsPage.locators.TABLE)
 	await selectEligibility(page)
 	await clickElement(page, studentIepsPage.locators.DRDP)
+
+	if ( await page.locator("Add/Print DRDP @HD-Test").isVisible
+
+	)
+	{
+		await page.locator("[title='Delete']").first().click()
+		await page.getByRole('button', { name: 'Yes' }).click();
+
+	}
+
 	const printWindow = await addDrdp(page)
 	await verifyIfPageUrlIsCorrect(printWindow, '/print-pdf')
 })
