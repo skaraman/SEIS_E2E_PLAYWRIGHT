@@ -18,14 +18,14 @@ export const fillOutEditAssessmentFields = async (page: Page): Promise<void> => 
 
  // await page.fill(locators.ASSESSMENT_DATE, "11/07/2022");
  await page.locator('#AssessmentDate').click();
-  await page.locator('td.active.day').click();
+  await page.locator('td.day.old').first().click();
 await page.locator("#assessmentType2").selectOption("string:1");
   await page.getByText('Group').first().click();
-  await page.getByRole('link', { name: '--Select One--' }).click();
+  await page.getByRole('link', { name: '--Select One--', exact: true }).click();
   await page.getByRole('option', { name: 'Bauxbatons' }).click();
   await page.getByRole('link', { name: '----Select One----' }).click();
   await page.getByRole('option', { name: 'Materials provided for home use' }).click();
-  await page.getByRole('link', { name: 'Deer Park Elementary' }).click();
+  await page.locator('[id="s2id_AttendanceSchool"]').click();
   await page.getByRole('option', { name: 'Another School Elementary' }).click();
   await page.getByPlaceholder('Comments').fill('Testing Assessment page');
   await page.getByRole('button', { name: 'Save' }).click();

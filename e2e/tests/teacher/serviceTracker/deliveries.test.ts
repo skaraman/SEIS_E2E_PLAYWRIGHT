@@ -36,7 +36,7 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
 		page,
 	  }) => {
 		await clickElement(page, locators.SERVICE_TRACKER)
-		await clickElement(page, locators.ASSESSMENTS_TCM)
+		await page.getByRole('link', { name: 'Assessments' }).click();
 		await page.locator("[title='Deliver Assessment']").nth(0).click()
 		await page.locator("text= Add Assessment").click()
 		await fillOutEditAssessmentFields(page)
@@ -50,7 +50,7 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
 		page,
 	  }) => {
 		await clickElement(page, locators.SERVICE_TRACKER)
-		await clickElement(page, locators.ASSESSMENTS_TCM)
+		await page.getByRole('link', { name: 'Assessments' }).click();
 		await page.locator("[title='Deliver TCM']").nth(0).click()
 		await page.locator("text= Add TCM").click()
 		await fillOutAddTcmFields(page)

@@ -44,9 +44,9 @@ await page.locator('#ClaimsDate').click();
   await page.getByPlaceholder('Comments').click();
   await page.getByPlaceholder('Comments').fill('This is a Test!');
   await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator("[title='Comment']").first().click();
+  await page.locator("[title='Comment']").last().click();
   await page.getByRole('button', { name: ' This is a Test!' }).isVisible();
-  await page.locator("[title='Delete']").click()
+  await page.locator("[title='Delete']").last().click()
   await page.getByRole('button', { name: 'Delete Claim' }).click();
 
 
