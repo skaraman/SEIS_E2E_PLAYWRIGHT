@@ -68,22 +68,44 @@ test.describe('SELPA > Students Load Tests', () => {
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.FUTURE_IEP)
 		await page.waitForNavigation()
+		await page.waitForLoadState('networkidle')
+		if (
+			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
+		){
+			await page.locator('button:has-text("Cancel")').click()
+	
+		}
 		await verifyIfTitleIsCorrect(page, 'Future IEP Forms')
 		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.CURRENT_IEP)
 		await page.waitForNavigation()
+
+		await page.waitForLoadState('networkidle')
+		if (
+			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
+		){
+			await page.locator('button:has-text("Cancel")').click()
+	
+		}
 		await verifyIfTitleIsCorrect(page, 'Current Affirmed Forms')
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.HISTORICAL_IEPS)
 		await page.waitForNavigation()
 		await verifyIfTitleIsCorrect(page, 'Historical IEPs')
 		await page.goBack()
+
+		await page.waitForLoadState('networkidle')
+		if (
+			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
+		){
+			await page.locator('button:has-text("Cancel")').click()
+	
+		}
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.PROGRESS_REPORTS)
 		await page.waitForNavigation()
 		await verifyIfTitleIsCorrect(page, 'Print Progress Reports')
-		await page.goBack()
 	})
 
 	test('Generate E-Signature Pre-meeting @HD-Test', async ({

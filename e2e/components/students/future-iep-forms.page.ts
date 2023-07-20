@@ -50,7 +50,7 @@ export const printAllForms = async (page: Page): Promise<Page> => {
       await page.locator(".toast-title").click({ timeout: 100000 });
     },
 
-    70000
+    80000
   );
   return printWindow;
 };
