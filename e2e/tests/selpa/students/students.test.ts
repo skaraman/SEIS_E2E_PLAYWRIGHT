@@ -95,7 +95,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'Historical IEPs')
 		await page.goBack()
 
-		await page.waitForLoadState('networkidle')
+		await page.waitForTimeout(400)
 		if (
 			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
 		){

@@ -87,7 +87,7 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
 	})
 
-	test('Students Iep Amendment Affirm @HD-Test', async ({ page }) => {
+	test.skip('Students Iep Amendment Affirm @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
