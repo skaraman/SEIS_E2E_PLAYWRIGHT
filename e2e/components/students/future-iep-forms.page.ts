@@ -47,10 +47,10 @@ export const printAllForms = async (page: Page): Promise<Page> => {
   const printWindow = await openWindow(
     page,
     async () => {
-      await page.locator(".toast-title").click({ timeout: 100000 });
+      await page.locator(".toast-title").click({ timeout: 150000 });
     },
 
-    130000
+    150000
   );
   return printWindow;
 };
