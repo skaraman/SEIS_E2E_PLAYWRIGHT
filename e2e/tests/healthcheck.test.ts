@@ -52,7 +52,7 @@ test('dashboard meeting alerts verify @Health-Check', async ({
 
 	// Next tri 75 days
 	await clickMeetingAlerts(page, MeetingAlerts.NextTri75Days)
-	await verifyIfTitleIsCorrect(page, 'Next Eligibility Evaluation')
+	await verifyIfTitleIsCorrect(page, 'Next Reevaluation')
 	await clickElement(page, locators.LOGO_ICN)
 
 	// Initial evaluations
@@ -88,7 +88,7 @@ test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
 	if (
 		await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
 	){
-		await page.locator('button:has-text("Cancel")').click()
+		await page.locator('button:has-text("Cancel"):visible').click()
 
 	}
 	await page.waitForTimeout(6000)
@@ -125,7 +125,7 @@ test('Print Future Ieps Form @Health-Check', async ({ page }) => {
 	if (
 		await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
 	){
-		await page.locator('button:has-text("Cancel")').click()
+		await page.locator('button:has-text("Cancel"):visible').click()
 
 	}
 	await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)

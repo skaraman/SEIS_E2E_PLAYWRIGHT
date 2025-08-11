@@ -4,17 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "e2e:dev": "NODE_ENV=dev npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
-    "e2e:qa": "NODE_ENV=qa npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
-    "e2e:prod": "NODE_ENV=prod npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
-    "e2e:health-check": "NODE_ENV=prod npx playwright test --reporter=list --workers=6 --grep @Health-Check",
-    "e2e:v4": "NODE_ENV=v4 npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check"
+    "e2e:dev": "cross-env NODE_ENV=dev npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
+    "e2e:qa": "cross-env NODE_ENV=qa npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
+    "e2e:prod": "cross-env NODE_ENV=prod npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
+    "e2e:health-check": "cross-env NODE_ENV=prod npx playwright test --reporter=list --workers=6 --grep @Health-Check",
+    "e2e:v4": "cross-env NODE_ENV=v4 npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.33.0",
+    "cross-env": "^10.0.0",
     "moment": "^2.29.4"
   }
 }

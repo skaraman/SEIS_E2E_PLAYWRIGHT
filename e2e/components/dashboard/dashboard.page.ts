@@ -70,7 +70,7 @@ export const clickMeetingAlerts = async (
 			key = 'Next Annual Plan Review'
 			break
 		case MeetingAlerts.NextTri75Days:
-			key = 'Next Eligibility Evaluation'
+			key = 'Next Reevaluation'
 			break
 		case MeetingAlerts.InitialEvaluations:
 			key = 'Initial Evaluations'

@@ -355,8 +355,8 @@ await page.waitForTimeout(30000)
   await page.getByLabel('Affirm Remarks').click();
   await page.getByLabel('Affirm Remarks').fill('testing');
   await page.getByLabel('Projected Next Annual Plan Review Date').check();
-  await page.getByLabel('Last Eligibility Evaluation Date').check();
-  await page.getByLabel('Projected Next Eligibility Evaluation Date').check();
+  await page.getByLabel('Last Reevaluation Date').check();
+  await page.getByLabel('Projected Next Reevaluation Date').check();
   await page.getByRole('button', { name: 'Continue Affirm' }).click();
   if (
     await page.getByText('Alert - Meeting Date').isVisible()
