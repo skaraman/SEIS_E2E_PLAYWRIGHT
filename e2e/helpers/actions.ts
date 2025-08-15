@@ -1,14 +1,13 @@
 import { Page, Locator, expect } from '@playwright/test'
 
-export const clickElement = async (
-	page: Page,
-	locator: Locator | string
-): Promise<void> => {
-	if (typeof locator === 'string') {
-		await page.click(locator)
-	} else {
-		await locator.click()
-	}
+export const clickElement = async (page: Page, locator: any, index: number = 0): Promise<void> => {
+	await page.waitForLoadState('networkidle')
+	var element
+  	typeof locator === 'string' ?  element = page.locator(locator).nth(index) : element = locator.nth(index)
+	await element.waitFor({ state: 'visible' })
+	await element.click()
+	await page.waitForLoadState('networkidle')
+	await page.waitForTimeout(1000) // Wait for 1 second to ensure the click is processed
 }
 
 export const enterTextField = async (
@@ -57,7 +56,6 @@ export const openWindow = async (
 	])
 
 	await newPage.waitForLoadState()
-
 	return newPage
 }
 //THIS IS FOR DOCUMENT LIBRARY USES ONLY

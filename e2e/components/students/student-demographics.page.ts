@@ -16,7 +16,7 @@ export const locators = {
 	DOC_LIBRARY: "[title='Doc Library']",
 	ATTACHMENTS: "[title='Attachments']",
 	CALPADS_TRANSACTIONS: "[alt='CALPADS Transactions']",
-	Q_L: "#studentQuickLinks",
+	Q_L: "#studentQuickLinks>button",
 	SSID_INPUT: "[id='CsisID']"
 
 }

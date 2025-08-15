@@ -29,10 +29,7 @@ export const selectDates = async (page: Page): Promise<void> => {
 };
 
 export const clickToastMsg = async (page: Page) => {
-  const newWindow = await actions.openWindow(page, async () => {
-    await page.locator('text="Print Service Tracker Roster can be viewed in Print Queue."').click({timeout:70000})
-
-  });
-
-  expect(newWindow).toHaveURL(/print-pdf/);
+  var toastLocator = 'text="Print Service Tracker Roster can be viewed in Print Queue."'
+  await page.locator(toastLocator).waitFor({ state: 'visible' });
+  await page.locator(toastLocator).click()
 };

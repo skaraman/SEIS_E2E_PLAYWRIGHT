@@ -12,12 +12,12 @@ export const locators = {
 	PRINT_PROGRESS: "[title='Print Progress']",
 	QUICK_LINKS: "button:has-text('Quick Links')",
 	TABLE: ".table",
-	COMMMENTS: "text=comments",
+	COMMENTS: "text=comments",
 	ADD_COMMENT: "text=Add Comment",
 	TEXT_AREA: "textArea",
 	SAVE_BTN: "#saveBtn",
 	GOAl_PROGRESS_TRACKING: "[title='Goal Progress and Tracking']",
-	VIEW_STUDENT_RECORD: "[title='View Student Record']",
+	EDIT_STUDENT_RECORD: "[title='Edit Student Record']",
 	//FILTER
 	SEIS_ID: "[id='SeisID']",
 	SSID_FILTER: "[id='Ssid']"

@@ -1,10 +1,10 @@
 export const locators = {
-	STUDENTS: 'text=Students',
-	STUDENT_IEPS: 'text= Student IEPs',
-	CASELOADS: 'text=Caseloads',
-	ADD_STUDENT: 'text=Add Student',
-	EXITED_STUDENTS: 'text=Exited Students',
-	PLAN_TYPE: 'text=Plan Type 700/800/900',
+	STUDENTS: '.dropdown-toggle >> text=Students',
+	STUDENT_IEPS: '.dropdown >> text= Student IEPs',
+	CASELOADS: '.dropdown >> text=Caseloads',
+	ADD_STUDENT: '.dropdown >> text=Add Student',
+	EXITED_STUDENTS: '.dropdown >> text=Exited Students',
+	PLAN_TYPE: '.dropdown >> text=Plan Type 700/800/900',
 
 	//FOR TEACHER ROLE
 	STUDENT_CHANGE_FORM: 'text=Student Change Form'

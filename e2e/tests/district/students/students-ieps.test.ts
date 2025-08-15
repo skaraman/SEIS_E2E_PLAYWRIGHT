@@ -55,13 +55,14 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
-		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS);
+
 		await page.waitForSelector(futureIepFormsPage.locators.QUICK_LINKS)
 		await verifyIfElementIsVisible(
 			page,
 			futureIepFormsPage.locators.QUICK_LINKS
 		)
-		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 		await clickElement(page, futureIepFormsPage.locators.ADD_COMMENT)
 		await enterTextField(
 			page,
@@ -79,13 +80,14 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickElement(page, iepGoalProgressTrackingPage.locators.UPDATE_BTN)
 		await clickYes(page)
 		await affirmProgress(page)
-		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+		
+		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS);
 		await page.waitForSelector(futureIepFormsPage.locators.QUICK_LINKS)
 		await verifyIfElementIsVisible(
 			page,
 			futureIepFormsPage.locators.QUICK_LINKS
 		)
-		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 	})
 
 	test('Students Iep Progress Reports Print @HD-Test', async ({ page }) => {
@@ -98,9 +100,12 @@ test.describe('District > Student Ieps Tests', () => {
 		await checkAll(page)
 		await printProgress(page)
 
+		
 		const printWindow = await openWindow(page, async () => {
-			page.locator('.toast-title').click()
+			await page.locator('.toast-title').waitFor({ state: 'visible' })
+			await page.locator('.toast-title').click()
 		})
+		
 		await verifyIfPageUrlIsCorrect(printWindow, '/print-pdf')
 	})
 
@@ -133,7 +138,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
-		await page.locator('#sticky-bar').getByText('Print').click()
+		await page.locator('#sticky-bar').getByText('Print', { exact: true }).click()
 		const [page1] = await Promise.all([
 			page.waitForEvent('popup'),
 			page.locator('#sticky-bar').getByText('English').click(),
@@ -183,6 +188,7 @@ test.describe('District > Student Ieps Tests', () => {
 			.click()
 		await page.getByText('Processing print request in Print Queue.').isVisible()
 		const printWindow = await openWindow(page, async () => {
+			await page.locator('.toast-title').waitFor({ state: 'visible' })
 			await page.locator('.toast-title').click()
 		})
 		await verifyIfPageUrlIsCorrect(printWindow, '/print-pdf')
@@ -225,18 +231,19 @@ test.describe('District > Student Ieps Tests', () => {
 		)
 		await clickElement(page, studentDemoLocator)
 		//#endregion
+		await clickElement(page, 'a.popover-action[data-action="demographics"]')
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.FUTURE_IEP)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'Future IEP Forms')
-		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.CURRENT_IEP)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'Current Affirmed Forms')
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.PROGRESS_REPORTS)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'Print Progress Reports')
 		await page.goBack()
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
@@ -245,12 +252,12 @@ test.describe('District > Student Ieps Tests', () => {
 		await page.goBack()
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.EMAIL_TEAM)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'New Message')
 		await page.goBack()
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.DOC_LIBRARY)
-		await page.waitForNavigation()
+		await page.waitForURL('**/documentlibrary')
 		await verifyIfTitleIsCorrect(page, 'Document Library')
 		await page.locator("[name='Keyword']").isVisible()
 		await page.goBack()
@@ -258,12 +265,11 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickElement(page, studentDemographicsPage.locators.ATTACHMENTS)
 		await page.getByText('Add Attachment').isVisible()
 		await page.goBack()
+		await page.waitForLoadState('networkidle')
+		await page.waitForTimeout(2000)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
-		await clickElement(
-			page,
-			studentDemographicsPage.locators.CALPADS_TRANSACTIONS
-		)
-		await page.waitForNavigation()
+		await clickElement(page, studentDemographicsPage.locators.CALPADS_TRANSACTIONS)
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'CALPADS Transactions')
 	})
 })

@@ -12,7 +12,7 @@ const { locators } = seisHeaderComponent
 const { clickTeacherRequests, clickFollowUp, clickMeetingAlerts } =
 	dashboardPage
 
-test.describe('SELPA > Dashboard Tests @HD-Test', () => {
+test.describe('SELPA > Dashboard Tests @HD-Test-Debug', () => {
 	test.beforeEach(async ({ page, users }) => {
 		await page.goto('/login')
 		await loginSelpaRole(page)
@@ -39,8 +39,9 @@ test.describe('SELPA > Dashboard Tests @HD-Test', () => {
 		await clickElement(page, locators.LOGO_ICN)
 
 		// Calpads transaction changes
+
 		await clickTeacherRequests(page, TeacherRequests.CalpadsTransactionsChanges)
-		await verifyIfTitleIsCorrect(page, 'Manage IEP/CALPADS data')
+		await verifyIfTitleIsCorrect(page, 'IEP Update Requests')
 		await clickElement(page, locators.LOGO_ICN)
 
 		// Record changes

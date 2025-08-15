@@ -17,7 +17,7 @@ export const locators = {
 		await enterTextField(page, locators.OTHER_FIELD, "For Automated Testing")
 		await page.getByRole('button', { name: 'Affirm' }).click();
 		await page.getByRole('button', { name: 'Yes' }).click();
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await page.getByLabel('Yes').check();
 		await page.locator("[type='submit']").click();
 		await page.locator("[type='submit']").click();

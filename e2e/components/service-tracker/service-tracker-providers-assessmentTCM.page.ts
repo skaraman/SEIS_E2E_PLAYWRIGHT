@@ -16,10 +16,10 @@ export const locators = {
 //Edit Assessment Page
 export const fillOutEditAssessmentFields = async (page: Page): Promise<void> => {
 
- // await page.fill(locators.ASSESSMENT_DATE, "11/07/2022");
- await page.locator('#AssessmentDate').click();
+  // await page.fill(locators.ASSESSMENT_DATE, "11/07/2022");
+  await page.locator('#AssessmentDate').click();
   await page.locator('td.day.old').first().click();
-await page.locator("#assessmentType2").selectOption("string:1");
+  await page.locator("#assessmentType2").selectOption("string:1");
   await page.getByText('Group').first().click();
   await page.getByRole('link', { name: '--Select One--', exact: true }).click();
   await page.getByRole('option', { name: 'Bauxbatons' }).click();
@@ -55,8 +55,8 @@ export const fillOutAddTcmFields = async (page: Page): Promise<void> => {
   await page.locator('#Name').click();
   await page.locator('#Name').fill('Tester');
   await page.getByRole('button', { name: 'Save' }).click();
- /*  await page.getByRole('button', { name: '' }).click();
-  await page.getByRole('button', { name: ' this is a test!' }).click(); */
+  /*  await page.getByRole('button', { name: '' }).click();
+   await page.getByRole('button', { name: ' this is a test!' }).click(); */
   await page.waitForTimeout(5000)
   await page.locator("[id='deleteTcm']").last().click();
   await page.getByRole('button', { name: 'Delete Assessment' }).click();

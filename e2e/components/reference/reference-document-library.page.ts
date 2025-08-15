@@ -11,8 +11,7 @@ export const locators = {
 
 export const hasPageLoadedCorrectly = async (page: Page): Promise<boolean> => {
 	await page.waitForSelector('#headerTitle')
-
-	await clickElement(page, locators.FOLDER_TITLE)
+	await clickElement(page, locators.FOLDER_TITLE);
 
 	return (
 		page.url().indexOf('documentlibrary') > -1 &&

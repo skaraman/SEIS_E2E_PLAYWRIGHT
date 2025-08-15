@@ -27,7 +27,7 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
 		await clickElement(page, locators.SERVICE_TRACKER)
 		await clickElement(page, locators.DELIVERY)
 		await page.locator("[title='Deliver']").nth(0).click()
-		await page.locator("text= Add Service").click()
+		await page.locator("text= Add Delivery").click()
 		await addNewDelivery(page)
 	
 	  });

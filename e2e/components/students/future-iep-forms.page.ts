@@ -14,7 +14,7 @@ import { selectEligibility } from "./student-ieps.page";
 export const locators = {
   QUICK_LINKS: "button:has-text('Quick Links')",
   TABLE: ".table",
-  COMMMENTS: "text=comments",
+  COMMENTS: ".comments>a",
   ADD_COMMENT: "text=Add Comment",
   TEXT_AREA: "textArea",
   SAVE_BTN: "#saveBtn",
@@ -189,7 +189,7 @@ export const validateEsignaturePage = async (
 		await page.locator('button:has-text("Cancel")').click()
 
 	} */
-  await page.waitForNavigation();
+  await page.waitForURL('**')
   await page.getByRole("button", { name: "View E-Signed Document" }).click();
   await page.getByRole("button", { name: "Add Attachment" }).click();
 };
@@ -345,7 +345,7 @@ await page.waitForTimeout(30000)
   await page.getByRole('button', { name: 'Find' }).click();
   await page.waitForTimeout(30000)
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS);
-  await page.waitForNavigation();
+  await page.waitForURL('**')
   await page.getByRole("button", { name: "View E-Signed Document" }).click();
   await page.locator('form:has-text("To View the Electronic Signature document, click the download link below. The e-")').getByRole('button', { name: 'Affirm' }).click();
   await page.getByLabel('Meeting Date').check();

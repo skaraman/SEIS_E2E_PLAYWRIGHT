@@ -29,26 +29,28 @@ export const printBulkIep = async (
   page: Page,
   language: string = "English"
 ) => {
-  await page.getByRole("link", { name: "Print" }).click();
+  await page.getByRole('link', { name: 'Print', exact: true }).click();
   await page.getByRole("option", { name: "Bulk Print IEP Forms" }).click();
   await page.getByRole("button", { name: "Go" }).click();
   //await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
-await page.locator('#s2id_formID').click()
-await page.getByRole('option', { name: 'Referral', exact: true }).click();
-await page.getByLabel(language).check();
+  await page.locator('#s2id_formID').click()
+  await page.getByRole('option', { name: 'Referral', exact: true }).click();
+  await page.getByLabel(language).check();
   await page.getByRole("button", { name: "Submit Print Job" }).click();
   await page.getByText("Processing print request in Print Queue.").click();
-  await page.getByRole("button", { name: "1 pending  " }).click();
+  await page.getByRole("button", { name: "1 pending" }).click();
   await page.getByRole("button", { name: "Close" }).click();
   const [page1] = await Promise.all([
     page.waitForEvent("popup"),
     page
-      .getByText("Bulk Print IEP Forms can be viewed in Print Queue.")
-      .click(),
+      .getByText("Bulk Print IEP Forms can be viewed in Print Queue.").waitFor({ state: 'visible' }),
+
+    page
+      .getByText("Bulk Print IEP Forms can be viewed in Print Queue.").click(),
   ]);
 };
 export const printBulkProgressReports = async (page: Page) => {
-  await page.getByRole("link", { name: "Print" }).click();
+  await page.getByRole("link", { name: "Print", exact: true }).click();
   await page
     .getByRole("option", { name: "Bulk Print Progress Reports" })
     .click();
@@ -66,7 +68,7 @@ export const printBulkProgressReports = async (page: Page) => {
 };
 
 export const printBulkIfspForms = async (page: Page) => {
-  await page.getByRole("link", { name: "Print" }).click();
+  await page.getByRole("link", { name: "Print", exact: true }).click();
   await page.getByRole("option", { name: "Bulk Print IFSP Forms" }).click();
   await page.getByRole("button", { name: "Go" }).click();
   await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
@@ -82,11 +84,11 @@ export const printBulkIfspForms = async (page: Page) => {
       .click(),
   ]);
 
-  };
-  export const filterOptionsAndCriteria = async (page: Page) => {
-    await page.locator('.ui-sortable-handle').last().click();
-    await page.getByRole('option', { name: 'Age', exact: true }).click();
-    await page.getByRole('option', { name: 'Grade Level' }).click();
+};
+export const filterOptionsAndCriteria = async (page: Page) => {
+  await page.locator('.ui-sortable-handle').last().click();
+  await page.getByRole('option', { name: 'Age', exact: true }).click();
+  await page.getByRole('option', { name: 'Grade Level' }).click();
   await page.keyboard.press('Tab')
   await page.getByRole('button', { name: 'OK' }).click();
   await page.getByText('Search Columns Saved.').isVisible();
@@ -97,7 +99,7 @@ export const printBulkIfspForms = async (page: Page) => {
   await page.locator('input[name="number"]').click();
   await page.locator('input[name="number"]').fill('7');
   await page.locator('#searchBar div:has-text("Criteria -----Select One----- -----Select One----- 1 live multi. line. response ")').getByRole('button', { name: 'Search' }).click();
-  
+
 
 };
 export const downloadResults = async (page: Page) => {

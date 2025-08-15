@@ -67,7 +67,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await clickElement(page, studentIepsPage.locators.VIEW_STUDENT_RECORD)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.FUTURE_IEP)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await page.waitForLoadState('networkidle')
 		if (
 			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
@@ -76,10 +76,10 @@ test.describe('SELPA > Students Load Tests', () => {
 	
 		}
 		await verifyIfTitleIsCorrect(page, 'Future IEP Forms')
-		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.CURRENT_IEP)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 
 		await page.waitForLoadState('networkidle')
 		if (
@@ -91,7 +91,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'Current Affirmed Forms')
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.HISTORICAL_IEPS)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'Historical IEPs')
 		await page.goBack()
 
@@ -104,7 +104,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		}
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.PROGRESS_REPORTS)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await verifyIfTitleIsCorrect(page, 'Print Progress Reports')
 	})
 
@@ -118,7 +118,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		await page.waitForNavigation()
+		await page.waitForURL('**')
 		await page.waitForLoadState('networkidle')
 		await generateEsignaturePreMeeting(page)
 		await validateEsignaturePage(page, configs, request)

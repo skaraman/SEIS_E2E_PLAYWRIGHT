@@ -35,13 +35,16 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectPendingEligibility(page)
-		await clickElement(page, studentIepsPage.locators.VIEW_STUDENT_RECORD)
+		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+		await clickElement(page, futureIepFormsPage.locators.QUICK_LINKS)
+		await clickElement(page, studentIepsPage.locators.EDIT_STUDENT_RECORD)
+
 		const saveBtn = page.locator('//*[@id="btnSaveForm"]');
 		await expect(saveBtn).toHaveAttribute('class', 'btn btn-primary')
 		const ssid = await fillOutSSID(page)
+
 		await expect(saveBtn).toHaveAttribute('class', 'btn btn-warning')
 		await clickElement(page, saveBtn)
-		await page.getByText('Student Demographics saved').isVisible();
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
 		await fillOutGeneratedSSID(page, ssid)
@@ -60,7 +63,7 @@ test.describe('TEACHER > Students HD Tests', () => {
 			page,
 			futureIepFormsPage.locators.QUICK_LINKS
 		)
-		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 		await clickElement(page, futureIepFormsPage.locators.ADD_COMMENT)
 		await enterTextField(
 			page,
@@ -84,7 +87,7 @@ test.describe('TEACHER > Students HD Tests', () => {
 			page,
 			futureIepFormsPage.locators.QUICK_LINKS
 		)
-		await clickElement(page, futureIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 	})
 
 	test.skip('Students Iep Amendment Affirm @HD-Test', async ({ page }) => {
@@ -98,7 +101,7 @@ test.describe('TEACHER > Students HD Tests', () => {
 			page,
 			futureIepFormsPage.locators.QUICK_LINKS
 		)
-		await clickElement(page, currentIepFormsPage.locators.COMMMENTS)
+		await clickElement(page, currentIepFormsPage.locators.COMMENTS)
 		await clickElement(page, currentIepFormsPage.locators.ADD_COMMENT)
 		await enterTextField(
 			page,

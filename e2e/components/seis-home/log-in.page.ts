@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { actions, api } from "../../helpers";
-import { dashboardPage } from "../dashboard";
+import { locators as headerLocators } from "../header/seis-header";
 
 const { enterTextField, clickElement } = actions;
 
@@ -22,7 +22,7 @@ export const loginAs = async (page: Page, userName: string): Promise<void> => {
   await enterTextField(page, locators.USER_NAME_INPUT, userName);
   await enterTextField(page, locators.PASSWORD_INPUT, pw);
   await clickElement(page, locators.SUBMIT_BTN);
-  await page.waitForSelector(dashboardPage.locators.LOCAL_NEWS, {
+  await page.waitForSelector(headerLocators.LOG_OUT, {
     state: "visible",
   });
 };
