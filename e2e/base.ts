@@ -17,8 +17,15 @@ export const test = base.extend<Options>({
     await use(Users);
   },
   configs: async ({}, use, testInfo) => {
-    await use(testInfo.project.use.config);
+    await use(testInfo.project.use.configs);
   },
 });
+// base.beforeEach(async ({ page }) => {
+//   page.on('console', msg => console.log(`[console] ${msg.type()}: ${msg.text()}`));
+//   page.on('pageerror', error => console.log(`[pageerror] ${error}`));
+//   page.on('requestfailed', request =>
+//     console.log(`[requestfailed] ${request.url()} - ${request.failure()?.errorText}`)
+//   );
+// });
 
 export { expect } from "@playwright/test";

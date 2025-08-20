@@ -87,8 +87,6 @@ test.describe('SELPA > Service Tracker Reports Tests', () => {
 		const deliveriesColumns = await getDataTableColumnValues(page, bulkDeliveryManageGroupsStudentsPage.locators.DELIVERY_TABLE, foundIndex)
 		const startDate = deliveriesColumns['Start Date']
 
-		console.log({ studentId, startDate, foundIndex })
-
 		// Return to manage bulk delivery groups
 		await clickElement(page, page.locator(bulkDeliveryManageGroupsStudentsPage.locators.RETURN_TO_BULK_DELIVERY_BTN))
 		await page.waitForSelector(bulkDeliveryManageGroupsPage.locators.GROUPS_TABLE)

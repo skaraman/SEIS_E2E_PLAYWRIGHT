@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { verifyIfPageUrlIsCorrect } from "../../helpers/verify";
+import { waitForPageReady } from "../../helpers/layout";
 
 export const locators = {
   ADD_CRITERIA_BTN: "text=addCriteria",
@@ -34,6 +35,7 @@ export const printBulkIep = async (
   await page.getByRole("button", { name: "Go" }).click();
   //await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
   await page.locator('#s2id_formID').click()
+  await waitForPageReady(page)
   await page.getByRole('option', { name: 'Referral', exact: true }).click();
   await page.getByLabel(language).check();
   await page.getByRole("button", { name: "Submit Print Job" }).click();
@@ -57,7 +59,7 @@ export const printBulkProgressReports = async (page: Page) => {
   await page.getByRole("button", { name: "Go" }).click();
   await page.getByRole("button", { name: "Submit Print Job" }).click();
   await page.getByText("Processing print request in Print Queue.").click();
-  await page.getByRole("button", { name: "1 pending  " }).click();
+  await page.getByRole("button", { name: "pending" }).click();
   await page.getByRole("button", { name: "Close" }).click();
   const [page1] = await Promise.all([
     page.waitForEvent("popup"),
@@ -75,7 +77,7 @@ export const printBulkIfspForms = async (page: Page) => {
   await page.getByRole('option', { name: 'Services', exact: true }).click();
   await page.getByRole("button", { name: "Submit Print Job" }).click();
   await page.getByText("Processing print request in Print Queue.").click();
-  await page.getByRole("button", { name: "1 pending  " }).click();
+  await page.getByRole("button", { name: "pending" }).click();
   await page.getByRole("button", { name: "Close" }).click();
   const [page1] = await Promise.all([
     page.waitForEvent("popup"),
@@ -98,7 +100,7 @@ export const filterOptionsAndCriteria = async (page: Page) => {
   await page.getByRole('option', { name: 'Age', exact: true }).click();
   await page.locator('input[name="number"]').click();
   await page.locator('input[name="number"]').fill('7');
-  await page.locator('#searchBar div:has-text("Criteria -----Select One----- -----Select One----- 1 live multi. line. response ")').getByRole('button', { name: 'Search' }).click();
+  await page.getByRole('button', { name: 'Search', exact: true }).first().click();
 
 
 };

@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { clickElement, openWindow } from "../../helpers/actions";
 
-
 export const locators = {
   QUICK_LINKS: "button:has-text('Quick Links')",
   TABLE: ".table",
@@ -12,7 +11,6 @@ export const locators = {
   TEXT_AREA: "textArea",
   SAVE_BTN: "#saveBtn",
   RETURN_TO_STUDENT_IEPS_BTN: "('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' })",
-  CHECK_ALL: "#checkAllFirst",
   PREVIEW_FORM: "[title='Preview Form']",
   PRINT_SELECTED: "[data-action='future']"
 
@@ -23,13 +21,11 @@ export const clickReturnToIeps = async (page: Page): Promise<void> => {
 }
 
 export const printAllFormsCurrentIep = async (page: Page): Promise<Page> => {
-  await clickElement(page, locators.CHECK_ALL)
+  await page.locator('#checkAllFirst').first().check();
   await clickElement(page, locators.PRINT_SELECTED)
-  await page.locator('[ng-click="vm.ok()"]').click();
-  await page.getByText('Processing print request in Print Queue.').isVisible()
+  await clickElement(page, '.modal-content button.btn-primary')
   const printWindow = await openWindow(page, async () => {
-    await page.locator('.toast-title').waitFor({ state: 'visible' })
-    await page.locator('.toast-title').click()
-  })
+    await clickElement(page, '#toast-container .toast-title', 0, 'locator', 120000)
+	}, 120000)
   return printWindow
 }

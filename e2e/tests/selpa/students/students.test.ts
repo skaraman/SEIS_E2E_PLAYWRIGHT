@@ -24,6 +24,7 @@ import {
 	validateEsignaturePage,
 	generateEsignatureCompleted
 } from '../../../components/students/future-iep-forms.page'
+import { waitForPageReady } from '../../../helpers/layout'
 
 test.describe('SELPA > Students Load Tests', () => {
 	test.beforeEach(async ({ page, users }) => {
@@ -34,103 +35,99 @@ test.describe('SELPA > Students Load Tests', () => {
 		await logOut(page)
 	})
 	test('Students Links Verify @HD-Test', async ({ page }) => {
-		await clickElement(page, locators.STUDENTS)
+		await clickElement(page, locators.STUDENTS, 0, 'text')
 		await clickElement(page, locators.ADD_STUDENT)
 		await page.waitForLoadState('networkidle')
 		await page.isVisible(addStudentPage.locators.FIRST_NAME_INPUT)
-		await clickElement(page, locators.STUDENTS)
+		await clickElement(page, locators.STUDENTS, 0, 'text')
 		await clickElement(page, locators.EXITED_STUDENTS)
 		await page.isVisible(exitedStudentsPage.locators.ALPHABET)
-		await clickElement(page, locators.STUDENTS)
-		await clickElement(page, locators.PLAN_TYPE)
+		await clickElement(page, locators.STUDENTS, 0, 'text')
+		await clickElement(page, locators.DNQd_STUDENTS)
 		await page.isVisible(exitedStudentsPage.locators.BODY)
 		await page.isVisible(exitedStudentsPage.locators.GO_BTN)
 	})
 
 	test('Add Students Request Transfer @HD-Test', async ({ page }) => {
-		await clickElement(page, locators.STUDENTS)
+		await clickElement(page, locators.STUDENTS, 0, 'text')
 		await clickElement(page, locators.ADD_STUDENT)
 		const [lastName, firstName] = await addNewStudent(page)
-
-		await clickElement(page, addStudentPage.locators.EDIT_STUDENT)
-		await clickElement(page, locators.STUDENTS)
+		await page.getByRole('button', { name: 'Edit Student' }).click()
+		await clickElement(page, locators.STUDENTS, 0, 'text')
 		await clickElement(page, locators.ADD_STUDENT)
 		await requestTransfer(page, lastName, firstName)
 	})
 
 	test('Quick Links Verify @HD-Test', async ({ page }) => {
-		await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
-		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
+		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
+		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 
 		await selectEligibility(page)
-		await clickElement(page, studentIepsPage.locators.VIEW_STUDENT_RECORD)
+		await waitForPageReady(page)
+		await page.waitForTimeout(2000)
+		await clickElement(page, studentIepsPage.locators.EDIT_STUDENT_RECORD)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.FUTURE_IEP)
-		await page.waitForURL('**')
+		await waitForPageReady(page)
 		await page.waitForLoadState('networkidle')
-		if (
-			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-		){
+		const [aVisible, bVisible] = await Promise.all([
+			page.locator('button:has-text("A")').isVisible(),
+			page.locator('button:has-text("B")').isVisible()
+		]);
+		if (aVisible || bVisible) {
 			await page.locator('button:has-text("Cancel")').click()
-	
 		}
 		await verifyIfTitleIsCorrect(page, 'Future IEP Forms')
 		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.CURRENT_IEP)
-		await page.waitForURL('**')
+		await waitForPageReady(page)
 
 		await page.waitForLoadState('networkidle')
-		if (
-			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-		){
-			await page.locator('button:has-text("Cancel")').click()
-	
+		const [viewVisible, esigVisible] = await Promise.all([
+			page.locator('button:has-text("View Current IEP")').isVisible(),
+			page.locator('button:has-text("Go to E-Signature")').isVisible()
+		]);
+		if (viewVisible || esigVisible) {
+			await page.locator('button:has-text("Cancel")').click();
 		}
 		await verifyIfTitleIsCorrect(page, 'Current Affirmed Forms')
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.HISTORICAL_IEPS)
-		await page.waitForURL('**')
+		await waitForPageReady(page)
 		await verifyIfTitleIsCorrect(page, 'Historical IEPs')
 		await page.goBack()
 
 		await page.waitForTimeout(400)
-		if (
-			await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-		){
-			await page.locator('button:has-text("Cancel")').click()
-	
+		const [viewVisible2, esigVisible2] = await Promise.all([
+			page.locator('button:has-text("View Current IEP")').isVisible(),
+			page.locator('button:has-text("Go to E-Signature")').isVisible()
+		]);
+		if (viewVisible2 || esigVisible2) {
+			await page.locator('button:has-text("Cancel")').click();
 		}
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.PROGRESS_REPORTS)
-		await page.waitForURL('**')
+		await waitForPageReady(page)
 		await verifyIfTitleIsCorrect(page, 'Print Progress Reports')
 	})
 
-	test('Generate E-Signature Pre-meeting @HD-Test', async ({
-		page,
-		configs,
-		request,
-	}) => {
-		await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
-		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
+	test('Generate E-Signature Pre-meeting @HD-Test-Help', async ({ page, request }, configs ) => {
+		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
+		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		await page.waitForURL('**')
+		await waitForPageReady(page)
 		await page.waitForLoadState('networkidle')
 		await generateEsignaturePreMeeting(page)
 		await validateEsignaturePage(page, configs, request)
 	})
 
-	test('Generate E-Signature Complete @HD-Test', async ({
-		page,
-		configs,
-		request,
-	}) => {
-		await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
-		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
+	test('Generate E-Signature Complete @HD-Test', async ({ page, request }, configs) => {
+		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
+		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 
 		// Find students with no CALPADS errors

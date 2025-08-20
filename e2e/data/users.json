@@ -1,8 +1,8 @@
 {
  "role": {
-  "teacher": ["automationqateacher1", "automationqateacher2", "qateacher"],
-  "district": ["automationqadistrict1", "automationqadistrict2", "qadistrict"],
-  "site": ["automationqasite1", "automationqasite2", "qasite"],
+  "teacher": ["automationqateacher1", "automationqateacher2"],
+  "district": ["automationqadistrict1", "automationqadistrict2"],
+  "site": ["automationqasite1", "automationqasite2"],
   "selpa": [
    "automationqaselpa1",
    "automationqaselpa2",

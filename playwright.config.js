@@ -49,10 +49,10 @@ const config = {
 		// extraHTTPHeaders: {
 		// 	'Version': 'develop'
 		// }
-	},
 
-	launchOptions: {
-		slowMo: 500,
+		launchOptions: {
+			slowMo: 100,
+		},
 	},
 	// reporter: [['list']],
 

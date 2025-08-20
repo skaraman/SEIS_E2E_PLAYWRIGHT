@@ -1,5 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { clickElement, openWindow, enterTextField } from "../../helpers/actions";
+import { waitForPageReady } from "../../helpers/layout";
 
 
 export const locators = {
@@ -17,7 +18,7 @@ export const locators = {
 		await enterTextField(page, locators.OTHER_FIELD, "For Automated Testing")
 		await page.getByRole('button', { name: 'Affirm' }).click();
 		await page.getByRole('button', { name: 'Yes' }).click();
-		await page.waitForURL('**')
+		await waitForPageReady(page)
 		await page.getByLabel('Yes').check();
 		await page.locator("[type='submit']").click();
 		await page.locator("[type='submit']").click();

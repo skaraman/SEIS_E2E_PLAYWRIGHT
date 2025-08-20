@@ -1,3 +1,4 @@
+
 const Version = 'develop'
 
 export const getRequest = async (
@@ -14,9 +15,6 @@ export const getRequest = async (
 	})
 
 	const json = await response.json()
-	//const json = JSON.parse(await response.text());
-	console.log('response', json)
-
 	return json
 }
 
@@ -34,9 +32,14 @@ export const getToken = async (
 			'Content-Type': 'application/x-www-form-urlencoded',
 		},
 	})
-	const json = JSON.parse(await response.text())
-
-	return json.access_token
+	const text = await response.text()
+	try {
+		const json = JSON.parse(text)
+		return json.access_token
+	} catch (e) {
+		console.error('Failed to parse token response as JSON:', text)
+		throw new Error('Token endpoint did not return valid JSON')
+	}
 }
 
 export const postRequest = async (
@@ -45,7 +48,7 @@ export const postRequest = async (
 	url: string,
 	payload: any
 ): Promise<any> => {
-	console.log(url)
+
 	const response = await request.post(url, {
 		data: payload,
 		headers: {

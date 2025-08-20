@@ -1,5 +1,6 @@
 import { Page } from "@playwright/test";
 import { clickElement } from "../../helpers/actions";
+import { waitForPageReady } from "../../helpers/layout";
 
 export const locators = {
 	ACSA_CARS_GOALS: 'text=ACSA/CARS+ Goals',
@@ -15,23 +16,13 @@ export const locators = {
 	SECONDARY_TRANSITION_GOALS: 'text=Secondary Transition Goals',
 	STATEWIDE_TEACHER_GOALS: 'text=Statewide Teacher Generated Goals',
 	TEACHER_GENERATED_GOALS: 'text=Teacher Generated Goals',
-
-
-
-
-
-
-
 	RETURN_TO_GOAL_LIBRARIES: 'text=Return to Goal Libraries'
-
 };
 
 export const verifyAcsaCarsGoals = async (page: Page) => {
   await page.locator('#subject').selectOption('Speech');
   await page.getByRole('row', { name: 'Phonemic Awareness K K.1.9 Blend vowel consonant sounds orally to make words or syllables. Articulation Goals Essential Goals' }).getByRole('link', { name: 'Articulation Goals' }).isVisible();
   await page.getByText('1. By (Date of Marking Period), within a structured setting, (Name) will correct').isVisible();
-
-
 }
 
 export const verifyAuSpLanGoals = async (page: Page) => {
@@ -42,6 +33,7 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
   //next goal
   await clickElement(page, locators.BASICS_GOALS);
+  await waitForPageReady(page);
   await page.locator('#levels').selectOption('1');
   await page.locator('#domains').selectOption('Community Domain');
   await page.getByRole('cell', { name: '(C 1.3.2) Using a level ___ prompt, the student will travel to and from school safely on the bus with ___ % accuracy as measured by teacher-charted observation/data in ___ out of ___ trials.' }).isVisible();
@@ -49,6 +41,7 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
   //next goal
   await clickElement(page, locators.CSHA_GOALS);
+  await waitForPageReady(page);
   await page.getByRole('combobox', { name: 'Subject:' }).selectOption('FLUENCY');
   await page.getByRole('combobox', { name: 'Grades:' }).selectOption('1');
   await page.locator('#tbody').isVisible();
@@ -56,12 +49,14 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
   //next goal
   await clickElement(page, locators.ROPED_GOALS);
+  await waitForPageReady(page);
   await page.locator('select').selectOption('Evaluation Skills                                             ');
   await page.getByText('(Name) will increase his/her ability to see how a new situation is like one he/s').isVisible();
   await clickElement(page, locators.RETURN_TO_GOAL_LIBRARIES);
 
    //next goal
    await clickElement(page, locators.SEACO_GOALS);
+   await waitForPageReady(page);
    await page.locator('#subject').selectOption('English/Language Arts Content Standards');
    await page.locator('#standard').selectOption('ELA Standard 01 CAPA Levels 2-3');
    await page.getByRole('cell', { name: 'FPI-1.1 Student will recognize pictures for specific activities' }).isVisible();
@@ -69,6 +64,7 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
     //next goal
   await clickElement(page, locators.SEACO_REVISED_GOALS);
+  await waitForPageReady(page);
   await page.locator('#coreArea').selectOption('English-Language Arts');
   await page.locator('#capaLevel').selectOption('1');
   await page.locator('#strand').selectOption('Reading');
@@ -77,12 +73,14 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
    //next goal
    await clickElement(page, locators.EARLY_INTENSIVE_GOALS);
+   await waitForPageReady(page);
    await page.locator('select').selectOption('1');
    await page.locator('#tbody').isVisible();
    await clickElement(page, locators.RETURN_TO_GOAL_LIBRARIES);
 
     //next goal
   await clickElement(page, locators.ENGLISH_LANGUAGE_ARTS_GOALS);
+  await waitForPageReady(page);
   await page.locator('#subject').selectOption('Informational Text');
   await page.locator('#topic').selectOption('Key Ideas and Details');
   await page.getByRole('cell', { name: 'RI.K.1 With prompting and support, ask and answer questions about key details in a text.' }).isVisible();
@@ -90,6 +88,7 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
    //next goal
    await clickElement(page, locators.MATH_FOR_COMMON_GOALS);
+   await waitForPageReady(page);
    await page.locator('#subject').selectOption('Algebra I');
    await page.locator('#topic').selectOption('Seeing Structure in Expressions');
    await page.locator('#grades').selectOption('9');
@@ -98,6 +97,7 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
     //next goal
   await clickElement(page, locators.SECONDARY_TRANSITION_GOALS);
+  await waitForPageReady(page);
   await page.locator('#area').selectOption('Career Preparation');
   await page.locator('#topic').selectOption('During last year in school');
   await page.locator('#tbody').isVisible();
@@ -105,6 +105,7 @@ export const verifyAuSpLanGoals = async (page: Page) => {
 
    //next goal
    await clickElement(page, locators.STATEWIDE_TEACHER_GOALS);
+   await waitForPageReady(page);
    await page.locator('#subject').selectOption('5');
    await page.getByRole('combobox', { name: 'Topics:' }).selectOption('29');
    await page.getByRole('combobox', { name: 'Grades:' }).selectOption('1');

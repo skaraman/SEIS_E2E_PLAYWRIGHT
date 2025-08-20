@@ -18,124 +18,116 @@ import { printAllFormsCurrentIep } from "../components/students/current-iep-form
 const { locators } = seisHeaderComponent
 
 test.describe("Checks", () => {
-  test.beforeEach(async ({ page, users }) => {
-    await page.goto("/login");
-    await loginSelpaRole(page);
-  });
-  test.afterEach(async ({ page }) => {
-    await logOut(page);
-  });
-  
-  test('dashboard follow up verify @Health-Check', async ({ page }) => {
-	// Unaffirmed IEP
-	await clickFollowUp(page, FollowUp.UnaffirmedIeps)
-	await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
-	await clickElement(page, locators.LOGO_ICN)
+	test.beforeEach(async ({ page, users }) => {
+		await page.goto("/login");
+		await loginSelpaRole(page);
+	});
+	
+	test.afterEach(async ({ page }) => {
+		await logOut(page);
+	});
 
-	// Unaffirmed amendments
-	await clickFollowUp(page, FollowUp.UnaffirmedAmendments)
-	await verifyIfTitleIsCorrect(page, 'Unaffirmed Amendments')
-	await clickElement(page, locators.LOGO_ICN)
+	test('dashboard follow up verify @Health-Check', async ({ page }) => {
+		// Unaffirmed IEP
+		await clickFollowUp(page, FollowUp.UnaffirmedIeps)
+		await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
+		await clickElement(page, locators.LOGO_ICN)
 
-	// Unsigned IEPs
-	await clickFollowUp(page, FollowUp.UnsignedIeps)
-	await verifyIfTitleIsCorrect(page, 'Unsigned IEPs')
-})
+		// Unaffirmed amendments
+		await clickFollowUp(page, FollowUp.UnaffirmedAmendments)
+		await verifyIfTitleIsCorrect(page, 'Unaffirmed Amendments')
+		await clickElement(page, locators.LOGO_ICN)
 
-test('dashboard meeting alerts verify @Health-Check', async ({
-	page,
-}) => {
-	// Next annual 30 days
-	await clickMeetingAlerts(page, MeetingAlerts.NextAnnual30Days)
-	await verifyIfTitleIsCorrect(page, 'Next Annual Plan Review')
-	await clickElement(page, locators.LOGO_ICN)
-
-	// Next tri 75 days
-	await clickMeetingAlerts(page, MeetingAlerts.NextTri75Days)
-	await verifyIfTitleIsCorrect(page, 'Next Reevaluation')
-	await clickElement(page, locators.LOGO_ICN)
-
-	// Initial evaluations
-	await clickMeetingAlerts(page, MeetingAlerts.InitialEvaluations)
-	await verifyIfTitleIsCorrect(page, 'Initial Evaluations')
-	await clickElement(page, locators.LOGO_ICN)
-
-	// // Next 30 days review
-	await clickMeetingAlerts(page, MeetingAlerts.Days30Review)
-	await verifyIfTitleIsCorrect(page, '30-Day Reviews')
-})
-
-test('dashboard unaffirmed ieps help guide verify @Health-Check', async ({
-	page,
-}) => {
-	await clickFollowUp(page, FollowUp.UnaffirmedIeps)
-	await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
-
-	const newPage = await openWindow(page, async () => {
-		clickElement(page, unaffirmedIepPage.locators.HELP_GUIDE)
+		// Unsigned IEPs
+		await clickFollowUp(page, FollowUp.UnsignedIeps)
+		await verifyIfTitleIsCorrect(page, 'Unsigned IEPs')
 	})
 
-	test.expect(newPage).toHaveURL(/helpguides/)
-})
+	test('dashboard meeting alerts verify @Health-Check', async ({ page }) => {
+		// Next annual 30 days
+		await clickMeetingAlerts(page, MeetingAlerts.NextAnnual30Days)
+		await verifyIfTitleIsCorrect(page, 'Next Annual Plan Review')
+		await clickElement(page, locators.LOGO_ICN)
 
-test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
-	await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
-	await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
-	await page.waitForSelector(studentIepsPage.locators.TABLE)
-	await selectEligibility(page)
-	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-	await page.waitForLoadState('networkidle')
-	if (
-		await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-	){
-		await page.locator('button:has-text("Cancel"):visible').click()
+		// Next tri 75 days
+		await clickMeetingAlerts(page, MeetingAlerts.NextTri75Days)
+		await verifyIfTitleIsCorrect(page, 'Next Reevaluation')
+		await clickElement(page, locators.LOGO_ICN)
 
-	}
-	await page.waitForTimeout(6000)
-	await page.locator("[title='Preview Form']").first().click()
-	//await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
-	const [page1] = await Promise.all([page.waitForEvent('popup')])
-	await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
-})
+		// Initial evaluations
+		await clickMeetingAlerts(page, MeetingAlerts.InitialEvaluations)
+		await verifyIfTitleIsCorrect(page, 'Initial Evaluations')
+		await clickElement(page, locators.LOGO_ICN)
 
-test('verify dashboard api @Health-Check', async ({ page, request, configs}) => {
-const announcementsApiUrl = `${configs.apiBaseUrl}/api/home/announcements`
+		// // Next 30 days review
+		await clickMeetingAlerts(page, MeetingAlerts.Days30Review)
+		await verifyIfTitleIsCorrect(page, '30-Day Reviews')
+	})
 
-	const announcements = await request.get(announcementsApiUrl);
-	expect(announcements.status()).toEqual(200)
+	test('dashboard unaffirmed ieps help guide verify @Health-Check', async ({ page }) => {
+		await clickFollowUp(page, FollowUp.UnaffirmedIeps)
+		await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
 
+		const newPage = await openWindow(page, async () => {
+			clickElement(page, unaffirmedIepPage.locators.HELP_GUIDE)
+		})
 
-  const carouselApiUrl = `${configs.apiBaseUrl}/api/home/carousel`
+		test.expect(newPage).toHaveURL(/helpguides/)
+	})
 
-	const carousel = await request.get(carouselApiUrl);
-	expect(carousel.status()).toEqual(200)
+	test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
+		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
+		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
+		await page.waitForSelector(studentIepsPage.locators.TABLE)
+		await selectEligibility(page)
+		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+		await page.waitForLoadState('networkidle')
+		const [viewVisible, esigVisible] = await Promise.all([
+				page.locator('button:has-text("View Current IEP")').isVisible(),
+				page.locator('button:has-text("Go to E-Signature")').isVisible()
+		]);
+		if (viewVisible || esigVisible) {
+				await page.locator('button:has-text("Cancel")').click();
+		}
+		await page.waitForTimeout(6000)
+		await page.locator("[title='Preview Form']").first().click()
+		//await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
+		const [page1] = await Promise.all([page.waitForEvent('popup')])
+		await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
+	})
 
+	test('verify dashboard api @Health-Check', async ({ page, request, configs }) => {
+		const announcementsApiUrl = `${configs.apiBaseUrl}/api/home/announcements`
 
-console.log(carousel.status())
-		
-})
-
-test('Print Future Ieps Form @Health-Check', async ({ page }) => {
-	await clickElement(page, studentsMenuDropDown.locators.STUDENTS)
-	await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS)
-	await page.waitForSelector(studentIepsPage.locators.TABLE)
-	await selectEligibility(page)
-	await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-	await page.waitForLoadState('networkidle')
-	if (
-		await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-	){
-		await page.locator('button:has-text("Cancel"):visible').click()
-
-	}
-	await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
-	await page.getByText('Print English Spanish').click();
-   await  page.getByText('English').click()
-   const [page1] = await Promise.all([page.waitForEvent('popup')])
-   await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
-  
-  
+		const announcements = await request.get(announcementsApiUrl);
+		expect(announcements.status()).toEqual(200)
 
 
-})
+		const carouselApiUrl = `${configs.apiBaseUrl}/api/home/carousel`
+
+		const carousel = await request.get(carouselApiUrl);
+		expect(carousel.status()).toEqual(200)
+
+	})
+
+	test('Print Future Ieps Form @Health-Check', async ({ page }) => {
+		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
+		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
+		await page.waitForSelector(studentIepsPage.locators.TABLE)
+		await selectEligibility(page)
+		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+		await page.waitForLoadState('networkidle')
+		const [viewVisible, esigVisible] = await Promise.all([
+			page.locator('button:has-text("View Current IEP")').isVisible(),
+			page.locator('button:has-text("Go to E-Signature")').isVisible()
+		]);
+		if (viewVisible || esigVisible) {
+			await page.locator('button:has-text("Cancel")').click();
+		}
+		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
+		await page.getByText('Print English Spanish').click();
+		await page.getByText('English').click()
+		const [page1] = await Promise.all([page.waitForEvent('popup')])
+		await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
+	})
 })

@@ -1,7 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { clickElement, openWindow } from "../../helpers/actions";
 
-
 export const locators = {
   DELETE_BTN: "[title='Delete']",
   PRINT_BTN: "[title='Print']",
@@ -11,7 +10,6 @@ export const locators = {
   DATE_COMPLETED: "drdpDate"
 }
 
-
 export const clickReturnToIeps = async (page: Page): Promise<void> => {
   await page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }).click();
 }
@@ -19,11 +17,9 @@ export const clickReturnToIeps = async (page: Page): Promise<void> => {
 export const deleteUnaffirmedDrdp = async (page: Page): Promise<void> => {
   await page.getByRole('button', { name: 'OK' }).click();
   await page, page.locator("[title='Edit']").click();
-
 }
 
 export const addDrdp = async (page: Page): Promise<Page> => {
-
   await clickElement(page, locators.ADD_DRDP)
   await page.locator('#drdpDate').click();
   await page.locator('.old.day').nth(0).click();
@@ -77,10 +73,7 @@ export const addDrdp = async (page: Page): Promise<Page> => {
   await page.locator('button.btn-primary:text("Print")').click();
   await page.getByText('Processing print request in Print Queue.').isVisible()
   const printWindow = await openWindow(page, async () => {
-    await page.locator('.toast-title').waitFor({ state: 'visible' });
-    await page.locator('.toast-title').click()
-  }
-
-  )
+    await clickElement(page, '#toast-container .toast-title', 0, 'locator', 120000)
+	}, 120000)
   return printWindow
 }

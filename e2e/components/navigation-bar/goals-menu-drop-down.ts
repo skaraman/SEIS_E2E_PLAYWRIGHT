@@ -1,6 +1,6 @@
 export const locators = {
-	GOALS: 'text=Goals',
-	GOALS_TO_APPROVE: 'text=Goals To Approve',
-	EDIT_GOAL_BANKS:  'text=Edit Goal Banks',
-	SEARCH_GOAL_BANKS: 'text=Search Goal Banks',
+	GOALS: '.dropdown-toggle >> text=Goals',
+	GOALS_TO_APPROVE: '.dropdown-menu >> text=Goals To Approve',
+	EDIT_GOAL_BANKS:  '.dropdown-menu >> text=Edit Goal Banks',
+	SEARCH_GOAL_BANKS: '.dropdown-menu >> text=Search Goal Banks',
 }

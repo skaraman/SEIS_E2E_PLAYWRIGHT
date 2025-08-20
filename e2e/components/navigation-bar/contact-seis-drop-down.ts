@@ -1,4 +1,4 @@
 export const locators = {
-	CONTACT_SEIS: 'text=Contact SEIS',
+	CONTACT_SEIS: 'Contact SEIS',
 
 }

@@ -12,7 +12,7 @@ const { locators } = seisHeaderComponent
 const { clickTeacherRequests, clickFollowUp, clickMeetingAlerts } =
 	dashboardPage
 
-test.describe('SELPA > Dashboard Tests @HD-Test-Debug', () => {
+test.describe('SELPA > Dashboard Tests @HD-Test', () => {
 	test.beforeEach(async ({ page, users }) => {
 		await page.goto('/login')
 		await loginSelpaRole(page)

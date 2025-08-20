@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import { enterTextDateField, enterTextField } from "../../helpers/actions";
 import { createPastDate, createTodaysDate, momentEnum } from "../../helpers/utilities";
+import { log } from "console";
 
 export const locators = {
   LAST_NAME_INPUT: "[id='LastName']",
@@ -8,10 +9,10 @@ export const locators = {
   FIRST_NAME_INPUT: "[id='FirstName']",
   CHECK_FN: "CheckFirst",
   SSID: "[id='CsisID']",
-  BIRTH_DATE: "[id='Birthdate']",
+  BIRTH_DATE: "[id='Birthdate'] input",
   DISTRICT_ID: "[id='AdditionalStudentID']",
-  EDIT_STUDENT: "text= Edit Student",
-  DATE_ENROLLED_IN_LEA: '[id="DistrictEnrollmentDate"]',
+  EDIT_STUDENT: "Edit Student",
+  DATE_ENROLLED_IN_LEA: '[id="DistrictEnrollmentDate"] input',
   CONTINUE_BTN: 'button[text="Continue"]'
 
 };
@@ -46,8 +47,8 @@ function generateNumbers(length) {
 export const addNewStudent = async (page: Page) => {
   const lastName = `lastName${generateString(5)}`;
   const firstName = `firstName${generateString(5)}`;
-
-  await enterTextDateField(page, locators.BIRTH_DATE, await createPastDate(momentEnum.year, 10))
+  var bdate =  await createPastDate(momentEnum.year, 10)
+  await enterTextDateField(page, locators.BIRTH_DATE, bdate)
   await page.keyboard.press('Tab')
   await enterTextDateField(page, locators.DATE_ENROLLED_IN_LEA, await createPastDate(momentEnum.year, 5))
   await page.keyboard.press('Tab')

@@ -7,7 +7,6 @@ let downloadUrl: string = '';
 export const addDownloadListener = async (page: Page): Promise<() => void> => {
   const handler = async (download: any) => {
     downloadUrl = download.url();
-    console.log(`File downloaded from: ${downloadUrl}`);
   };
   page.on('download', handler);
   return () => page.off('download', handler);

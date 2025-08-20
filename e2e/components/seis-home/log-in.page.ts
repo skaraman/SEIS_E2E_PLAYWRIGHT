@@ -27,9 +27,7 @@ export const loginAs = async (page: Page, userName: string): Promise<void> => {
   });
 };
 
-export const generateAccessToken = async (
-  request, { baseApiUrl, env, userName }: RequestTokenPayload
-): Promise<string> => {
+export const generateAccessToken = async (request, { baseApiUrl, env, userName }: RequestTokenPayload): Promise<string> => {
   return api.getToken(request, baseApiUrl, {
     env: env,
     userName: userName,

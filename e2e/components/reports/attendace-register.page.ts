@@ -9,10 +9,10 @@ export const locators = {
 
 
 export const generateAttendanceRegister = async (page: Page) => {
-	await page.locator('.input-group-addon').first().click();
-	await page.locator('.old.day').nth(0).click();
-	await page.locator('#endDate > .input-group > .input-group-addon').click();
-	await page.locator('.day').nth(0).click();
+	await clickElement(page, '.input-group-addon')
+	await clickElement(page, '.old.day')
+	await clickElement(page, '#endDate > .input-group > .input-group-addon')
+	await clickElement(page, '.day')
 	await page.getByRole('link', { name: 'Last Name' }).click();
 	await page.getByRole('option', { name: 'First Name' }).click();
 	await page.getByRole('button', { name: 'Print' }).click();
@@ -21,8 +21,8 @@ export const generateAttendanceRegister = async (page: Page) => {
 	await page.locator('div[role="dialog"]:has-text("Print Options Print forms in English Spanish Orientation Portrait Landscape Auto")').getByRole('button', { name: 'Print' }).click();
 	await page.getByText('Processing print request in Print Queue.').isVisible();
 	const printWindow = await openWindow(page, async () => {
-		await page.locator('.toast-title').click({timeout:70000})
-	})
+		await clickElement(page, '#toast-container .toast-title', 0, 'locator', 120000)
+	}, 120000)
 	await verifyIfPageUrlIsCorrect(printWindow, '/print-pdf')
 	
 }

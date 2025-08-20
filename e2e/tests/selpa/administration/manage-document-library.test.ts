@@ -5,6 +5,7 @@ import { verify, actions } from './../../../helpers'
 import { ManageDocumentLibraryPage, ManageNewsItemsPage } from '../../../components/administration'
 import { verifyIfElementIsVisible } from '../../../helpers/verify'
 import { newDocumentAddDelete } from '../../../components/administration/admin-manage-document-library.page'
+import { waitForPageReady } from '../../../helpers/layout'
 
 
 const { verifyIfPageUrlIsCorrect } = verify
@@ -24,6 +25,7 @@ test.describe('SELPA > Administration Page Load Tests', () => {
 	test('document library add delete @HD-Test', async ({ page }) => {
 		await clickElement(page, locators.ADMINISTRATION)
 		await clickElement(page, locators.MANAGE_DOC_LIBRARY)
+		await waitForPageReady(page)
 		await verifyIfElementIsVisible(page, ManageDocumentLibraryPage.locators.HEADERS)
 		await newDocumentAddDelete(page)                     
 	

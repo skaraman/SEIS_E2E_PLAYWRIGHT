@@ -18,7 +18,7 @@ test.describe('TEACHER > Contact Seis Tests', () => {
 	})
 
 	test('contact SEIS @HD-Test', async ({page}) => {
-		await clickElement(page, contactSeisDropDown.locators.CONTACT_SEIS)
+		await clickElement(page, contactSeisDropDown.locators.CONTACT_SEIS, 0, 'text')
 		await page.waitForTimeout(4000)
 		await verifyIfElementIsVisible(page, contactSeisPage.locators.CLOSE_BTN)
 		await fillOutForm(page)

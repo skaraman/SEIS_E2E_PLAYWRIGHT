@@ -13,9 +13,7 @@ let grepArg = healthCheck ? '--grep @Health-Check' : '--grep-invert @Health-Chec
 const debugArg = debug ? '--headed --debug' : '';
 const debugEnv = debug ? 'PWDEBUG=console' : '';
 const workersArg = workers ? workers : (debug ? 1 : 6);
-if (onlyOne) {
-  grepArg = "--grep @HD-Test-Debug";
-}
+if (onlyOne) grepArg = "--grep @HD-Test-Debug";
 
 const cmd = [
   'cross-env',
@@ -29,7 +27,6 @@ const cmd = [
 ].filter(Boolean).join(' ');
 
 console.log(cmd);
-
 
 try {
   execSync(cmd, { stdio: 'inherit' });

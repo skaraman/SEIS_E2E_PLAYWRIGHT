@@ -1,5 +1,7 @@
 import { Page } from "@playwright/test";
 import { clickElement } from "../../helpers/actions";
+import { log } from "console";
+import { waitForPageReady } from "../../helpers/layout";
 
 
 
@@ -39,25 +41,25 @@ function generateRandom() { // Public Domain/MIT
 export const AddNewUser = async (page: Page) => {
   const userName = `Testing${generateRandom()}`
   await page.getByRole('button', { name: ' Add a New User' }).click();
-  await page.locator("[ng-model='vm.user.FirstName']").click();
+  await clickElement(page, "[ng-model='vm.user.FirstName']");
   await page.locator("[ng-model='vm.user.FirstName']").fill('firstNamePlaywright');
-  await page.locator("[ng-model='vm.user.LastName']").click();
+  await clickElement(page, "[ng-model='vm.user.LastName']");
   await page.locator("[ng-model='vm.user.LastName']").fill('lastNamePlaywright');
-  await page.locator('#Username').click();
+  await clickElement(page, '#Username');
   await page.locator('#Username').fill(userName);
-  await page.locator('#password').click();
+  await clickElement(page, '#password');
   await page.locator('#password').fill('Seis2017!');
   await page.locator('#password').press('Tab');
   await page.locator('#passwordConfirmation').fill('Seis2017!');
-  await page.locator('div:nth-child(4) > div:nth-child(2) > .form-control').click();
+  await clickElement(page, 'div:nth-child(4) > div:nth-child(2) > .form-control');
   await page.locator('div:nth-child(4) > div:nth-child(2) > .form-control').fill('engineer');
-  await page.locator('div:nth-child(4) > div:nth-child(4) > .form-control').click();
+  await clickElement(page, 'div:nth-child(4) > div:nth-child(4) > .form-control');
   await page.locator('div:nth-child(4) > div:nth-child(4) > .form-control').fill('132456');
-  await page.locator('input[name="Phone"]').click();
+  await clickElement(page, 'input[name="Phone"]');
   await page.locator('input[name="Phone"]').fill('9167564356');
-  await page.getByPlaceholder('999-999-9999').click();
+  await clickElement(page, '[placeholder="999-999-9999"]');
   await page.getByPlaceholder('999-999-9999').fill('915-234-5467');
-  await page.locator('input[type="email"]').click();
+  await clickElement(page, 'input[type="email"]');
   await page.locator('input[type="email"]').fill('testing@sjcoe.net');
   await page.getByRole('link', { name: '----Select One----' }).click();
   await page.getByRole('option', { name: 'District', exact: true }).click();
@@ -73,37 +75,39 @@ export const AddNewUser = async (page: Page) => {
 
 export const DeleteNewUser = async (page: Page, userName: string) => {
   // Find the label with text "Search:" and its input child, then fill
+  await waitForPageReady(page);
   await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
   await page.locator('label:has-text("Search:") >> input').fill(userName);
-  //await page.waitForSelector('tbody');
+  await waitForPageReady(page);
+  await page.waitForTimeout(2000)
   await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
-
   await clickElement(page, "[title='Delete']");
-  await page.getByRole('button', { name: 'OK' }).click();
+  await clickElement(page, '.modal-dialog >> button:has-text("OK")');
   await page.getByText('User deleted successfully').click();
 }
 
 export const RestoreUser = async (page: Page, userName: string) => {
+  await waitForPageReady(page);
   await page.getByRole('link', { name: 'Active' }).click();
   await page.getByRole('option', { name: 'Deleted' }).click();
   await page.getByRole('button', { name: 'Find' }).click();
   await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden' });
-  await page.waitForTimeout(3000);
+  await waitForPageReady(page);
   await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
   await page.locator('label:has-text("Search:") >> input').fill(userName);
-
+  await waitForPageReady(page);
   await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
   await clickElement(page, "[title='Restore']");
   await page.getByText('User restored successfully').click();
-  await page.waitForTimeout(3000);
+  await waitForPageReady(page);
   await page.getByRole('link', { name: 'Deleted' }).click();
   await page.getByRole('option', { name: 'Active' }).click();
   await page.getByRole('button', { name: 'Find' }).click();
   await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden' });
-  await page.waitForTimeout(3000);
+  await waitForPageReady(page);
   await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
   await page.locator('label:has-text("Search:") >> input').fill(userName);
-
+  await waitForPageReady(page);
   await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
   await clickElement(page, "[title='Delete']");
   await page.getByRole('button', { name: 'OK' }).click();

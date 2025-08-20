@@ -1,11 +1,7 @@
 import { api } from "../helpers";
 import moment from '../../node_modules/moment/moment'
 
-export const getIepSearch = async (
-  token: string,
-  baseApiUrl: string,
-  request
-): Promise<any> => {
+export const getIepSearch = async (token: string, baseApiUrl: string, request): Promise<any> => {
   const payload = {
     pageNo: 1,
     pageSize: 50,
@@ -22,12 +18,7 @@ export const getIepSearch = async (
   );
 };
 
-export const getCasemisTableA = async (
-  token: string,
-  baseApiUrl: string,
-  request,
-  studentId
-): Promise<any> => {
+export const getCasemisTableA = async (token: string, baseApiUrl: string, request, studentId): Promise<any> => {
   const payload = {
     isIneligible: false,
     reptDate: moment(new Date()).format("MM/DD/YYYY"),
@@ -41,12 +32,7 @@ export const getCasemisTableA = async (
   );
 };
 
-export const getCasemisTableB = async (
-	token: string,
-	baseApiUrl: string,
-	request,
-	studentId
-  ): Promise<any> => {
+export const getCasemisTableB = async (token: string, baseApiUrl: string, request, studentId): Promise<any> => {
 	const payload = {
 	  isIneligible: false,
 	  reptDate: moment(new Date()).format("MM/DD/YYYY"),
@@ -58,4 +44,4 @@ export const getCasemisTableB = async (
 	  `${baseApiUrl}/api/casemis/tableB/${studentId}/0`,
 	  payload
 	);
-  };
+};

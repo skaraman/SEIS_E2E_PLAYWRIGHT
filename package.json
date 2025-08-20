@@ -1,5 +1,5 @@
 {
-  "name": "SEIS_E2E_PLAYWRIGHT",
+  "name": "seis.e2e.playwright",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
