@@ -11,7 +11,7 @@ const { loginAs, generateAccessToken } = loginPage
 
 export const logOut = async (page: Page): Promise<void> => {
 	await waitForPageReady(page)
-	await page.locator(locators.LOG_OUT).click()
+	await page.locator(locators.LOG_OUT).click({ force: true })
 }
 
 export const loginTeacherRole = async (page: Page): Promise<void> => {
