@@ -10,7 +10,7 @@ const workers =
     : null;
 
 let grepArg = healthCheck ? '--grep @Health-Check' : '--grep-invert @Health-Check';
-const debugArg = debug ? '--headed --debug' : '';
+const debugArg = debug ? '--debug' : '';
 const debugEnv = debug ? 'PWDEBUG=console' : '';
 const workersArg = workers ? workers : (debug ? 1 : 6);
 if (onlyOne) grepArg = "--grep @HD-Test-Debug";
@@ -21,6 +21,7 @@ const cmd = [
   debugEnv,
   'npx playwright test',
   '--reporter=list',
+  '--headed',
   `--workers=${workersArg}`,
   grepArg,
   debugArg

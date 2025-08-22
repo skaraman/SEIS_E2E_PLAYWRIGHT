@@ -17,7 +17,7 @@ test.describe('TEACHER > Reports HD Tests', () => {
 	test.afterEach(async ({ page }) => {
 		await logOut(page)
 	})
-	test('Attendance Register @HD-Test', async ({ page }) => {
+	test('Attendance Register @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, reportsDropDown.locators.REPORTS)
 		await clickElement(page, reportsDropDown.locators.ATTENDANCE_REGISTER)
 		await generateAttendanceRegister(page)

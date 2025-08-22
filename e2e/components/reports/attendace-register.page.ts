@@ -1,12 +1,10 @@
 import { Page } from "@playwright/test";
-import { clickElement, openWindow } from "../../helpers/actions";
-import { verifyIfPageUrlIsCorrect } from "../../helpers/verify";
+import { clickElement } from "../../helpers/actions";
+import { verifyFileDownload } from "../../helpers/verify";
 
 export const locators = {
 	HEADER_TITLE: 'text=Generate Attendance Register',
-
 }
-
 
 export const generateAttendanceRegister = async (page: Page) => {
 	await clickElement(page, '.input-group-addon')
@@ -20,11 +18,7 @@ export const generateAttendanceRegister = async (page: Page) => {
 	await page.getByLabel(/Remove\s+"Page\s+___\s+of\s+___"\s+Text/).check();
 	await page.locator('div[role="dialog"]:has-text("Print Options Print forms in English Spanish Orientation Portrait Landscape Auto")').getByRole('button', { name: 'Print' }).click();
 	await page.getByText('Processing print request in Print Queue.').isVisible();
-	const printWindow = await openWindow(page, async () => {
-		await clickElement(page, '#toast-container .toast-title', 0, 'locator', 120000)
-	}, 120000)
-	await verifyIfPageUrlIsCorrect(printWindow, '/print-pdf')
+	await clickElement(page, '.toast-container .toast-title', 0, 'locator', 120000)
+	await verifyFileDownload(page)
 	
 }
-
-

@@ -51,7 +51,7 @@ const config = {
 		// }
 
 		launchOptions: {
-			slowMo: 100,
+			slowMo: 0,
 		},
 	},
 	// reporter: [['list']],

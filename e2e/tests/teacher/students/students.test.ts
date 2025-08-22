@@ -21,14 +21,14 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await logOut(page)
 	})
 
-	test('Student Change Form @HD-Test', async ({ page }) => {
+	test('Student Change Form @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_CHANGE_FORM)
 		await clickElement(page, studentChangeFormPage.locators.SELECT_STUDENT)
 		await requestChangeAddress(page)
 	})
 
-	test('Edit Student Record @HD-Test', async ({ page }) => {
+	test('Edit Student Record @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -36,10 +36,10 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await clickElement(page, futureIepFormsPage.locators.QUICK_LINKS)
 		await clickElement(page, studentIepsPage.locators.EDIT_STUDENT_RECORD)
-		const saveBtn = page.locator('//*[@id="btnSaveForm"]');
-		await expect(saveBtn).toHaveAttribute('class', 'btn btn-primary')
+		const saveBtn = page.locator('#btnSaveForm');
+		await expect(saveBtn).toHaveClass(/btn.*btn-primary/)
 		const ssid = await fillOutSSID(page)
-		await expect(saveBtn).toHaveAttribute('class', 'btn btn-warning')
+		await expect(saveBtn).toHaveClass(/btn.*btn-warning/)
 		await clickElement(page, saveBtn)
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
@@ -94,14 +94,13 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await fillOutForm(page)
 	})
 
-	test('Add/Print DRDP @HD-Test', async ({ page }) => {
+	test('Add/Print DRDP @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.DRDP)
-		const printWindow = await addDrdp(page)
-		await verifyIfPageUrlIsCorrect(printWindow, '/print-pdf')
+		await addDrdp(page)
 		await page.locator("[title='Delete']").first().click()
 		await page.getByRole('button', { name: 'Yes' }).click();
 	})

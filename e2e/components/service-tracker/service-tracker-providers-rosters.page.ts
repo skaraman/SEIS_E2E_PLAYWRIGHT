@@ -20,16 +20,6 @@ export const selectDates = async (page: Page): Promise<void> => {
   await clickElement(page, page.locator("input#endDate"))
   await clickElement(page, page.locator('.day').nth(1))
   await clickElement(page, page.getByRole("button", { name: "Print" }))
-  await clickElement(page, page
-    .locator(
-      'div[role="dialog"]:has-text("Print Options Print forms in English Spanish Orientation Portrait Landscape Auto")'
-    )
-    .getByRole("button", { name: "Print" }))
-
+  await clickElement(page, '.modal-content button.btn-primary')
 };
 
-export const clickToastMsg = async (page: Page) => {
-  var toastLocator = 'text="Print Service Tracker Roster can be viewed in Print Queue."'
-  await page.locator(toastLocator).waitFor({ state: 'visible' });
-  await page.locator(toastLocator).click()
-};

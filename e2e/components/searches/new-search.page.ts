@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { verifyIfPageUrlIsCorrect } from "../../helpers/verify";
+import {  verifyFileDownload } from "../../helpers/verify";
 import { waitForPageReady } from "../../helpers/layout";
 
 export const locators = {
@@ -15,58 +15,37 @@ export const locators = {
 };
 
 export const selectTypeOfReport = async (page: Page) => {
-  await page
-    .getByRole("link", { name: "Student report (Add columns to show)" })
-    .click();
-  await page
-    .getByRole("option", {
-      name: "Mental Health service report (Only students with Mental Health services will show up)",
-    })
-    .click();
+  await page.getByRole("link", { name: "Student report (Add columns to show)" }).click();
+  await page.getByRole("option", { name: "Mental Health service report (Only students with Mental Health services will show up)" }).click();
   await page.getByRole("button", { name: "OK" }).click();
 };
 
-export const printBulkIep = async (
-  page: Page,
-  language: string = "English"
-) => {
-  await page.getByRole('link', { name: 'Print', exact: true }).click();
-  await page.getByRole("option", { name: "Bulk Print IEP Forms" }).click();
-  await page.getByRole("button", { name: "Go" }).click();
+export const printBulkIep = async (page: Page, language: string = "English") => {
+  await page.getByRole('link', { name: 'Print', exact: true }).click()
+  await page.getByRole("option", { name: "Bulk Print IEP Forms" }).click()
+  await page.getByRole("button", { name: "Go" }).click()
   //await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
   await page.locator('#s2id_formID').click()
   await waitForPageReady(page)
-  await page.getByRole('option', { name: 'Referral', exact: true }).click();
-  await page.getByLabel(language).check();
-  await page.getByRole("button", { name: "Submit Print Job" }).click();
-  await page.getByText("Processing print request in Print Queue.").click();
-  await page.getByRole("button", { name: "1 pending" }).click();
-  await page.getByRole("button", { name: "Close" }).click();
-  const [page1] = await Promise.all([
-    page.waitForEvent("popup"),
-    page
-      .getByText("Bulk Print IEP Forms can be viewed in Print Queue.").waitFor({ state: 'visible' }),
+  await page.waitForTimeout(1000)
+  await page.getByRole('option', { name: 'Referral', exact: true }).click()
+  await page.getByLabel(language).check()
+  await page.getByRole("button", { name: "Submit Print Job" }).click()
+  await page.getByText("Processing print request in Print Queue.").click()
+  await page.getByRole("button", { name: "1 pending" }).click()
+  await page.getByRole("button", { name: "Close" }).click()
+  await verifyFileDownload(page)
+}
 
-    page
-      .getByText("Bulk Print IEP Forms can be viewed in Print Queue.").click(),
-  ]);
-};
 export const printBulkProgressReports = async (page: Page) => {
-  await page.getByRole("link", { name: "Print", exact: true }).click();
-  await page
-    .getByRole("option", { name: "Bulk Print Progress Reports" })
-    .click();
-  await page.getByRole("button", { name: "Go" }).click();
-  await page.getByRole("button", { name: "Submit Print Job" }).click();
-  await page.getByText("Processing print request in Print Queue.").click();
-  await page.getByRole("button", { name: "pending" }).click();
-  await page.getByRole("button", { name: "Close" }).click();
-  const [page1] = await Promise.all([
-    page.waitForEvent("popup"),
-    page
-      .getByText("Batch Print Progress Report can be viewed in Print Queue.")
-      .click(),
-  ]);
+  await page.getByRole("link", { name: "Print", exact: true }).click()
+  await page.getByRole("option", { name: "Bulk Print Progress Reports" }).click()
+  await page.getByRole("button", { name: "Go" }).click()
+  await page.getByRole("button", { name: "Submit Print Job" }).click()
+  await page.getByText("Processing print request in Print Queue.").click()
+  await page.getByRole("button", { name: "pending" }).click()
+  await page.getByRole("button", { name: "Close" }).click()
+  await verifyFileDownload(page)
 };
 
 export const printBulkIfspForms = async (page: Page) => {
@@ -79,14 +58,9 @@ export const printBulkIfspForms = async (page: Page) => {
   await page.getByText("Processing print request in Print Queue.").click();
   await page.getByRole("button", { name: "pending" }).click();
   await page.getByRole("button", { name: "Close" }).click();
-  const [page1] = await Promise.all([
-    page.waitForEvent("popup"),
-    page
-      .getByText("Bulk Print IFSP Forms can be viewed in Print Queue.")
-      .click(),
-  ]);
-
+  await verifyFileDownload(page);
 };
+
 export const filterOptionsAndCriteria = async (page: Page) => {
   await page.locator('.ui-sortable-handle').last().click();
   await page.getByRole('option', { name: 'Age', exact: true }).click();
@@ -100,28 +74,19 @@ export const filterOptionsAndCriteria = async (page: Page) => {
   await page.getByRole('option', { name: 'Age', exact: true }).click();
   await page.locator('input[name="number"]').click();
   await page.locator('input[name="number"]').fill('7');
-  await page.getByRole('button', { name: 'Search', exact: true }).first().click();
-
-
+  await page.getByRole('button', { name: 'Search', exact: true }).first().click()
 };
+
 export const downloadResults = async (page: Page) => {
-  await page.getByRole('link', { name: 'Print' }).click();
-  await page.getByRole('option', { name: 'Download Data' }).click();
-  const [download] = await Promise.all([
-    page.waitForEvent('download'),
-    page.getByRole('button', { name: 'Go' }).click()
-  ]);
-  await page.locator('div:has-text("Please wait while your results are generated")').nth(1).isVisible();
-
-
+  await page.locator(".select2-choice").getByRole('link', { name: 'Print' }).click()
+  await page.getByRole('option', { name: 'Download Data' }).click()
+  page.getByRole('button', { name: 'Go' }).click()
+  await verifyFileDownload(page)
 };
-export const printResults = async (page: Page) => {
 
+export const printResults = async (page: Page) => {
   await page.getByRole('button', { name: 'Print' }).click();
   await page.locator('div[role="dialog"]:has-text("Print Options Print forms in English Spanish Orientation Portrait Landscape Auto")').getByRole('button', { name: 'Print' }).click();
   await page.getByText('Processing print request in Print Queue.').click();
-  const [page1] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.getByText('Print Search Results can be viewed in Print Queue.').click()
-  ]);
+  await verifyFileDownload(page)
 };

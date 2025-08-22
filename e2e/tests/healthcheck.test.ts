@@ -1,43 +1,37 @@
-import { test } from "../base";
-import { expect } from "@playwright/test";
+import { test } from "../base"
+import { expect } from "@playwright/test"
 import { seisHeaderComponent } from '../components/header'
-import { dashboardPage } from "../components/dashboard";
-import { studentsMenuDropDown } from "../components/navigation-bar";
-import { currentIepFormsPage, futureIepFormsPage, studentChangeFormPage, studentIepsPage } from "../components/students";
-import { requestChangeAddress } from "../components/students/student-change-form.page";
-import { clickElement, openWindow } from "../helpers/actions";
-import { loginSelpaRole, loginTeacherRole, logOut } from "../helpers/common-flows";
-import { clickFollowUp, clickMeetingAlerts } from "../components/dashboard/dashboard.page";
-import { FollowUp, MeetingAlerts } from "../seisEnums";
-import { verifyIfPageUrlIsCorrect, verifyIfTitleIsCorrect } from "../helpers/verify";
+import { studentsMenuDropDown } from "../components/navigation-bar"
+import { futureIepFormsPage, studentIepsPage } from "../components/students"
+import { clickElement, openWindow } from "../helpers/actions"
+import { loginSelpaRole, logOut } from "../helpers/common-flows"
+import { clickFollowUp, clickMeetingAlerts } from "../components/dashboard/dashboard.page"
+import { FollowUp, MeetingAlerts } from "../seisEnums"
+import { verifyFileDownload, verifyIfTitleIsCorrect } from "../helpers/verify"
 import { unaffirmedIepPage } from '../components/dashboard'
-import { selectEligibility } from "../components/students/student-ieps.page";
-import { printAllFormsCurrentIep } from "../components/students/current-iep-forms.page";
-
+import { selectEligibility } from "../components/students/student-ieps.page"
 
 const { locators } = seisHeaderComponent
 
 test.describe("Checks", () => {
 	test.beforeEach(async ({ page, users }) => {
-		await page.goto("/login");
-		await loginSelpaRole(page);
-	});
+		await page.goto("/login")
+		await loginSelpaRole(page)
+	})
 	
 	test.afterEach(async ({ page }) => {
-		await logOut(page);
-	});
+		await logOut(page)
+	})
 
 	test('dashboard follow up verify @Health-Check', async ({ page }) => {
 		// Unaffirmed IEP
 		await clickFollowUp(page, FollowUp.UnaffirmedIeps)
 		await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
 		await clickElement(page, locators.LOGO_ICN)
-
 		// Unaffirmed amendments
 		await clickFollowUp(page, FollowUp.UnaffirmedAmendments)
 		await verifyIfTitleIsCorrect(page, 'Unaffirmed Amendments')
 		await clickElement(page, locators.LOGO_ICN)
-
 		// Unsigned IEPs
 		await clickFollowUp(page, FollowUp.UnsignedIeps)
 		await verifyIfTitleIsCorrect(page, 'Unsigned IEPs')
@@ -48,17 +42,14 @@ test.describe("Checks", () => {
 		await clickMeetingAlerts(page, MeetingAlerts.NextAnnual30Days)
 		await verifyIfTitleIsCorrect(page, 'Next Annual Plan Review')
 		await clickElement(page, locators.LOGO_ICN)
-
 		// Next tri 75 days
 		await clickMeetingAlerts(page, MeetingAlerts.NextTri75Days)
 		await verifyIfTitleIsCorrect(page, 'Next Reevaluation')
 		await clickElement(page, locators.LOGO_ICN)
-
 		// Initial evaluations
 		await clickMeetingAlerts(page, MeetingAlerts.InitialEvaluations)
 		await verifyIfTitleIsCorrect(page, 'Initial Evaluations')
 		await clickElement(page, locators.LOGO_ICN)
-
 		// // Next 30 days review
 		await clickMeetingAlerts(page, MeetingAlerts.Days30Review)
 		await verifyIfTitleIsCorrect(page, '30-Day Reviews')
@@ -67,11 +58,9 @@ test.describe("Checks", () => {
 	test('dashboard unaffirmed ieps help guide verify @Health-Check', async ({ page }) => {
 		await clickFollowUp(page, FollowUp.UnaffirmedIeps)
 		await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
-
 		const newPage = await openWindow(page, async () => {
 			clickElement(page, unaffirmedIepPage.locators.HELP_GUIDE)
 		})
-
 		test.expect(newPage).toHaveURL(/helpguides/)
 	})
 
@@ -87,27 +76,20 @@ test.describe("Checks", () => {
 				page.locator('button:has-text("Go to E-Signature")').isVisible()
 		]);
 		if (viewVisible || esigVisible) {
-				await page.locator('button:has-text("Cancel")').click();
+				await page.locator('button:has-text("Cancel")').first().click();
 		}
 		await page.waitForTimeout(6000)
 		await page.locator("[title='Preview Form']").first().click()
-		//await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM)
-		const [page1] = await Promise.all([page.waitForEvent('popup')])
-		await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
+		await verifyFileDownload(page)
 	})
 
-	test('verify dashboard api @Health-Check', async ({ page, request, configs }) => {
-		const announcementsApiUrl = `${configs.apiBaseUrl}/api/home/announcements`
-
-		const announcements = await request.get(announcementsApiUrl);
+	test('verify dashboard api @Health-Check', async ({ page, request }, configs) => {
+		const announcementsApiUrl = `${configs.project.use.config.apiBaseUrl}/api/home/announcements`
+		const announcements = await request.get(announcementsApiUrl)
 		expect(announcements.status()).toEqual(200)
-
-
-		const carouselApiUrl = `${configs.apiBaseUrl}/api/home/carousel`
-
-		const carousel = await request.get(carouselApiUrl);
+		const carouselApiUrl = `${configs.project.use.config.apiBaseUrl}/api/home/carousel`
+		const carousel = await request.get(carouselApiUrl)
 		expect(carousel.status()).toEqual(200)
-
 	})
 
 	test('Print Future Ieps Form @Health-Check', async ({ page }) => {
@@ -122,12 +104,11 @@ test.describe("Checks", () => {
 			page.locator('button:has-text("Go to E-Signature")').isVisible()
 		]);
 		if (viewVisible || esigVisible) {
-			await page.locator('button:has-text("Cancel")').click();
+			await page.locator('button:has-text("Cancel")').first().click();
 		}
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
-		await page.getByText('Print English Spanish').click();
+		await page.getByText('Print English Spanish').click()
 		await page.getByText('English').click()
-		const [page1] = await Promise.all([page.waitForEvent('popup')])
-		await verifyIfPageUrlIsCorrect(page1, '/print-pdf')
+		await verifyFileDownload(page)
 	})
 })

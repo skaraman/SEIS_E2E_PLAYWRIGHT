@@ -167,19 +167,11 @@ export async function waitForPageLayoutStableAdvanced(page: Page, options: {
   throw new Error(`Page layout did not stabilize within ${timeout}ms`);
 }
 
-// Simple wrapper that combines common stability checks
 export async function waitForPageReady(page: Page, timeout = 10000) {
-  // Wait for basic page load states
-  await page.waitForLoadState('domcontentloaded');
-  await page.waitForLoadState('load');
-  
-  // Wait for layout to stabilize
-  await waitForPageLayoutStable(page, { timeout: timeout - 2000 });
-  
-  // Final network idle check
-  try {
-    await page.waitForLoadState('networkidle', { timeout: 2000 });
-  } catch {
-    // Network idle is optional - page might still be stable
-  }
+  await page.waitForTimeout(1000);
+  await waitForPageLayoutStable(page, { timeout: timeout });
+  await page.waitForTimeout(1000);
+  await page.waitForLoadState('networkidle', { timeout: timeout });
+  await page.waitForTimeout(1000);
+
 }

@@ -65,15 +65,17 @@ test.describe('SELPA > Students Load Tests', () => {
 
 		await selectEligibility(page)
 		await waitForPageReady(page)
-		await page.waitForTimeout(2000)
-		await clickElement(page, studentIepsPage.locators.EDIT_STUDENT_RECORD)
+		await clickElement(page, '.seis-icon-student-record')
+		await page.getByRole('link', { name: 'Demographics' }).click()
+		//await clickElement(page, studentIepsPage.locators.EDIT_STUDENT_RECORD)
+		await waitForPageReady(page)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.FUTURE_IEP)
 		await waitForPageReady(page)
 		await page.waitForLoadState('networkidle')
 		const [aVisible, bVisible] = await Promise.all([
-			page.locator('button:has-text("A")').isVisible(),
-			page.locator('button:has-text("B")').isVisible()
+		 page.locator('button:has-text("View Current IEP")').isVisible(),
+		 page.locator('button:has-text("Go to E-Signature")').isVisible()
 		]);
 		if (aVisible || bVisible) {
 			await page.locator('button:has-text("Cancel")').click()
@@ -113,7 +115,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'Print Progress Reports')
 	})
 
-	test('Generate E-Signature Pre-meeting @HD-Test-Help', async ({ page, request }, configs ) => {
+	test('Generate E-Signature Pre-meeting @HD-Test-Debug', async ({ page, request }, configs ) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -125,7 +127,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await validateEsignaturePage(page, configs, request)
 	})
 
-	test('Generate E-Signature Complete @HD-Test', async ({ page, request }, configs) => {
+	test('Generate E-Signature Complete @HD-Test-Debug', async ({ page, request }, configs) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
