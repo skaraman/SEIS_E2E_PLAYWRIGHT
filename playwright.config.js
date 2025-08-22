@@ -66,6 +66,7 @@ const config = {
 			use: {
 				browserName: 'chromium',
 				channel: 'chrome',
+				viewport: { width: 1600, height: 1000 },
 				config:  getEnv
 			},
 		},
