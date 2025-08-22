@@ -50,9 +50,9 @@ const config = {
 		// 	'Version': 'develop'
 		// }
 
-		launchOptions: {
-			slowMo: 0,
-		},
+		// launchOptions: {
+		// 	slowMo: 0,
+		// },
 	},
 	// reporter: [['list']],
 
