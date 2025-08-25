@@ -65,25 +65,6 @@ test.describe("Checks", () => {
 		test.expect(newPage).toHaveURL(/helpguides/)
 	})
 
-	test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
-		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
-		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
-		await page.waitForSelector(studentIepsPage.locators.TABLE)
-		await selectEligibility(page)
-		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		if (await page.locator('.modal-dialog')) {
-			try {
-				await page.locator('.modal-dialog button.btn-default').first().click({ force: true });
-			}
-			catch {
-				await page.locator('.modal-dialog button.btn-default').nth(1).click({ force: true });
-			}
-		}
-		await waitForPageReady(page);
-		await page.locator("[title='Preview Form']").first().click()
-		await verifyFileDownload(page)
-	})
-
 	test('verify dashboard api @Health-Check', async ({ page, request }, configs) => {
 		const announcementsApiUrl = `${configs.project.use.config.apiBaseUrl}/api/home/announcements`
 		const announcements = await request.get(announcementsApiUrl)
@@ -112,6 +93,27 @@ test.describe("Checks", () => {
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
 		await page.getByText('Print English Spanish').click()
 		await page.getByText('English').click()
+		await verifyFileDownload(page)
+	})
+
+	test('Future Ieps Preview Form @Health-Check', async ({ page }) => {
+		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
+		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
+		await page.waitForSelector(studentIepsPage.locators.TABLE)
+		await selectEligibility(page)
+		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
+		await waitForPageReady(page);
+		
+		if (await page.locator('.modal-dialog')) {
+			try {
+				await page.locator('.modal-dialog button.btn-default').first().click({ force: true });
+			}
+			catch {
+				await page.locator('.modal-dialog button.btn-default').nth(1).click({ force: true });
+			}
+		}
+		await waitForPageReady(page);
+		await page.locator("[title='Preview Form']").first().click()
 		await verifyFileDownload(page)
 	})
 })
