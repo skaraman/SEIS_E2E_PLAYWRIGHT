@@ -61,7 +61,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await printProgress(page)
 	})
 
-	test('Future Ieps Print All Forms @HD-Test-Debug', async ({ page }) => {
+	test('Future Ieps Print All Forms @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -70,7 +70,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await printAllForms(page)
 	})
 
-	test('Future Ieps Preview Form @HD-Test-Debug', async ({ page }) => {
+	test('Future Ieps Preview Form @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -81,7 +81,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await verifyFileDownload(page)
 	})
 
-	test('Future Ieps Print Single Form @HD-Test-Debug', async ({ page }) => {
+	test('Future Ieps Print Single Form @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -94,7 +94,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await verifyFileDownload(page)
 	})
 
-	test('Current Ieps Print All/ Preview Form @HD-Test-Debug', async ({ page }) => {
+	test('Current Ieps Print All/ Preview Form @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -176,6 +176,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'New Message')
 		await goBackAndWait(page)
 		await waitForPageReady(page)
+		await page.waitForTimeout(3000)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.DOC_LIBRARY)
 		await waitForPageReady(page)

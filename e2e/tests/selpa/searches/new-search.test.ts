@@ -34,7 +34,7 @@ test.describe('SELPA > Search Tests', () => {
 		
 	})
 
-	test('search bulk print progress report @HD-Test-Debug', async ({ page }) => {
+	test('search bulk print progress report @HD-Test', async ({ page }) => {
 		await clickElement(page, searchesMenuDropDown.locators.SEARCHES)
 		await clickElement(page, searchesMenuDropDown.locators.NEW_SEARCH)
 		await page.waitForSelector(newSearchPage.locators.TABLE)
@@ -47,7 +47,7 @@ test.describe('SELPA > Search Tests', () => {
 
 	})
 
-	test('search bulk print ifsp forms @HD-Test-Debug', async ({ page }) => {
+	test('search bulk print ifsp forms @HD-Test', async ({ page }) => {
 		await clickElement(page, searchesMenuDropDown.locators.SEARCHES)
 		await clickElement(page, searchesMenuDropDown.locators.NEW_SEARCH)
 		await page.waitForSelector(newSearchPage.locators.TABLE)

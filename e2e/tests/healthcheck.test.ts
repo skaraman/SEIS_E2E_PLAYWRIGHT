@@ -71,7 +71,6 @@ test.describe("Checks", () => {
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		console.log(await page.content())
 		const [viewVisible, esigVisible] = await Promise.all([
 				page.locator('button:has-text("View Current IEP")').isVisible(),
 				page.locator('button:has-text("Go to E-Signature")').isVisible()
@@ -105,7 +104,6 @@ test.describe("Checks", () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await waitForPageReady(page);
-		console.log(await page.content())
 		const [viewVisible, esigVisible] = await Promise.all([
 			page.locator('button:has-text("View Current IEP")').isVisible(),
 			page.locator('button:has-text("Go to E-Signature")').isVisible()

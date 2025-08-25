@@ -111,7 +111,8 @@ test.describe('SELPA > Students Load Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'Print Progress Reports')
 	})
 
-	test('Generate E-Signature Pre-meeting @HD-Test-Debug', async ({ page, request }, configs ) => {
+	// E-Signature flow has changed to email and response URL
+	test.skip('Generate E-Signature Pre-meeting @HD-Test-Debug', async ({ page, request }, configs ) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -121,8 +122,7 @@ test.describe('SELPA > Students Load Tests', () => {
 		await generateEsignaturePreMeeting(page)
 		await validateEsignaturePage(page, configs, request)
 	})
-
-	test('Generate E-Signature Complete @HD-Test-Debug', async ({ page, request }, configs) => {
+	test.skip('Generate E-Signature Complete @HD-Test-Debug', async ({ page, request }, configs) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)

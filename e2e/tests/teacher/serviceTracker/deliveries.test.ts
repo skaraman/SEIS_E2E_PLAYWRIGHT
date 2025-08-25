@@ -24,7 +24,7 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
     await addNewDelivery(page)
   })
 
-  test("service tracker provider dashboard add assessment @HD-Test-Debug", async ({ page }) => {
+  test("service tracker provider dashboard add assessment @HD-Test", async ({ page }) => {
     await clickElement(page, locators.SERVICE_TRACKER)
     await page.getByRole('link', { name: 'Assessments' }).click();
     await page.locator("[title='Deliver Assessment']").nth(0).click()

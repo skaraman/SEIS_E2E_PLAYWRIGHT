@@ -21,14 +21,14 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await logOut(page)
 	})
 
-	test('Student Change Form @HD-Test-Debug', async ({ page }) => {
+	test('Student Change Form @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_CHANGE_FORM)
 		await clickElement(page, studentChangeFormPage.locators.SELECT_STUDENT)
 		await requestChangeAddress(page)
 	})
 
-	test('Edit Student Record @HD-Test-Debug', async ({ page }) => {
+	test('Edit Student Record @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -94,7 +94,7 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await fillOutForm(page)
 	})
 
-	test('Add/Print DRDP @HD-Test-Debug', async ({ page }) => {
+	test('Add/Print DRDP @HD-Test', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
