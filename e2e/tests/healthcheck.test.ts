@@ -72,14 +72,14 @@ test.describe("Checks", () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 
-		// const [viewVisible, esigVisible] = await Promise.all([
-		// 		page.locator('button:has-text("View Current IEP")').isVisible(),
-		// 		page.locator('button:has-text("Go to E-Signature")').isVisible()
-		// ]);
-		// if (viewVisible || esigVisible) {
-		// 	await page.pause()
-		// 		await page.locator('button:has-text("Cancel")').first().click({ force: true });
-		// }
+		const [viewVisible, esigVisible] = await Promise.all([
+				page.locator('button:has-text("View Current IEP")').isVisible(),
+				page.locator('button:has-text("Go to E-Signature")').isVisible()
+		]);
+		if (viewVisible || esigVisible) {
+			await page.pause()
+				await page.locator('button.btn-primary').first().click({ force: true });
+		}
 		await waitForPageReady(page);
 		await page.locator("[title='Preview Form']").first().click()
 		await verifyFileDownload(page)
@@ -101,13 +101,13 @@ test.describe("Checks", () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await waitForPageReady(page);
-		// const [viewVisible, esigVisible] = await Promise.all([
-		// 	page.locator('button:has-text("View Current IEP")').isVisible(),
-		// 	page.locator('button:has-text("Go to E-Signature")').isVisible()
-		// ]);
-		// if (viewVisible || esigVisible) {
-		// 	await page.locator('button:has-text("Cancel")').first().click({ force: true });
-		// }
+		const [viewVisible, esigVisible] = await Promise.all([
+			page.locator('button:has-text("View Current IEP")').isVisible(),
+			page.locator('button:has-text("Go to E-Signature")').isVisible()
+		]);
+		if (viewVisible || esigVisible) {
+			await page.locator('button.btn-primary').first().click({ force: true });
+		}
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
 		await page.getByText('Print English Spanish').click()
 		await page.getByText('English').click()
