@@ -78,10 +78,10 @@ test.describe("Checks", () => {
 		]);
 		if (viewVisible || esigVisible) {
 			try{
-				await page.locator('button.btn-primary').first().click({ force: true });
+				await page.locator('.modal-dialog button.btn-default').first().click({ force: true });
 			}
 			catch {
-				await page.locator('button.btn-primary').nth(1).click({ force: true });
+				await page.locator('.modal-dialog button.btn-default').nth(1).click({ force: true });
 			}
 		}
 		await waitForPageReady(page);
@@ -112,10 +112,10 @@ test.describe("Checks", () => {
 		]);
 		if (viewVisible || esigVisible) {
 			try{
-				await page.locator('button.btn-primary').first().click({ force: true });
+				await page.locator('.modal-dialog button.btn-default').first().click({ force: true });
 			}
 			catch {
-				await page.locator('button.btn-primary').nth(1).click({ force: true });
+				await page.locator('.modal-dialog button.btn-default').nth(1).click({ force: true });
 			}
 		}
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
