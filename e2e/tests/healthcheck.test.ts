@@ -71,12 +71,8 @@ test.describe("Checks", () => {
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		const [viewVisible, esigVisible] = await Promise.all([
-				page.locator('button:has-text("View Current IEP")').isVisible(),
-				page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (viewVisible || esigVisible) {
-			try{
+		if (await page.locator('.modal-dialog')) {
+			try {
 				await page.locator('.modal-dialog button.btn-default').first().click({ force: true });
 			}
 			catch {
@@ -104,12 +100,9 @@ test.describe("Checks", () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await waitForPageReady(page);
-		const [viewVisible, esigVisible] = await Promise.all([
-			page.locator('button:has-text("View Current IEP")').isVisible(),
-			page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (viewVisible || esigVisible) {
-			try{
+
+		if (await page.locator('.modal-dialog')) {
+			try {
 				await page.locator('.modal-dialog button.btn-default').first().click({ force: true });
 			}
 			catch {

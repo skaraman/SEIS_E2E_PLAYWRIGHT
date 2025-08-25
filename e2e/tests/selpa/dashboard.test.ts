@@ -10,7 +10,7 @@ const { clickElement } = actions
 const { locators } = seisHeaderComponent
 const { clickTeacherRequests } =	dashboardPage
 
-test.describe('SELPA > Dashboard Tests @HD-Test', () => {
+test.describe('SELPA > Dashboard Tests', () => {
 	test.beforeEach(async ({ page, users }) => {
 		await page.goto('/login')
 		await loginSelpaRole(page)
@@ -20,7 +20,7 @@ test.describe('SELPA > Dashboard Tests @HD-Test', () => {
 		await logOut(page)
 	})
 
-	test('dashboard teacher requests verify', async ({ page }) => {
+	test('dashboard teacher requests verify @HD-Test', async ({ page }) => {
 		// Add changes
 		await clickTeacherRequests(page, TeacherRequests.AddRequests)
 		await verifyIfTitleIsCorrect(page, 'Add Requests')

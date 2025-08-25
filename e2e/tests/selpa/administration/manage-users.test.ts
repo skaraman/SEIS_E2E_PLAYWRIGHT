@@ -21,7 +21,7 @@ test.describe('SELPA > Administration Page Load Tests', () => {
 		await logOut(page)
 	})
 
-	test('manage users add delete @HD-Test', async ({ page }) => {
+	test('manage users add delete @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, locators.ADMINISTRATION)
 		await clickElement(page, locators.MANAGE_USER)
 		const userName = await AddNewUser(page)

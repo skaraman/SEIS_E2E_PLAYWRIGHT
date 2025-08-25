@@ -94,7 +94,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await verifyFileDownload(page)
 	})
 
-	test('Current Ieps Print All/ Preview Form @HD-Test', async ({ page }) => {
+	test('Current Ieps Print All/ Preview Form @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
@@ -129,7 +129,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await verifyFileDownload(page)
 	})
 
-	test('Quick Links Verify @HD-Test', async ({ page }) => {
+	test('Quick Links Verify @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
 		await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
