@@ -77,9 +77,9 @@ export const filterOptionsAndCriteria = async (page: Page) => {
 };
 
 export const downloadResults = async (page: Page) => {
-  await page.locator(".select2-choice").getByRole('link', { name: 'Print' }).click()
+  await page.getByRole('link', { name: 'Print', exact: true }).click()
   await page.getByRole('option', { name: 'Download Data' }).click()
-  page.getByRole('button', { name: 'Go' }).click()
+  await page.getByRole('button', { name: 'Go' }).click()
   await verifyFileDownload(page)
 };
 

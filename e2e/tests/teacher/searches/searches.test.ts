@@ -23,7 +23,7 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await selectTypeOfReport(page)
 	})
 
-	test('New Search Report Download @HD-Test', async ({ page }) => {
+	test('New Search Report Download @HD-Test-Debug', async ({ page }) => {
 		await clickElement(page, searchesMenuDropDown.locators.SEARCHES)
 		await clickElement(page, searchesMenuDropDown.locators.NEW_SEARCH)
 		await clickElement(page, newSearchPage.locators.COLUMN_OPTIONS_BTN)
