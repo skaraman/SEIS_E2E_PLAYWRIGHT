@@ -30,7 +30,7 @@ export const clickElement = async (page: Page, locator: any, index: number = 0, 
 	await element.waitFor({ state: 'visible', timeout: timeout })
 	await element.click()
 	await page.waitForLoadState('networkidle')
-	await page.waitForTimeout(1000)
+	await page.waitForTimeout(500)
 }
 
 export const enterTextField = async (page: Page, locator: Locator | string, value: string): Promise<void> => {

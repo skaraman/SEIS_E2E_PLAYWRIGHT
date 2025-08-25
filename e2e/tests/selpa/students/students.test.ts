@@ -72,28 +72,25 @@ test.describe('SELPA > Students Load Tests', () => {
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.FUTURE_IEP)
 		await waitForPageReady(page)
-		await page.waitForLoadState('networkidle')
-		const [aVisible, bVisible] = await Promise.all([
-		 page.locator('button:has-text("View Current IEP")').isVisible(),
-		 page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (aVisible || bVisible) {
-			await page.locator('button:has-text("Cancel")').click()
-		}
+		// const [aVisible, bVisible] = await Promise.all([
+		//  page.locator('button:has-text("View Current IEP")').isVisible(),
+		//  page.locator('button:has-text("Go to E-Signature")').isVisible()
+		// ]);
+		// if (aVisible || bVisible) {
+		// 	await page.locator('button:has-text("Cancel")').click()
+		// }
 		await verifyIfTitleIsCorrect(page, 'Future IEP Forms')
 		await clickElement(page, futureIepFormsPage.locators.COMMENTS)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.CURRENT_IEP)
 		await waitForPageReady(page)
-
-		await page.waitForLoadState('networkidle')
-		const [viewVisible, esigVisible] = await Promise.all([
-			page.locator('button:has-text("View Current IEP")').isVisible(),
-			page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (viewVisible || esigVisible) {
-			await page.locator('button:has-text("Cancel")').click();
-		}
+		// const [viewVisible, esigVisible] = await Promise.all([
+		// 	page.locator('button:has-text("View Current IEP")').isVisible(),
+		// 	page.locator('button:has-text("Go to E-Signature")').isVisible()
+		// ]);
+		// if (viewVisible || esigVisible) {
+		// 	await page.locator('button:has-text("Cancel")').click();
+		// }
 		await verifyIfTitleIsCorrect(page, 'Current Affirmed Forms')
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.HISTORICAL_IEPS)
@@ -101,14 +98,13 @@ test.describe('SELPA > Students Load Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'Historical IEPs')
 		await page.goBack()
 
-		await page.waitForTimeout(400)
-		const [viewVisible2, esigVisible2] = await Promise.all([
-			page.locator('button:has-text("View Current IEP")').isVisible(),
-			page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (viewVisible2 || esigVisible2) {
-			await page.locator('button:has-text("Cancel")').click();
-		}
+		// const [viewVisible2, esigVisible2] = await Promise.all([
+		// 	page.locator('button:has-text("View Current IEP")').isVisible(),
+		// 	page.locator('button:has-text("Go to E-Signature")').isVisible()
+		// ]);
+		// if (viewVisible2 || esigVisible2) {
+		// 	await page.locator('button:has-text("Cancel")').click();
+		// }
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.PROGRESS_REPORTS)
 		await waitForPageReady(page)
@@ -122,7 +118,6 @@ test.describe('SELPA > Students Load Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await waitForPageReady(page)
-		await page.waitForLoadState('networkidle')
 		await generateEsignaturePreMeeting(page)
 		await validateEsignaturePage(page, configs, request)
 	})

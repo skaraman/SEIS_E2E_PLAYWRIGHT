@@ -31,7 +31,6 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
     await page.locator("text= Add Assessment").click()
     await fillOutEditAssessmentFields(page)
     await waitForPageReady(page)
-    await page.waitForTimeout(5000)
     await clickElement(page, "#deleteAssessment")
     await page.getByRole('button', { name: 'Delete Assessment' }).click();
     await page.getByText('Claim deleted successfully').isVisible();

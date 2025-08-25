@@ -39,7 +39,7 @@ export const printAllForms = async (page: Page): Promise<void> => {
   await clickElement(page, locators.PRINT_SELECTED)
   await page.getByLabel('NReco').check()
   await clickElement(page, '.modal-content button.btn-primary')
-  await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
+  //await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
   await verifyFileDownload(page)
 }
 
@@ -50,10 +50,10 @@ export const generateEsignaturePreMeeting = async (page: Page): Promise<void> =>
     name: "Generate E-Signature Package",
   });
 
-  if (await page.locator('button:has-text("View Current IEP")').isVisible()) {
-    await page.locator('button:has-text("Cancel")').click()
+  // if (await page.locator('button:has-text("View Current IEP")').isVisible()) {
+  //   await page.locator('button:has-text("Cancel")').click()
 
-  }
+  // }
 
   if (!(await generatePackageButton.isVisible())) {
     // Cancel if generate button is not visible
@@ -155,7 +155,7 @@ export const validateEsignaturePage = async (page: Page, testInfo, request): Pro
   
     } */
   await waitForPageReady(page)
-  await page.waitForTimeout(10000)
+  //await page.waitForTimeout(10000)
   await page.getByRole("button", { name: "View E-Signed Document" }).click()
   await page.getByRole("button", { name: "Add Attachment" }).click()
 }
@@ -201,14 +201,12 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   await page.getByRole('button', { name: 'Find' }).click()
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 
-
-  await page.waitForLoadState('networkidle')
-  if (
-    await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-  ) {
-    await page.locator('button:has-text("Cancel")').first().click()
-  }
-  await page.waitForTimeout(6000)
+  // if (
+  //   await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
+  // ) {
+  //   await page.locator('button:has-text("Cancel")').first().click()
+  // }
+  await waitForPageReady(page);
 
   // Create completed signature for student
   await page.locator("tr:nth-child(10) > td").first().click()
@@ -266,7 +264,7 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   const eSignUrl = Object.values(response[0])[0]
   await page.goto(eSignUrl)
   await enterTextField(page, locators.PASSWORD, "Test123!")
-  await page.waitForTimeout(3000)
+//  await page.waitForTimeout(3000)
   await clickElement(page, locators.SUBMIT)
   await page.getByLabel('I agree to all parts of this document.').check()
   await page.getByRole('button', { name: 'Submit Signature' }).click()
@@ -281,7 +279,7 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
   await enterTextField(page, studentIepsPage.locators.SEIS_ID, `${studentId}`)
   await page.getByRole('button', { name: 'Find' }).click()
-  await page.waitForTimeout(30000)
+  //await page.waitForTimeout(30000)
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
   await waitForPageReady(page)
   await page.getByRole("button", { name: "View E-Signed Document" }).click()
@@ -300,7 +298,7 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
     await page.locator('button:has-text("Continue")').last().click()
   }
 
-  await page.waitForTimeout(4000)
+//  await page.waitForTimeout(4000)
   await page.getByRole('button', { name: 'Continue' }).click()
   await page.getByRole('button', { name: 'Continue' }).click()
   await page.locator("tr:nth-child(10) > td").first().click()

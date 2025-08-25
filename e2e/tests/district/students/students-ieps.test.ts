@@ -77,7 +77,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM);
-		await page.waitForTimeout(120000) // Waiting for the file to be generated and download to start
+		//await page.waitForTimeout(120000) // Waiting for the file to be generated and download to start
 		await verifyFileDownload(page)
 	})
 
@@ -90,7 +90,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
 		await page.locator('#sticky-bar .saveBtns .dropdown.btn').click()
 		await page.locator('#sticky-bar').getByText('English').click()
-		await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
+		//await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
 		await verifyFileDownload(page)
 	})
 
@@ -187,7 +187,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await waitForPageReady(page)
 		await page.getByText('Add Attachment').isVisible()
 		await goBackAndWait(page)
-		await waitForPageReady(page)
+		//await waitForPageReady(page)
 		// await clickElement(page, studentDemographicsPage.locators.Q_L)
 		// await clickElement(page, studentDemographicsPage.locators.CALPADS_TRANSACTIONS)
 		// await waitForPageReady(page)

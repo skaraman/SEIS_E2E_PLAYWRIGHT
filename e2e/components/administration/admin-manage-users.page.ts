@@ -79,7 +79,6 @@ export const DeleteNewUser = async (page: Page, userName: string) => {
   await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
   await page.locator('label:has-text("Search:") >> input').fill(userName);
   await waitForPageReady(page);
-  await page.waitForTimeout(2000)
   await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
   await clickElement(page, "[title='Delete']");
   await clickElement(page, '.modal-dialog >> button:has-text("OK")');

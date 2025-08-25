@@ -10,14 +10,14 @@ const { loginAs, generateAccessToken } = loginPage
 
 
 export const logOut = async (page: Page): Promise<void> => {
-	await waitForPageReady(page)
-	await page.locator(locators.LOG_OUT).click({ force: true })
+	// await waitForPageReady(page)
+	// await page.locator(locators.LOG_OUT).click({ force: true })
 }
 
 export const loginTeacherRole = async (page: Page): Promise<void> => {
 	const users = Users.role.teacher
 	const idx = Math.floor(Math.random() * users.length)
-	console.log(users[idx])
+	//console.log(users[idx])
 	await loginAs(page, users[0])
 	await waitForPageReady(page)
 }
@@ -25,7 +25,7 @@ export const loginTeacherRole = async (page: Page): Promise<void> => {
 export const loginSiteRole = async (page: Page): Promise<void> => {
 	const users = Users.role.site
 	const idx = Math.floor(Math.random() * users.length)
-	console.log(users[idx])
+	//console.log(users[idx])
 	await loginAs(page, users[0])
 	await waitForPageReady(page)
 }
@@ -33,7 +33,7 @@ export const loginSiteRole = async (page: Page): Promise<void> => {
 export const loginDistrictRole = async (page: Page): Promise<void> => {
 	const users = Users.role.district
 	const idx = Math.floor(Math.random() * users.length)
-	console.log(users[idx])
+	//console.log(users[idx])
 	await loginAs(page, users[0])
 	await waitForPageReady(page)
 }
@@ -41,7 +41,7 @@ export const loginDistrictRole = async (page: Page): Promise<void> => {
 export const loginSelpaRole = async (page: Page): Promise<void> => {
 	const users = Users.role.selpa
 	const idx = Math.floor(Math.random() * users.length)
-	console.log(users[idx])
+	//console.log(users[idx])
 	await loginAs(page, users[0])
 	await waitForPageReady(page)
 }

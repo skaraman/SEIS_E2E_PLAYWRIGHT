@@ -10,6 +10,7 @@ import { FollowUp, MeetingAlerts } from "../seisEnums"
 import { verifyFileDownload, verifyIfTitleIsCorrect } from "../helpers/verify"
 import { unaffirmedIepPage } from '../components/dashboard'
 import { selectEligibility } from "../components/students/student-ieps.page"
+import { waitForPageReady } from "../helpers/layout"
 
 const { locators } = seisHeaderComponent
 
@@ -70,15 +71,16 @@ test.describe("Checks", () => {
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		await page.waitForLoadState('networkidle')
-		const [viewVisible, esigVisible] = await Promise.all([
-				page.locator('button:has-text("View Current IEP")').isVisible(),
-				page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (viewVisible || esigVisible) {
-				await page.locator('button:has-text("Cancel")').first().click({ force: true });
-		}
-		await page.waitForTimeout(6000)
+
+		// const [viewVisible, esigVisible] = await Promise.all([
+		// 		page.locator('button:has-text("View Current IEP")').isVisible(),
+		// 		page.locator('button:has-text("Go to E-Signature")').isVisible()
+		// ]);
+		// if (viewVisible || esigVisible) {
+		// 	await page.pause()
+		// 		await page.locator('button:has-text("Cancel")').first().click({ force: true });
+		// }
+		await waitForPageReady(page);
 		await page.locator("[title='Preview Form']").first().click()
 		await verifyFileDownload(page)
 	})
@@ -98,14 +100,14 @@ test.describe("Checks", () => {
 		await page.waitForSelector(studentIepsPage.locators.TABLE)
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-		await page.waitForLoadState('networkidle')
-		const [viewVisible, esigVisible] = await Promise.all([
-			page.locator('button:has-text("View Current IEP")').isVisible(),
-			page.locator('button:has-text("Go to E-Signature")').isVisible()
-		]);
-		if (viewVisible || esigVisible) {
-			await page.locator('button:has-text("Cancel")').first().click({ force: true });
-		}
+		await waitForPageReady(page);
+		// const [viewVisible, esigVisible] = await Promise.all([
+		// 	page.locator('button:has-text("View Current IEP")').isVisible(),
+		// 	page.locator('button:has-text("Go to E-Signature")').isVisible()
+		// ]);
+		// if (viewVisible || esigVisible) {
+		// 	await page.locator('button:has-text("Cancel")').first().click({ force: true });
+		// }
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
 		await page.getByText('Print English Spanish').click()
 		await page.getByText('English').click()

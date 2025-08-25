@@ -38,7 +38,7 @@ const config = {
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: false,
-		viewport: { width: 1500, height: 720 },
+		viewport: { width: 1200, height: 720 },
 		ignoreHTTPSErrors: true,
 		screenshot: 'only-on-failure',
 		// workers: 4,
@@ -50,9 +50,9 @@ const config = {
 		// 	'Version': 'develop'
 		// }
 
-		// launchOptions: {
-		// 	slowMo: 0,
-		// },
+		launchOptions: {
+			slowMo: 50,
+		},
 	},
 	// reporter: [['list']],
 
@@ -66,7 +66,7 @@ const config = {
 			use: {
 				browserName: 'chromium',
 				channel: 'chrome',
-				viewport: { width: 1600, height: 1000 },
+				viewport: { width: 1200, height: 720 },
 				config:  getEnv
 			},
 		},

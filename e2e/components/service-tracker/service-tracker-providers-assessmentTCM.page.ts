@@ -57,7 +57,7 @@ export const fillOutAddTcmFields = async (page: Page): Promise<void> => {
   await page.getByRole('button', { name: 'Save' }).click();
   /*  await page.getByRole('button', { name: '' }).click();
    await page.getByRole('button', { name: ' this is a test!' }).click(); */
-  await page.waitForTimeout(5000)
+  //await page.waitForTimeout(5000)
   await page.locator("[id='deleteTcm']").last().click();
   await page.getByRole('button', { name: 'Delete Assessment' }).click();
 

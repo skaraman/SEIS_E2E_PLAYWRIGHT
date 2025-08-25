@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "e2e": "node e2e.config.js",
-    "e2e:dev": "cross-env NODE_ENV=dev npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
-    "e2e:qa": "cross-env NODE_ENV=qa npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
-    "e2e:prod": "cross-env NODE_ENV=prod npx playwright test --reporter=list --workers=6 --grep-invert @Health-Check",
-    "e2e:health-check": "cross-env NODE_ENV=prod npx playwright test --reporter=list --workers=6 --grep @Health-Check",
+    "e2e:dev": "cross-env NODE_ENV=dev npx playwright test --reporter=list --workers=1 --grep-invert @Health-Check",
+    "e2e:qa": "cross-env NODE_ENV=qa npx playwright test --reporter=list --workers=1 --grep-invert @Health-Check",
+    "e2e:prod": "cross-env NODE_ENV=prod npx playwright test --reporter=list --workers=1 --grep-invert @Health-Check",
+    "e2e:health-check": "cross-env NODE_ENV=prod npx playwright test --reporter=list --workers=1 --grep @Health-Check",
     "e2e:v4": "cross-env NODE_ENV=v4 npx playwright test --reporter=list --workers=1 --grep-invert @Health-Check"
 
   },

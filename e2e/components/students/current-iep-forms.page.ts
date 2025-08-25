@@ -25,6 +25,6 @@ export const printAllFormsCurrentIep = async (page: Page): Promise<void> => {
   await clickElement(page, locators.PRINT_SELECTED)
   await page.getByLabel('NReco').check()
   await clickElement(page, '.modal-content button.btn-primary')
-  await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
+  //await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
   await verifyFileDownload(page)
 }

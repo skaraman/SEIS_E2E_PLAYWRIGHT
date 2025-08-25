@@ -27,7 +27,6 @@ export const printBulkIep = async (page: Page, language: string = "English") => 
   //await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
   await page.locator('#s2id_formID').click()
   await waitForPageReady(page)
-  await page.waitForTimeout(1000)
   await page.getByRole('option', { name: 'Referral', exact: true }).click()
   await page.getByLabel(language).check()
   await page.getByRole("button", { name: "Submit Print Job" }).click()
@@ -78,6 +77,7 @@ export const filterOptionsAndCriteria = async (page: Page) => {
 };
 
 export const downloadResults = async (page: Page) => {
+  await page.pause()
   await page.locator(".select2-choice").getByRole('link', { name: 'Print' }).click()
   await page.getByRole('option', { name: 'Download Data' }).click()
   page.getByRole('button', { name: 'Go' }).click()

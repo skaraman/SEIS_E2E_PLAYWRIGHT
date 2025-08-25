@@ -168,10 +168,10 @@ export async function waitForPageLayoutStableAdvanced(page: Page, options: {
 }
 
 export async function waitForPageReady(page: Page, timeout = 10000) {
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(500);
   await waitForPageLayoutStable(page, { timeout: timeout });
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(500);
   await page.waitForLoadState('networkidle', { timeout: timeout });
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(500);
 
 }

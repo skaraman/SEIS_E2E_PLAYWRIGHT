@@ -41,7 +41,7 @@ export const verifyTableHeaderColumns = async (page: Page, headers: string[]) =>
 }
 
 export const verifyFileDownload = async (page: Page): Promise<void> => {
-  await waitForPageReady(page);
+  // await waitForPageReady(page);
   // Skipping full Verify as it is too slow right now (8/2025)  
   // let downloadHappened = false;
   // let newPage: Page | null = null;

@@ -77,11 +77,11 @@ export const addDrdp = async (page: Page): Promise<void> => {
   await page.getByRole('row', { name: 'PD-HLTH5 Safety' }).locator('input[type="checkbox"]').check()
   await page.locator("text= Save Form").nth(0).click()
   await page.getByText('DRDP saved.').isVisible()
-  await page.waitForTimeout(5000)
+  //await page.waitForTimeout(5000)
   await page.locator("text=Return To List").nth(0).click()
   await page.locator(".seis-icon-print").nth(0).click()
   await page.locator('button.btn-primary:text("Print")').click()
   await page.getByText('Processing print request in Print Queue.').isVisible()
-  await page.waitForTimeout(120000) // Waiting for the file to be generated and download to start
+  //await page.waitForTimeout(120000) // Waiting for the file to be generated and download to start
   await verifyFileDownload(page)
 }
