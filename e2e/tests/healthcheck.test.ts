@@ -77,8 +77,12 @@ test.describe("Checks", () => {
 				page.locator('button:has-text("Go to E-Signature")').isVisible()
 		]);
 		if (viewVisible || esigVisible) {
-			await page.pause()
+			try{
 				await page.locator('button.btn-primary').first().click({ force: true });
+			}
+			catch {
+				await page.locator('button.btn-primary').nth(1).click({ force: true });
+			}
 		}
 		await waitForPageReady(page);
 		await page.locator("[title='Preview Form']").first().click()
@@ -106,7 +110,12 @@ test.describe("Checks", () => {
 			page.locator('button:has-text("Go to E-Signature")').isVisible()
 		]);
 		if (viewVisible || esigVisible) {
-			await page.locator('button.btn-primary').first().click({ force: true });
+			try{
+				await page.locator('button.btn-primary').first().click({ force: true });
+			}
+			catch {
+				await page.locator('button.btn-primary').nth(1).click({ force: true });
+			}
 		}
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
 		await page.getByText('Print English Spanish').click()
