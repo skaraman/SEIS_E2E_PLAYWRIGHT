@@ -25,16 +25,10 @@ const config = {
 	// Look for test files in the "tests" directory, relative to this configuration file
 	testDir: 'e2e/tests',
 	snapshotDir: 'snapshots',
-
-	// Each test is given 30 seconds
-	// timeout: 30000,
-
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
-
 	// Two retries for each test
-	// retries: 2,
-
+	retries: 2,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,
