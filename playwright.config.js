@@ -27,8 +27,7 @@ const config = {
 	snapshotDir: 'snapshots',
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
-	// Two retries for each test
-	retries: 2,
+	retries: 1,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,
@@ -37,9 +36,9 @@ const config = {
 		screenshot: 'only-on-failure',
 		// workers: 4,
 
-		video: 'on-first-retry',
+		video: 'off',
 		trace: 'on',
-		actionTimeout: 30000, // this is the timeout for every individual action
+		actionTimeout: 15000, // this is the timeout for every individual action
 		// extraHTTPHeaders: {
 		// 	'Version': 'develop'
 		// }
