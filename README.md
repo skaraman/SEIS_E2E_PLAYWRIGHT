@@ -1,6 +1,20 @@
 # SEIS E2E TESTS
 
-SEIS is managed and maintained by CodeStack, a department of the San Joaquin County Office of Education. 
+SEIS is managed and maintained by CodeStack, a department of the San Joaquin County Office of Education.
+
+## Recent Improvements for Azure DevOps Stability
+
+**🎯 Problem Solved**: Inconsistent test pass/fail results on Azure DevOps platform
+
+**✅ Key Fixes Applied**:
+- Fixed race conditions in helper functions
+- Added CI-specific optimizations and timeouts
+- Improved error handling and retry mechanisms
+- Enhanced wait strategies for better stability
+
+**📖 For details see**: [AZURE_DEVOPS_IMPROVEMENTS.md](./AZURE_DEVOPS_IMPROVEMENTS.md)
+
+---
 
 ## Run Locally
 

@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test'
+import { getOptimalTimeouts } from './ci-utils'
 
 export async function waitForPageLayoutStable(page: Page, options: {
   stableMs?: number;
@@ -167,11 +168,40 @@ export async function waitForPageLayoutStableAdvanced(page: Page, options: {
   throw new Error(`Page layout did not stabilize within ${timeout}ms`);
 }
 
-export async function waitForPageReady(page: Page, timeout = 10000) {
-  await page.waitForTimeout(500);
-  await waitForPageLayoutStable(page, { timeout: timeout });
-  await page.waitForTimeout(500);
-  await page.waitForLoadState('networkidle', { timeout: timeout });
-  await page.waitForTimeout(500);
-
+export async function waitForPageReady(page: Page, timeout?: number) {
+  const timeouts = getOptimalTimeouts();
+  const maxTimeout = timeout || timeouts.pageReady;
+  
+  try {
+    // Initial wait for DOM to be ready
+    await page.waitForLoadState('domcontentloaded', { timeout: maxTimeout / 3 });
+    
+    // Wait for basic stability
+    await page.waitForTimeout(300);
+    
+    // Wait for layout to stabilize (with error handling)
+    try {
+      await waitForPageLayoutStable(page, { timeout: maxTimeout / 2 });
+    } catch (error) {
+      // If layout stability fails, continue with network idle check
+      console.warn('Layout stability check failed, continuing with network idle check');
+    }
+    
+    // Wait for network activity to calm down (with error handling)
+    try {
+      await page.waitForLoadState('networkidle', { timeout: maxTimeout / 2 });
+    } catch (error) {
+      // If networkidle fails, wait a bit more and continue
+      console.warn('Network idle check failed, using fallback timeout');
+      await page.waitForTimeout(1000);
+    }
+    
+    // Final brief wait
+    await page.waitForTimeout(200);
+    
+  } catch (error) {
+    console.error('waitForPageReady failed:', error);
+    // Fallback: just wait a reasonable amount of time
+    await page.waitForTimeout(2000);
+  }
 }

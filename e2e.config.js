@@ -9,15 +9,35 @@ const workers =
     ? parseInt(process.argv[workerArgIndex + 1], 10)
     : null;
 
+// Detect if running in CI environment (Azure DevOps, GitHub Actions, etc.)
+const isCI = !!(process.env.CI || process.env.TF_BUILD || process.env.AGENT_NAME);
+
 let grepArg = healthCheck ? '--grep @Health-Check' : '--grep-invert @Health-Check';
 const debugArg = debug ? '--headed --debug' : '';
 const debugEnv = debug ? 'PWDEBUG=console' : '';
-const workersArg = workers ? workers : (debug ? 1 : 6);
+
+// Optimize worker count for CI environments
+let workersArg;
+if (workers) {
+  workersArg = workers;
+} else if (debug) {
+  workersArg = 1;
+} else if (isCI) {
+  // Use fewer workers on CI to reduce resource contention and improve stability
+  workersArg = 2;
+} else {
+  workersArg = 6;
+}
+
 if (onlyOne) grepArg = "--grep @HD-Test-Debug";
+
+// Add CI-specific environment variables
+const ciEnv = isCI ? 'CI=true' : '';
 
 const cmd = [
   'cross-env',
   `NODE_ENV=${env}`,
+  ciEnv,
   debugEnv,
   'npx playwright test',
   '--reporter=list',
