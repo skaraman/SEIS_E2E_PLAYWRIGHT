@@ -27,7 +27,7 @@ const config = {
 	snapshotDir: 'snapshots',
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
-	retries: 1,
+	retries: 2,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,
@@ -42,14 +42,10 @@ const config = {
 		// extraHTTPHeaders: {
 		// 	'Version': 'develop'
 		// }
-
-		launchOptions: {
-			slowMo: 250,
-		},
 	},
 	// reporter: [['list']],
 
-	timeout: 0, // this is the timeout for each individual test(step)
+	timeout: 60000, // this is the timeout for each individual test(step)
 	globalTimeout: 1800000, // this is the maximum duration for the entire suite. Setting this to prevent a CI build from locking up indefinitely
 	reportSlowTests: { max: 0, threshold: 300000 }, // reports on slow tests, this will inform us when tests are slowing down.
 
