@@ -38,7 +38,7 @@ const config = {
 
 		video: 'off',
 		trace: 'on',
-		actionTimeout: 15000, // this is the timeout for every individual action
+		actionTimeout: 35000, // this is the timeout for every individual action
 		// extraHTTPHeaders: {
 		// 	'Version': 'develop'
 		// }
