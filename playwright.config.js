@@ -28,14 +28,13 @@ const config = {
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
 	retries: 2,
+	workers: 2,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,
 		viewport: { width: 1200, height: 800 },
 		ignoreHTTPSErrors: true,
 		screenshot: 'only-on-failure',
-		// workers: 4,
-
 		video: 'off',
 		trace: 'on',
 		actionTimeout: 35000, // this is the timeout for every individual action
@@ -56,6 +55,7 @@ const config = {
 				browserName: 'chromium',
 				channel: 'chrome',
 				viewport: { width: 1200, height: 800 },
+				
 				config:  getEnv
 			},
 		},
