@@ -180,6 +180,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.DOC_LIBRARY)
 		await waitForPageReady(page)
+		await page.waitForTimeout(3000)
 		await verifyIfTitleIsCorrect(page, 'Document Library')
 		await page.locator("[name='Keyword']").isVisible()
 		await goBackAndWait(page)
