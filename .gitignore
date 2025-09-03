@@ -57,3 +57,6 @@ __azurite_db_*
 # test results
 
 test-results
+junit-results.xml
+html-report
+playwright-report

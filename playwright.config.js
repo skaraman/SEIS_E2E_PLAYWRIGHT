@@ -7,7 +7,11 @@ const { devices } = require('@playwright/test');
 
 const envName = require('./e2e/environments/all-envs.json');
 let getEnv = require('./e2e/environments/dev-env.json');
-const env = process.env.NODE_ENV.trim();
+const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'dev';
+
+// Detect CI environment
+const isCI = !!process.env.CI || !!process.env.TF_BUILD || !!process.env.SYSTEM_COLLECTIONID;
+const isAzureDevOps = !!process.env.TF_BUILD || !!process.env.SYSTEM_COLLECTIONID;
 switch (env) {
 	case envName.v4:
 		getEnv = require('./e2e/environments/v4-env.json')
@@ -26,26 +30,30 @@ const config = {
 	testDir: 'e2e/tests',
 	snapshotDir: 'snapshots',
 	// Forbid test.only on CI
-	forbidOnly: !!process.env.CI,
-	retries: 2,
-	workers: 1,
+	forbidOnly: !!isCI,
+	retries: isCI ? 3 : 2,
+	workers: isCI ? (isAzureDevOps ? 2 : 1) : 1,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,
 		viewport: { width: 1200, height: 800 },
 		ignoreHTTPSErrors: true,
-		screenshot: 'only-on-failure',
-		video: 'off',
-		trace: 'on',
-		actionTimeout: 35000, // this is the timeout for every individual action
+		screenshot: isCI ? 'only-on-failure' : 'only-on-failure',
+		video: isCI ? 'retain-on-failure' : 'off',
+		trace: isCI ? 'retain-on-failure' : 'on',
+		actionTimeout: isCI ? 60000 : 35000, // this is the timeout for every individual action
 		// extraHTTPHeaders: {
 		// 	'Version': 'develop'
 		// }
 	},
-	// reporter: [['list']],
+	reporter: isCI ? [
+		['list'],
+		['junit', { outputFile: 'test-results/junit-results.xml' }],
+		['html', { outputFolder: 'test-results/html-report', open: 'never' }]
+	] : [['list']],
 
-	timeout: 1800000, // this is the timeout for each individual test(step)
-	globalTimeout: 1800000, // this is the maximum duration for the entire suite. Setting this to prevent a CI build from locking up indefinitely
+	timeout: isCI ? 600000 : 1800000, // this is the timeout for each individual test(step) - shorter for CI
+	globalTimeout: isCI ? 3600000 : 1800000, // this is the maximum duration for the entire suite - allow more time for CI but not infinite
 	reportSlowTests: { max: 0, threshold: 300000 }, // reports on slow tests, this will inform us when tests are slowing down.
 
 	projects: [

@@ -2,6 +2,15 @@
 
 SEIS is managed and maintained by CodeStack, a department of the San Joaquin County Office of Education. 
 
+## Features
+
+- ✅ Local development support
+- ✅ Azure DevOps CI/CD integration
+- ✅ Intelligent environment detection
+- ✅ Optimized configurations for CI environments
+- ✅ Comprehensive test reporting (HTML, JUnit)
+- ✅ Health check validation
+
 ## Run Locally
 
 Clone the project.
@@ -65,3 +74,32 @@ Example npm script calls
 ```bash
   npm run e2e qa only-one
 ```
+
+## CI/CD Integration
+
+### Azure DevOps
+The repository includes comprehensive Azure DevOps support with:
+- Automatic CI environment detection
+- Optimized worker and timeout configurations
+- JUnit and HTML test reporting
+- Browser installation with dependency management
+
+#### Quick Start for CI
+```bash
+# Setup CI environment
+npm run ci:setup
+
+# Run health checks in CI
+npm run ci:health-check
+
+# Run full test suite in CI
+npm run ci:test
+```
+
+#### Available CI Scripts
+- `npm run ci:setup`: Initialize CI environment and install browsers
+- `npm run ci:health-check`: Run health check tests optimized for CI
+- `npm run ci:test`: Run full test suite optimized for CI
+- `npm run install:browsers`: Install only Playwright browsers
+
+See [AZURE_DEVOPS_SETUP.md](./AZURE_DEVOPS_SETUP.md) for detailed setup instructions.

@@ -1,0 +1,146 @@
+# Azure DevOps Pipeline for SEIS E2E Playwright Tests
+# Documentation: https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+- develop
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  npm_config_cache: $(Pipeline.Workspace)/.npm
+  CI: true
+
+stages:
+- stage: Test
+  displayName: 'E2E Testing'
+  jobs:
+  - job: HealthCheck
+    displayName: 'Health Check Tests'
+    timeoutInMinutes: 30
+    
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.x'
+      displayName: 'Install Node.js'
+
+    - task: Cache@2
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+          npm | "$(Agent.OS)"
+        path: $(npm_config_cache)
+      displayName: 'Cache npm'
+
+    - script: |
+        npm ci
+      displayName: 'Install dependencies'
+
+    - script: |
+        npm run install:browsers
+        # Install system dependencies separately if needed
+        if command -v apt-get &> /dev/null; then
+          sudo apt-get update
+          sudo apt-get install -y libasound2t64 libatk-bridge2.0-0t64 libdrm2 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libxss1 libgconf-2-4
+        fi
+      displayName: 'Install Playwright browsers'
+
+    - script: |
+        npm run ci:health-check
+      displayName: 'Run Health Check Tests'
+      env:
+        NODE_ENV: qa
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'test-results/junit-results.xml'
+        testRunTitle: 'Health Check Tests'
+      displayName: 'Publish Health Check Test Results'
+
+    - task: PublishHtmlReport@1
+      condition: succeededOrFailed()
+      inputs:
+        reportDir: 'test-results/html-report'
+        tabName: 'Health Check Report'
+      displayName: 'Publish Health Check HTML Report'
+
+    - task: PublishPipelineArtifact@1
+      condition: failed()
+      inputs:
+        targetPath: 'test-results'
+        artifact: 'health-check-test-results'
+        publishLocation: 'pipeline'
+      displayName: 'Upload Test Results Artifacts'
+
+  - job: FullTestSuite
+    displayName: 'Full Test Suite'
+    dependsOn: HealthCheck
+    condition: succeeded()
+    timeoutInMinutes: 120
+    
+    strategy:
+      matrix:
+        qa_environment:
+          environment: 'qa'
+        prod_environment:
+          environment: 'prod'
+    
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.x'
+      displayName: 'Install Node.js'
+
+    - task: Cache@2
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+          npm | "$(Agent.OS)"
+        path: $(npm_config_cache)
+      displayName: 'Cache npm'
+
+    - script: |
+        npm ci
+      displayName: 'Install dependencies'
+
+    - script: |
+        npm run install:browsers
+        # Install system dependencies separately if needed
+        if command -v apt-get &> /dev/null; then
+          sudo apt-get update
+          sudo apt-get install -y libasound2t64 libatk-bridge2.0-0t64 libdrm2 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libxss1 libgconf-2-4
+        fi
+      displayName: 'Install Playwright browsers'
+
+    - script: |
+        NODE_ENV=$(environment) npm run ci:test
+      displayName: 'Run E2E Tests - $(environment)'
+      env:
+        NODE_ENV: $(environment)
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'test-results/junit-results.xml'
+        testRunTitle: 'E2E Tests - $(environment)'
+      displayName: 'Publish Test Results'
+
+    - task: PublishHtmlReport@1
+      condition: succeededOrFailed()
+      inputs:
+        reportDir: 'test-results/html-report'
+        tabName: 'E2E Report - $(environment)'
+      displayName: 'Publish HTML Report'
+
+    - task: PublishPipelineArtifact@1
+      condition: failed()
+      inputs:
+        targetPath: 'test-results'
+        artifact: 'e2e-test-results-$(environment)'
+        publishLocation: 'pipeline'
+      displayName: 'Upload Test Results Artifacts'
