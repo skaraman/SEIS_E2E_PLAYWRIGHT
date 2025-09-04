@@ -56,9 +56,9 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await printBulkIep(page)
 		
 		// Enhanced cancel button handling
-		const cancelBtn = page.locator(newSearchPage.locators.CANCEL_BTN);
+		const cancelBtn = page.locator(newSearchPage.locators.CANCEL_BTN).first();
 		await cancelBtn.waitFor({ state: 'visible', timeout: 10000 });
-		await clickElement(page, newSearchPage.locators.CANCEL_BTN)
+		await clickElement(page, cancelBtn)
 		
 		await waitForPageReady(page) // Wait after cancel
 		
