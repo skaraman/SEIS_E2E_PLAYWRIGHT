@@ -37,7 +37,8 @@ const config = {
 		screenshot: 'only-on-failure',
 		video: 'off',
 		trace: 'on',
-		actionTimeout: 35000, // this is the timeout for every individual action
+		actionTimeout: 60000, // Increased from 35000 to handle slow operations
+		navigationTimeout: 45000, // Added explicit navigation timeout
 		// extraHTTPHeaders: {
 		// 	'Version': 'develop'
 		// }

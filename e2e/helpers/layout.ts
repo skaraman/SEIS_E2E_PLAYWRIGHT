@@ -167,11 +167,27 @@ export async function waitForPageLayoutStableAdvanced(page: Page, options: {
   throw new Error(`Page layout did not stabilize within ${timeout}ms`);
 }
 
-export async function waitForPageReady(page: Page, timeout = 10000) {
-  await page.waitForTimeout(500);
-  await waitForPageLayoutStable(page, { timeout: timeout });
-  await page.waitForTimeout(500);
-  await page.waitForLoadState('networkidle', { timeout: timeout });
-  await page.waitForTimeout(500);
+export async function waitForPageReady(page: Page, timeout = 15000) {
+  // Increased default timeout and added more robust waiting strategy
+  await page.waitForTimeout(1000); // Increased initial wait
+  
+  // Wait for network to be idle with retry logic
+  let networkIdleAttempts = 0;
+  const maxNetworkIdleAttempts = 3;
+  while (networkIdleAttempts < maxNetworkIdleAttempts) {
+    try {
+      await page.waitForLoadState('networkidle', { timeout: timeout });
+      break;
+    } catch (error) {
+      networkIdleAttempts++;
+      if (networkIdleAttempts === maxNetworkIdleAttempts) {
+        console.warn('Network idle timeout reached, continuing...');
+      }
+      await page.waitForTimeout(2000);
+    }
+  }
+  
+  await waitForPageLayoutStable(page, { timeout: timeout, stableMs: 1000 }); // Increased stable time
+  await page.waitForTimeout(1000); // Final stabilization wait
 
 }

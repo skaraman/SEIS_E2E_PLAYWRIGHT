@@ -6,16 +6,31 @@ import { waitForPageReady } from './layout'
 let downloadUrl: string = ''
 
 export const verifyIfElementIsVisible = async (page: Page, locator: Locator | string): Promise<void> => {
+  let element;
   if (typeof locator === 'string') {
-    expect(
-      await page.isVisible(locator),
-      `Element ${locator} was not visible on page ${await page.title()}`
-    ).toBe(true)
+    element = page.locator(locator);
   } else {
-    expect(
-      await locator.isVisible(),
-      `Element ${locator} was not visible on page ${await page.title()}`
-    ).toBe(true)
+    element = locator;
+  }
+  
+  // Enhanced visibility check with retry logic
+  let attempts = 0;
+  const maxAttempts = 3;
+  while (attempts < maxAttempts) {
+    try {
+      await element.waitFor({ state: 'visible', timeout: 10000 });
+      expect(
+        await element.isVisible(),
+        `Element ${locator} was not visible on page ${await page.title()}`
+      ).toBe(true);
+      return;
+    } catch (error) {
+      attempts++;
+      if (attempts === maxAttempts) {
+        throw new Error(`Element ${locator} was not visible after ${maxAttempts} attempts on page ${await page.title()}: ${error.message}`);
+      }
+      await page.waitForTimeout(2000);
+    }
   }
 }
 

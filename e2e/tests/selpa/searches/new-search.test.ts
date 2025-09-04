@@ -21,13 +21,28 @@ test.describe('SELPA > Search Tests', () => {
 	test('search bulk print english/spanish @HD-Test', async ({ page }) => {
 		await clickElement(page, searchesMenuDropDown.locators.SEARCHES)
 		await clickElement(page, searchesMenuDropDown.locators.NEW_SEARCH)
-		await page.waitForSelector(newSearchPage.locators.TABLE)
+		await page.waitForSelector(newSearchPage.locators.TABLE, { state: 'visible' })
+		await waitForPageReady(page) // Add page ready wait after table loads
 		await verifyIfElementIsVisible(page, newSearchPage.locators.SEARCH_TOOLS)
+		
+		// Enhanced checkbox selection with better waiting
+		const checkboxes = page.locator(newSearchPage.locators.CHECK_ONE);
+		await checkboxes.first().waitFor({ state: 'visible', timeout: 15000 });
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(0))
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(1))
+		
 		await printBulkIep(page)
 		await waitForPageReady(page)
+		
+		// Enhanced cancel button handling
+		const cancelBtn = page.locator(newSearchPage.locators.CANCEL_BTN);
+		await cancelBtn.waitFor({ state: 'visible', timeout: 10000 });
 		await clickElement(page, newSearchPage.locators.CANCEL_BTN)
+		
+		await waitForPageReady(page) // Wait after cancel
+		
+		// Re-select checkboxes for Spanish print
+		await checkboxes.first().waitFor({ state: 'visible', timeout: 15000 });
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(0))
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(1))
 		await printBulkIep(page, 'Spanish')
@@ -50,12 +65,18 @@ test.describe('SELPA > Search Tests', () => {
 	test('search bulk print ifsp forms @HD-Test', async ({ page }) => {
 		await clickElement(page, searchesMenuDropDown.locators.SEARCHES)
 		await clickElement(page, searchesMenuDropDown.locators.NEW_SEARCH)
-		await page.waitForSelector(newSearchPage.locators.TABLE)
+		await page.waitForSelector(newSearchPage.locators.TABLE, { state: 'visible' })
+		await waitForPageReady(page) // Add page ready wait after table loads
 		await verifyIfElementIsVisible(page, newSearchPage.locators.SEARCH_TOOLS)
+		
+		// Enhanced checkbox selection with better waiting
+		const checkboxes = page.locator(newSearchPage.locators.CHECK_ONE);
+		await checkboxes.first().waitFor({ state: 'visible', timeout: 15000 });
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(0))
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(1))
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(2))
 		await clickElement(page, page.locator(newSearchPage.locators.CHECK_ONE).nth(3))
+		
 		await printBulkIfspForms(page)
 	})
 })
