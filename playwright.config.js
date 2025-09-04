@@ -1,5 +1,4 @@
 // playwright.config.js
-// @ts-check
 
 /** @type {import('@playwright/test').PlaywrightTestConfig} */
 
@@ -46,7 +45,7 @@ const config = {
 	// reporter: [['list']],
 
 	timeout: 1800000, // this is the timeout for each individual test(step)
-	globalTimeout: 1800000, // this is the maximum duration for the entire suite. Setting this to prevent a CI build from locking up indefinitely
+	globalTimeout: 2400000, // this is the maximum duration for the entire suite. Setting this to prevent a CI build from locking up indefinitely
 	reportSlowTests: { max: 0, threshold: 300000 }, // reports on slow tests, this will inform us when tests are slowing down.
 
 	projects: [

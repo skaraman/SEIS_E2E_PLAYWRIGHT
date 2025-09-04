@@ -27,5 +27,7 @@ export const test = base.extend<Options>({
 //     console.log(`[requestfailed] ${request.url()} - ${request.failure()?.errorText}`)
 //   );
 // });
-
+base.afterEach(async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second wait
+})
 export { expect } from "@playwright/test";
