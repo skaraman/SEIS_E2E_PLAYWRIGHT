@@ -8,9 +8,9 @@ let downloadUrl: string = ''
 export const verifyIfElementIsVisible = async (page: Page, locator: Locator | string): Promise<void> => {
   let element;
   if (typeof locator === 'string') {
-    element = page.locator(locator);
+    element = page.locator(locator).first();
   } else {
-    element = locator;
+    element = locator.first();
   }
   
   // Enhanced visibility check with retry logic
