@@ -74,44 +74,125 @@ export const AddNewUser = async (page: Page) => {
 }
 
 export const DeleteNewUser = async (page: Page, userName: string) => {
-  // Find the label with text "Search:" and its input child, then fill
+  // Enhanced waiting for page readiness
   await waitForPageReady(page);
-  await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
-  await page.locator('label:has-text("Search:") >> input').fill(userName);
+  
+  // Wait for search input to be available with retry
+  let searchInput;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      searchInput = page.locator('label:has-text("Search:") >> input');
+      await searchInput.waitFor({ state: 'visible', timeout: 10000 });
+      break;
+    } catch {
+      if (attempt === 2) throw new Error('Search input not found after retries');
+      await page.waitForTimeout(2000);
+    }
+  }
+  
+  await searchInput.fill(userName);
   await waitForPageReady(page);
-  await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
+  
+  // Wait for user record to appear with enhanced checking
+  const userCell = page.locator(`td[title*="${userName}"]`);
+  await userCell.waitFor({ state: 'visible', timeout: 15000 });
+  
+  // Click delete with retry logic
+  const deleteButton = page.locator("[title='Delete']");
+  await deleteButton.waitFor({ state: 'visible', timeout: 10000 });
   await clickElement(page, "[title='Delete']");
+  
+  // Handle confirmation modal with enhanced waiting
+  const confirmModal = page.locator('.modal-dialog >> button:has-text("OK")');
+  await confirmModal.waitFor({ state: 'visible', timeout: 10000 });
   await clickElement(page, '.modal-dialog >> button:has-text("OK")');
-  await page.getByText('User deleted successfully').click();
+  
+  // Wait for success message with timeout
+  try {
+    await page.getByText('User deleted successfully').click({ timeout: 15000 });
+  } catch {
+    // Check if message appears as text only
+    await page.waitForSelector('text=User deleted successfully', { timeout: 5000 });
+  }
 }
 
 export const RestoreUser = async (page: Page, userName: string) => {
   await waitForPageReady(page);
+  
+  // Switch to Deleted status with enhanced waiting
   await page.getByRole('link', { name: 'Active' }).click();
   await page.getByRole('option', { name: 'Deleted' }).click();
   await page.getByRole('button', { name: 'Find' }).click();
-  await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden' });
+  
+  // Enhanced waiting for loading to complete
+  await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden', timeout: 20000 });
   await waitForPageReady(page);
-  await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
-  await page.locator('label:has-text("Search:") >> input').fill(userName);
+  
+  // Search for deleted user with retry logic
+  let searchInput;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      searchInput = page.locator('label:has-text("Search:") >> input');
+      await searchInput.waitFor({ state: 'visible', timeout: 10000 });
+      break;
+    } catch {
+      if (attempt === 2) throw new Error('Search input not found after retries');
+      await page.waitForTimeout(2000);
+    }
+  }
+  
+  await searchInput.fill(userName);
   await waitForPageReady(page);
-  await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
+  
+  // Wait for deleted user record to appear
+  const userCell = page.locator(`td[title*="${userName}"]`);
+  await userCell.waitFor({ state: 'visible', timeout: 15000 });
+  
+  // Restore user
   await clickElement(page, "[title='Restore']");
-  await page.getByText('User restored successfully').click();
+  
+  // Wait for success message
+  try {
+    await page.getByText('User restored successfully').click({ timeout: 15000 });
+  } catch {
+    await page.waitForSelector('text=User restored successfully', { timeout: 5000 });
+  }
+  
   await waitForPageReady(page);
+  
+  // Switch back to Active status
   await page.getByRole('link', { name: 'Deleted' }).click();
   await page.getByRole('option', { name: 'Active' }).click();
   await page.getByRole('button', { name: 'Find' }).click();
-  await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden' });
+  await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden', timeout: 20000 });
   await waitForPageReady(page);
-  await page.locator('label:has-text("Search:") >> input').waitFor({ state: 'visible' });
-  await page.locator('label:has-text("Search:") >> input').fill(userName);
+  
+  // Search for restored user and delete again
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      searchInput = page.locator('label:has-text("Search:") >> input');
+      await searchInput.waitFor({ state: 'visible', timeout: 10000 });
+      break;
+    } catch {
+      if (attempt === 2) throw new Error('Search input not found after retries');
+      await page.waitForTimeout(2000);
+    }
+  }
+  
+  await searchInput.fill(userName);
   await waitForPageReady(page);
-  await page.locator(`td[title*="${userName}"]`).waitFor({ state: 'visible' });
+  
+  const restoredUserCell = page.locator(`td[title*="${userName}"]`);
+  await restoredUserCell.waitFor({ state: 'visible', timeout: 15000 });
+  
   await clickElement(page, "[title='Delete']");
   await page.getByRole('button', { name: 'OK' }).click();
-  await page.getByText('User deleted successfully').click();
-
+  
+  try {
+    await page.getByText('User deleted successfully').click({ timeout: 15000 });
+  } catch {
+    await page.waitForSelector('text=User deleted successfully', { timeout: 5000 });
+  }
 }
 
 

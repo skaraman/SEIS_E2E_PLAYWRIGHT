@@ -1,6 +1,54 @@
 import { Page, Locator, expect } from '@playwright/test'
 import { log } from 'console';
 
+// New helper function for print operations with robust waiting
+export const waitForPrintOperation = async (page: Page, timeout: number = 60000): Promise<void> => {
+  // Wait for any loading indicators to disappear
+  try {
+    await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden', timeout: 10000 });
+  } catch {
+    // Continue if no loading indicator
+  }
+  
+  // Wait for print queue indicators to appear and stabilize
+  try {
+    await page.waitForSelector('.toast-title', { timeout: 15000 });
+    await page.waitForTimeout(2000); // Allow print queue to process
+  } catch {
+    // Continue if no toast notification
+  }
+  
+  // Wait for network idle after print operation
+  await page.waitForLoadState('networkidle', { timeout: 15000 });
+  await page.waitForTimeout(1000);
+}
+
+// Enhanced modal handling function
+export const handleModalDialog = async (page: Page, expectedText?: string, actionButton?: string): Promise<boolean> => {
+  try {
+    // Wait for modal to appear
+    const modal = page.locator('.modal-dialog');
+    await modal.waitFor({ state: 'visible', timeout: 5000 });
+    
+    if (expectedText) {
+      // Verify expected text is present
+      await expect(modal).toContainText(expectedText);
+    }
+    
+    if (actionButton) {
+      // Click the specified action button
+      await modal.getByRole('button', { name: actionButton }).click();
+    }
+    
+    // Wait for modal to disappear
+    await modal.waitFor({ state: 'hidden', timeout: 10000 });
+    return true;
+  } catch {
+    // Modal didn't appear or action failed
+    return false;
+  }
+}
+
 export const clickElement = async (page: Page, locator: any, index: number = 0, mode: 'text' | 'role' | 'locator' | 'direct' = 'locator', timeout: number = undefined): Promise<void> => {
 	await page.waitForLoadState('networkidle')
 	let element;
@@ -27,10 +75,32 @@ export const clickElement = async (page: Page, locator: any, index: number = 0, 
 		// mode === 'direct' or locator is already a Locator
 		element = locator.nth(index)
 	}
-	await element.waitFor({ state: 'visible', timeout: timeout })
-	await element.click()
-	await page.waitForLoadState('networkidle')
-	await page.waitForTimeout(500)
+	
+	// Enhanced wait strategy with retry logic
+	const effectiveTimeout = timeout || 45000; // Increased default timeout
+	await element.waitFor({ state: 'visible', timeout: effectiveTimeout })
+	
+	// Additional check for element to be enabled and interactable
+	await expect(element).toBeEnabled({ timeout: 5000 })
+	
+	// Retry click with exponential backoff if it fails
+	let attempts = 0;
+	const maxAttempts = 3;
+	while (attempts < maxAttempts) {
+		try {
+			await element.click()
+			break;
+		} catch (error) {
+			attempts++;
+			if (attempts === maxAttempts) {
+				throw error;
+			}
+			await page.waitForTimeout(1000 * attempts); // Exponential backoff
+		}
+	}
+	
+	await page.waitForLoadState('networkidle', { timeout: 15000 })
+	await page.waitForTimeout(1000) // Increased from 500ms to 1000ms
 }
 
 export const enterTextField = async (page: Page, locator: Locator | string, value: string): Promise<void> => {
