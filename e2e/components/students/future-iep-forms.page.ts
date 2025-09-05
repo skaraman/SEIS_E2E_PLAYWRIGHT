@@ -35,6 +35,7 @@ export const clickReturnToIeps = async (page: Page): Promise<void> => {
 
 export const printAllForms = async (page: Page): Promise<void> => {
   await waitForPageReady(page)
+  await page.waitForSelector('#checkAllFirst', { state: 'visible', timeout: 10000 })
   await page.locator('#checkAllFirst').first().check()
   await clickElement(page, locators.PRINT_SELECTED)
   await page.getByLabel('NReco').check()
@@ -245,7 +246,7 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   //await page.waitForTimeout(30000)
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
   await waitForPageReady(page)
-  await page.pause()
+  await page.waitForSelector('button:has-text("View E-Signed Document")', { state: 'visible', timeout: 10000 })
   await clickElement(page, page.getByRole("button", { name: "View E-Signed Document" }))
   await clickElement(page, page.locator('form:has-text("To View the Electronic Signature document, click the download link below. The e-")').getByRole('button', { name: 'Affirm' }))
   await page.getByLabel('Meeting Date').check()

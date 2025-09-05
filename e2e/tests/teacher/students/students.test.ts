@@ -77,6 +77,7 @@ test.describe('TEACHER > Students HD Tests', () => {
     await clickReturnToIeps(page)
     await SelectGoalProgressTrackingIcn(page)
     await verifyIfElementIsVisible(page, iepGoalProgressTrackingPage.locators.TABLE)
+    await page.waitForSelector('#checkAllFirst', { state: 'visible', timeout: 10000 })
     await page.locator('#checkAllFirst').first().check();
     await clickElement(page, iepGoalProgressTrackingPage.locators.UPDATE_BTN)
     await clickYes(page)

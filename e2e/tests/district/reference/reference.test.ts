@@ -4,6 +4,7 @@ import { referenceDocumentLibraryPage } from './../../../components/reference'
 import { referenceMenuDropDownComponent } from '../../../components/navigation-bar'
 import { actions, verify } from '../../../helpers'
 import { openWindowForDocLibrary } from '../../../helpers/actions'
+import { waitForPageReady } from '../../../helpers/layout'
 
 const { verifyIfElementIsVisible } = verify
 const { clickElement } = actions
@@ -26,12 +27,9 @@ test.describe('District > Reference Tests', () => {
 		await test.expect(await hasPageLoadedCorrectly(page)).toBe(true)
 		await verifyIfElementIsVisible(page, referenceLocators.SEARCH_INPUT)
 		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
-		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
+		await waitForPageReady(page)
 		const newPage = await openWindowForDocLibrary(page, async () => {
-			await clickElement(
-				page,
-				page.locator('[title="Download"]', { hasText: 'small doc' })
-			)
+			await clickElement(page, page.locator('[title="Download"]', { hasText: 'small doc' }))
 		})
 		// await test.expect(newPage).toHaveURL(/documentlibrary-storage/)
 	})
