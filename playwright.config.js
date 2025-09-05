@@ -6,7 +6,9 @@ const { devices } = require('@playwright/test');
 
 const envName = require('./e2e/environments/all-envs.json');
 let getEnv = require('./e2e/environments/dev-env.json');
-const env = process.env.NODE_ENV.trim();
+
+const env = (process.env.NODE_ENV || '').trim();
+
 switch (env) {
 	case envName.v4:
 		getEnv = require('./e2e/environments/v4-env.json')
@@ -27,7 +29,7 @@ const config = {
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
 	retries: 0,
-	workers: 3,
+	workers: 1,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,

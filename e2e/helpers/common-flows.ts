@@ -1,13 +1,10 @@
 import { Page } from '@playwright/test'
 import { loginPage } from '../components/seis-home'
 import Users from '../data/users.json'
-import { seisHeaderComponent } from '../components/header'
 import { waitForPageReady } from './layout'
+import { log } from 'console'
 
-const { locators } = seisHeaderComponent
 const { loginAs, generateAccessToken } = loginPage
-
-
 
 export const logOut = async (page: Page): Promise<void> => {
 	// await waitForPageReady(page)
@@ -15,34 +12,26 @@ export const logOut = async (page: Page): Promise<void> => {
 }
 
 export const loginTeacherRole = async (page: Page): Promise<void> => {
-	const users = Users.role.teacher
-	const idx = Math.floor(Math.random() * users.length)
-	//console.log(users[idx])
-	await loginAs(page, users[0])
-	await waitForPageReady(page)
+	login(page, 'teacher')
 }
 
 export const loginSiteRole = async (page: Page): Promise<void> => {
-	const users = Users.role.site
-	const idx = Math.floor(Math.random() * users.length)
-	//console.log(users[idx])
-	await loginAs(page, users[0])
-	await waitForPageReady(page)
+	login(page, 'site')
 }
 
 export const loginDistrictRole = async (page: Page): Promise<void> => {
-	const users = Users.role.district
-	const idx = Math.floor(Math.random() * users.length)
-	//console.log(users[idx])
-	await loginAs(page, users[0])
-	await waitForPageReady(page)
+	login(page, 'district')
 }
 
 export const loginSelpaRole = async (page: Page): Promise<void> => {
-	const users = Users.role.selpa
+	login(page, 'selpa')
+}
+
+const login = async (page: Page, role: string): Promise<void> => {
+	const users = Users.role[role]
 	const idx = Math.floor(Math.random() * users.length)
-	//console.log(users[idx])
-	await loginAs(page, users[0])
+	log(`Logging in as ${role} user: ${users[idx]}`)
+	await loginAs(page, users[idx])
 	await waitForPageReady(page)
 }
 
