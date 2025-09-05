@@ -27,7 +27,7 @@ export const loginSelpaRole = async (page: Page, idx: string = null): Promise<vo
 	await login(page, 'selpa', idx)
 }
 
-const login = async (page: Page, role: string, idx: string = 1): Promise<void> => {
+const login = async (page: Page, role: string, idx: string = "1"): Promise<void> => {
 	const users = Users.role[role]
 	const rdx = Math.floor(Math.random() * users.length)
 	log(`Logging in as ${role} user: ${users[idx || rdx]}`)
