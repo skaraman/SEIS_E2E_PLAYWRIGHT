@@ -111,8 +111,8 @@ test.describe('TEACHER > Students HD Tests', () => {
 		await clickElement(page, currentIepFormsPage.locators.SAVE_BTN)
 		await clickElement(page, page.locator("text=Amendments").nth(1))
 		if(await page.locator("#amendments-list [title='Delete']").nth(0).isVisible()){
-			await page.locator("#amendments-list [title='Delete']").nth(0).click()
-			await page.locator("[data-bb-handler='success']").click();
+			await clickElement(page, page.locator("#amendments-list [title='Delete']"))
+			await clickElement(page, "[data-bb-handler='success']")
 		}
 		await clickElement(page, currentIepFormsPage.locators.ADD_AMENDMENT)
 		await fillOutForm(page)

@@ -88,8 +88,8 @@ test.describe('District > Student Ieps Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
-		await page.locator('#sticky-bar .saveBtns .dropdown.btn').click()
-		await page.locator('#sticky-bar').getByText('English').click()
+		await clickElement(page,'#sticky-bar .saveBtns .dropdown.btn')
+		await clickElement(page, page.locator('#sticky-bar').getByText('English'))
 		//await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
 		await verifyFileDownload(page)
 	})
@@ -111,8 +111,8 @@ test.describe('District > Student Ieps Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.DRDP)
 		await addDrdp(page)
-		await page.locator("[title='Delete']").first().click()
-		await page.getByRole('button', { name: 'Yes' }).click();
+		await clickElement(page, "[title='Delete']")
+		await clickElement(page, page.getByRole('button', { name: 'Yes' }))
 	})
 
 	test('Print Progress Reports @HD-Test', async ({ page }) => {

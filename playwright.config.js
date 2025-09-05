@@ -27,7 +27,7 @@ const config = {
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
 	retries: 2,
-	workers: 1,
+	workers: 2,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,

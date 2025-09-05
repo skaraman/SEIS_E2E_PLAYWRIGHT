@@ -19,28 +19,28 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
   test("service tracker add delivery service @HD-Test", async ({ page }) => {
     await clickElement(page, locators.SERVICE_TRACKER)
     await clickElement(page, locators.DELIVERY)
-    await page.locator("[title='Deliver']").nth(0).click()
-    await page.locator("text= Add Delivery").click()
+    await clickElement(page, "[title='Deliver']")
+    await clickElement(page, "text= Add Delivery")
     await addNewDelivery(page)
   })
 
   test("service tracker provider dashboard add assessment @HD-Test", async ({ page }) => {
     await clickElement(page, locators.SERVICE_TRACKER)
-    await page.getByRole('link', { name: 'Assessments' }).click();
-    await page.locator("[title='Deliver Assessment']").nth(0).click()
-    await page.locator("text= Add Assessment").click()
+    await clickElement(page, page.getByRole('link', { name: 'Assessments' }))
+    await clickElement(page, "[title='Deliver Assessment']")
+    await clickElement(page, "text= Add Assessment")
     await fillOutEditAssessmentFields(page)
     await waitForPageReady(page)
     await clickElement(page, "#deleteAssessment")
-    await page.getByRole('button', { name: 'Delete Assessment' }).click();
+    await clickElement(page, page.getByRole('button', { name: 'Delete Assessment' }))
     await page.getByText('Claim deleted successfully').isVisible();
   })
 
   test("service tracker assessments add TCM @HD-Test", async ({ page }) => {
     await clickElement(page, locators.SERVICE_TRACKER)
-    await page.getByRole('link', { name: 'Assessments' }).click();
-    await page.locator("[title='Deliver TCM']").nth(0).click()
-    await page.locator("text= Add TCM").click()
+    await clickElement(page, page.getByRole('link', { name: 'Assessments' }))
+    await clickElement(page, "[title='Deliver TCM']")
+    await clickElement(page, "text= Add TCM")
     await fillOutAddTcmFields(page)
   })
 })
