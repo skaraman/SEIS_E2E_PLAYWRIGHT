@@ -26,8 +26,9 @@ test.describe('TEACHER > Reports HD Tests', () => {
 		await clickElement(page, referenceMenuLocators.DOCUMENT_LIBRARY)
 		test.expect(await hasPageLoadedCorrectly(page)).toBe(true)
 		await verifyIfElementIsVisible(page, referenceLocators.SEARCH_INPUT)
+		// Click show all button once and wait for results to load
 		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
-		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
+		await page.waitForLoadState('networkidle', { timeout: 10000 })
 		const newPage = await openWindowForDocLibrary(page, async () => {
 			await clickElement(
 				page,

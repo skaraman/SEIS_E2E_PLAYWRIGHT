@@ -39,8 +39,10 @@ export const printBulkIep = async (page: Page, language: string = "English") => 
 
   await clickElement(page, page.getByRole("button", { name: "Submit Print Job" }));
 
-  // Enhanced waiting for print job processing
-  await page.waitForTimeout(3000); // Allow initial processing
+  // Enhanced waiting for print job processing - wait for processing indicators
+  await page.waitForSelector('.toast-title', { timeout: 15000 }).catch(() => {
+    // Continue if no toast appears
+  });
   
   // Look for print queue button with retry logic
   let printQueueFound = false;
@@ -78,8 +80,10 @@ export const printBulkProgressReports = async (page: Page) => {
   await clickElement(page, page.getByRole("button", { name: "Go" }));
   await clickElement(page, page.getByRole("button", { name: "Submit Print Job" }));
 
-  // Enhanced waiting for print job processing
-  await page.waitForTimeout(3000); // Allow initial processing
+  // Enhanced waiting for print job processing - wait for processing indicators
+  await page.waitForSelector('.toast-title', { timeout: 15000 }).catch(() => {
+    // Continue if no toast appears
+  });
   
   // Look for print queue button with retry logic
   let printQueueFound = false;
@@ -116,8 +120,8 @@ export const printBulkIfspForms = async (page: Page) => {
   await clickElement(page, page.getByRole("option", { name: "Bulk Print IFSP Forms" }));
   await clickElement(page, page.getByRole("button", { name: "Go" }));
 
-  // Wait for form to load and select option
-  await page.waitForTimeout(2000);
+  // Wait for form to load by waiting for the form element to be available
+  await page.waitForSelector('form:has-text("Please Note: Only 100 student records can be printed")', { state: 'visible', timeout: 10000 });
   await clickElement(page, page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link'));
   await clickElement(page, page.getByRole('option', { name: 'Services', exact: true }));
   await clickElement(page, page.getByRole("button", { name: "Submit Print Job" }));
@@ -129,8 +133,10 @@ export const printBulkIfspForms = async (page: Page) => {
     console.warn('Processing notification not found, continuing...');
   }
   
-  // Enhanced waiting for print job processing
-  await page.waitForTimeout(3000); // Allow initial processing
+  // Enhanced waiting for print job processing - wait for processing indicators
+  await page.waitForSelector('.toast-title', { timeout: 15000 }).catch(() => {
+    // Continue if no toast appears
+  });
   
   // Look for print queue button with retry logic
   let printQueueFound = false;

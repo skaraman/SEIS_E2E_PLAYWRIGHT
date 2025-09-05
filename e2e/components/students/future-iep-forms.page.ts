@@ -35,11 +35,13 @@ export const clickReturnToIeps = async (page: Page): Promise<void> => {
 
 export const printAllForms = async (page: Page): Promise<void> => {
   await waitForPageReady(page)
+  // Wait for checkbox to be available before checking
+  await page.waitForSelector('#checkAllFirst', { state: 'visible', timeout: 10000 })
   await page.locator('#checkAllFirst').first().check()
   await clickElement(page, locators.PRINT_SELECTED)
   await page.getByLabel('NReco').check()
   await clickElement(page, '.modal-content button.btn-primary')
-  //await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
+  // Use proper file download verification instead of hard timeout
   await verifyFileDownload(page)
 }
 
@@ -245,7 +247,8 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   //await page.waitForTimeout(30000)
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
   await waitForPageReady(page)
-  await page.pause()
+  // Wait for the e-signature document button to be available
+  await page.waitForSelector('button:has-text("View E-Signed Document")', { state: 'visible', timeout: 10000 })
   await clickElement(page, page.getByRole("button", { name: "View E-Signed Document" }))
   await clickElement(page, page.locator('form:has-text("To View the Electronic Signature document, click the download link below. The e-")').getByRole('button', { name: 'Affirm' }))
   await page.getByLabel('Meeting Date').check()
@@ -262,9 +265,12 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
     await clickElement(page, page.locator('button:has-text("Continue")').last())
   }
 
-//  await page.waitForTimeout(4000)
+  // Wait for the next continue button to be available instead of hard timeout
+  await page.waitForSelector('button:has-text("Continue")', { state: 'visible', timeout: 10000 })
   await clickElement(page, page.getByRole('button', { name: 'Continue' }))
   await clickElement(page, page.getByRole('button', { name: 'Continue' }))
+  // Wait for table row to be available before clicking
+  await page.waitForSelector('tr:nth-child(10) > td', { state: 'visible', timeout: 10000 })
   await clickElement(page, page.locator("tr:nth-child(10) > td").first())
   await clickElement(page, page.getByRole('button', { name: 'Submit' }))
   await clickElement(page, page.getByRole('button', { name: 'Affirm' }))

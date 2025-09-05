@@ -15,8 +15,12 @@ export const fillOutEditAssessmentFields = async (page: Page): Promise<void> => 
 
   // await page.fill(locators.ASSESSMENT_DATE, "11/07/2022");
   await clickElement(page, page.locator('#AssessmentDate'));
+  // Wait for calendar to be visible before selecting date
+  await page.waitForSelector('td.day.old', { state: 'visible', timeout: 5000 })
   await clickElement(page, page.locator('td.day.old').first());
   await page.locator("#assessmentType2").selectOption("string:1")
+  // Wait for group radio button to be available
+  await page.waitForSelector('text=Group', { state: 'visible', timeout: 5000 })
   await clickElement(page, page.getByText('Group').first());
   await clickElement(page, page.getByRole('link', { name: 'Select One' }));
   await clickElement(page, page.getByRole('option', { name: 'Materials provided for home use' }));

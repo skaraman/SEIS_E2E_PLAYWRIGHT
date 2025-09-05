@@ -40,6 +40,8 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickReturnToIeps(page)
 		await SelectGoalProgressTrackingIcn(page)
 		await verifyIfElementIsVisible(page, iepGoalProgressTrackingPage.locators.TABLE)
+		// Wait for checkbox to be available and then check it
+		await page.waitForSelector('#checkAllFirst', { state: 'visible', timeout: 10000 })
 		await page.locator('#checkAllFirst').first().check();
 		await clickElement(page, iepGoalProgressTrackingPage.locators.UPDATE_BTN)
 		await clickYes(page)
@@ -57,6 +59,8 @@ test.describe('District > Student Ieps Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.GOAl_PROGRESS_TRACKING)
 		await waitForPageReady(page)
+		// Wait for checkbox to be available and then check it
+		await page.waitForSelector('#checkAllFirst', { state: 'visible', timeout: 10000 })
 		await page.locator('#checkAllFirst').first().check();
 		await printProgress(page)
 	})
@@ -77,7 +81,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await selectEligibility(page)
 		await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
 		await clickElement(page, futureIepFormsPage.locators.PREVIEW_FORM);
-		//await page.waitForTimeout(120000) // Waiting for the file to be generated and download to start
+		// Use proper file download verification instead of hard timeout
 		await verifyFileDownload(page)
 	})
 
@@ -90,7 +94,7 @@ test.describe('District > Student Ieps Tests', () => {
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
 		await clickElement(page,'#sticky-bar .saveBtns .dropdown.btn')
 		await clickElement(page, page.locator('#sticky-bar').getByText('English'))
-		//await page.waitForTimeout(100000) // Waiting for the file to be generated and download to start
+		// Use proper file download verification instead of hard timeout
 		await verifyFileDownload(page)
 	})
 
@@ -176,13 +180,14 @@ test.describe('District > Student Ieps Tests', () => {
 		await verifyIfTitleIsCorrect(page, 'New Message')
 		await goBackAndWait(page)
 		await waitForPageReady(page)
-		await page.waitForTimeout(3000)
+		// Wait for quick links to be properly loaded before interaction
+		await page.waitForSelector(studentDemographicsPage.locators.Q_L, { state: 'visible', timeout: 10000 })
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.DOC_LIBRARY)
 		await waitForPageReady(page)
-		await page.waitForTimeout(3000)
+		// Wait for document library page elements to load
+		await page.waitForSelector("[name='Keyword']", { state: 'visible', timeout: 10000 })
 		await verifyIfTitleIsCorrect(page, 'Document Library')
-		await page.locator("[name='Keyword']").isVisible()
 		await goBackAndWait(page)
 		await clickElement(page, studentDemographicsPage.locators.Q_L)
 		await clickElement(page, studentDemographicsPage.locators.ATTACHMENTS)
