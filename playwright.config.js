@@ -26,8 +26,8 @@ const config = {
 	snapshotDir: 'snapshots',
 	// Forbid test.only on CI
 	forbidOnly: !!process.env.CI,
-	retries: 2,
-	workers: 2,
+	retries: 0,
+	workers: 3,
 	use: {
 		baseURL: `${getEnv.baseUrl}`,
 		headless: true,

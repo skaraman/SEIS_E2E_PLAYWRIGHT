@@ -1,9 +1,6 @@
 import { Page } from "@playwright/test";
 import { clickElement } from "../../helpers/actions";
-import { log } from "console";
 import { waitForPageReady } from "../../helpers/layout";
-
-
 
 export const locators = {
   BULK_ACTIONS: "#bulkActions",
@@ -13,13 +10,7 @@ export const locators = {
   PERMISSIONS: "#select2-chosen-25",
   DISTRICTS: "#select2-chosen-27"
 
-
 }
-/* function uuidv4() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  );
-  } */
 
 function generateRandom() { // Public Domain/MIT
   var d = new Date().getTime();//Timestamp
@@ -40,7 +31,7 @@ function generateRandom() { // Public Domain/MIT
 
 export const AddNewUser = async (page: Page) => {
   const userName = `Testing${generateRandom()}`
-  await page.getByRole('button', { name: ' Add a New User' }).click();
+  await clickElement(page, page.getByRole('button', { name: ' Add a New User' }))
   await clickElement(page, "[ng-model='vm.user.FirstName']");
   await page.locator("[ng-model='vm.user.FirstName']").fill('firstNamePlaywright');
   await clickElement(page, "[ng-model='vm.user.LastName']");
@@ -61,15 +52,16 @@ export const AddNewUser = async (page: Page) => {
   await page.getByPlaceholder('999-999-9999').fill('915-234-5467');
   await clickElement(page, 'input[type="email"]');
   await page.locator('input[type="email"]').fill('testing@sjcoe.net');
-  await page.getByRole('link', { name: '----Select One----' }).click();
-  await page.getByRole('option', { name: 'District', exact: true }).click();
-  await page.getByRole('link', { name: '-- Select One --' }).click();
-  await page.getByRole('option', { name: 'District Program Manager' }).click();
-  await page.getByRole('link', { name: '-----Select One-----' }).click();
-  await page.getByRole('option', { name: 'Demo District' }).click();
-  await page.getByLabel('No').check();
-  await page.getByRole('row', { name: 'Permission Description' }).locator('input[type="checkbox"]').check();
-  await page.getByRole('button', { name: 'Save' }).click();
+
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'District', exact: true }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'District Program Manager' }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Demo District' }));
+  await clickElement(page, page.getByLabel('No'));
+  await clickElement(page, page.getByRole('row', { name: 'Permission Description' }).locator('input[type="checkbox"]'));
+  await clickElement(page, page.getByRole('button', { name: 'Save' }));
   return userName
 }
 
@@ -109,10 +101,10 @@ export const DeleteNewUser = async (page: Page, userName: string) => {
   
   // Wait for success message with timeout
   try {
-    await page.getByText('User deleted successfully').click({ timeout: 15000 });
+    await clickElement(page, page.getByText('User deleted successfully'));
   } catch {
     // Check if message appears as text only
-    await page.waitForSelector('text=User deleted successfully', { timeout: 5000 });
+    await page.waitForSelector('text=User deleted successfully');
   }
 }
 
@@ -120,10 +112,10 @@ export const RestoreUser = async (page: Page, userName: string) => {
   await waitForPageReady(page);
   
   // Switch to Deleted status with enhanced waiting
-  await page.getByRole('link', { name: 'Active' }).click();
-  await page.getByRole('option', { name: 'Deleted' }).click();
-  await page.getByRole('button', { name: 'Find' }).click();
-  
+  await clickElement(page, page.getByRole('link', { name: 'Active' }));
+  await clickElement(page, page.getByRole('option', { name: 'Deleted' }));
+  await clickElement(page, page.getByRole('button', { name: 'Find' }));
+
   // Enhanced waiting for loading to complete
   await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden', timeout: 20000 });
   await waitForPageReady(page);
@@ -153,7 +145,7 @@ export const RestoreUser = async (page: Page, userName: string) => {
   
   // Wait for success message
   try {
-    await page.getByText('User restored successfully').click({ timeout: 15000 });
+    await clickElement(page, page.getByText('User restored successfully'));
   } catch {
     await page.waitForSelector('text=User restored successfully', { timeout: 5000 });
   }
@@ -161,9 +153,9 @@ export const RestoreUser = async (page: Page, userName: string) => {
   await waitForPageReady(page);
   
   // Switch back to Active status
-  await page.getByRole('link', { name: 'Deleted' }).click();
-  await page.getByRole('option', { name: 'Active' }).click();
-  await page.getByRole('button', { name: 'Find' }).click();
+  await clickElement(page, page.getByRole('link', { name: 'Deleted' }));
+  await clickElement(page, page.getByRole('option', { name: 'Active' }));
+  await clickElement(page, page.getByRole('button', { name: 'Find' }));
   await page.waitForSelector('h3:has-text("Loading")', { state: 'hidden', timeout: 20000 });
   await waitForPageReady(page);
   
@@ -186,10 +178,10 @@ export const RestoreUser = async (page: Page, userName: string) => {
   await restoredUserCell.waitFor({ state: 'visible', timeout: 15000 });
   
   await clickElement(page, "[title='Delete']");
-  await page.getByRole('button', { name: 'OK' }).click();
-  
+  await clickElement(page, page.getByRole('button', { name: 'OK' }));
+
   try {
-    await page.getByText('User deleted successfully').click({ timeout: 15000 });
+    await clickElement(page, page.getByText('User deleted successfully'));
   } catch {
     await page.waitForSelector('text=User deleted successfully', { timeout: 5000 });
   }

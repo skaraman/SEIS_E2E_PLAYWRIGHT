@@ -1,6 +1,7 @@
 import { Page } from "@playwright/test";
 import {  verifyFileDownload } from "../../helpers/verify";
 import { waitForPageReady } from "../../helpers/layout";
+import { clickElement } from "../../helpers/actions";
 
 export const locators = {
   ADD_CRITERIA_BTN: "text=addCriteria",
@@ -15,29 +16,29 @@ export const locators = {
 };
 
 export const selectTypeOfReport = async (page: Page) => {
-  await page.getByRole("link", { name: "Student report (Add columns to show)" }).click();
-  await page.getByRole("option", { name: "Mental Health service report (Only students with Mental Health services will show up)" }).click();
-  await page.getByRole("button", { name: "OK" }).click();
+  await clickElement(page, page.getByRole("link", { name: "Student report (Add columns to show)" }));
+  await clickElement(page, page.getByRole("option", { name: "Mental Health service report (Only students with Mental Health services will show up)" }));
+  await clickElement(page, page.getByRole("button", { name: "OK" }));
 };
 
 export const printBulkIep = async (page: Page, language: string = "English") => {
-  await page.getByRole('link', { name: 'Print', exact: true }).click()
-  await page.getByRole("option", { name: "Bulk Print IEP Forms" }).click()
-  await page.getByRole("button", { name: "Go" }).click()
-  
+  await clickElement(page, page.getByRole('link', { name: 'Print', exact: true }));
+  await clickElement(page, page.getByRole("option", { name: "Bulk Print IEP Forms" }));
+  await clickElement(page, page.getByRole("button", { name: "Go" }));
+
   // Wait for form to load completely
   await page.waitForSelector('#s2id_formID', { state: 'visible' });
-  await page.locator('#s2id_formID').click()
-  await waitForPageReady(page)
-  await page.getByRole('option', { name: 'Referral', exact: true }).click()
-  
+  await clickElement(page, page.locator('#s2id_formID'));
+  await waitForPageReady(page);
+  await clickElement(page, page.getByRole('option', { name: 'Referral', exact: true }));
+
   // Ensure language option is available and selected
   const languageOption = page.getByLabel(language);
   await languageOption.waitFor({ state: 'visible', timeout: 10000 });
-  await languageOption.check()
-  
-  await page.getByRole("button", { name: "Submit Print Job" }).click()
-  
+  await languageOption.check();
+
+  await clickElement(page, page.getByRole("button", { name: "Submit Print Job" }));
+
   // Enhanced waiting for print job processing
   await page.waitForTimeout(3000); // Allow initial processing
   
@@ -49,7 +50,7 @@ export const printBulkIep = async (page: Page, language: string = "English") => 
         page.getByRole("button", { name: "pending" })
       );
       await pendingButton.waitFor({ state: 'visible', timeout: 5000 });
-      await pendingButton.click();
+      await clickElement(page, pendingButton);
       printQueueFound = true;
       break;
     } catch {
@@ -63,7 +64,7 @@ export const printBulkIep = async (page: Page, language: string = "English") => 
   
   // Close dialog
   try {
-    await page.getByRole("button", { name: "Close" }).click()
+    await clickElement(page, page.getByRole("button", { name: "Close" }));
   } catch {
     // Continue if close button not found
   }
@@ -72,11 +73,11 @@ export const printBulkIep = async (page: Page, language: string = "English") => 
 }
 
 export const printBulkProgressReports = async (page: Page) => {
-  await page.getByRole("link", { name: "Print", exact: true }).click()
-  await page.getByRole("option", { name: "Bulk Print Progress Reports" }).click()
-  await page.getByRole("button", { name: "Go" }).click()
-  await page.getByRole("button", { name: "Submit Print Job" }).click()
-  
+  await clickElement(page, page.getByRole("link", { name: "Print", exact: true }));
+  await clickElement(page, page.getByRole("option", { name: "Bulk Print Progress Reports" }));
+  await clickElement(page, page.getByRole("button", { name: "Go" }));
+  await clickElement(page, page.getByRole("button", { name: "Submit Print Job" }));
+
   // Enhanced waiting for print job processing
   await page.waitForTimeout(3000); // Allow initial processing
   
@@ -88,7 +89,7 @@ export const printBulkProgressReports = async (page: Page) => {
         page.getByRole("button", { name: "1 pending" })
       );
       await pendingButton.waitFor({ state: 'visible', timeout: 5000 });
-      await pendingButton.click();
+      await clickElement(page, pendingButton);
       printQueueFound = true;
       break;
     } catch {
@@ -102,7 +103,7 @@ export const printBulkProgressReports = async (page: Page) => {
   
   // Close dialog
   try {
-    await page.getByRole("button", { name: "Close" }).click()
+    await clickElement(page, page.getByRole("button", { name: "Close" }));
   } catch {
     // Continue if close button not found
   }
@@ -111,19 +112,19 @@ export const printBulkProgressReports = async (page: Page) => {
 };
 
 export const printBulkIfspForms = async (page: Page) => {
-  await page.getByRole("link", { name: "Print", exact: true }).click();
-  await page.getByRole("option", { name: "Bulk Print IFSP Forms" }).click();
-  await page.getByRole("button", { name: "Go" }).click();
-  
+  await clickElement(page, page.getByRole("link", { name: "Print", exact: true }));
+  await clickElement(page, page.getByRole("option", { name: "Bulk Print IFSP Forms" }));
+  await clickElement(page, page.getByRole("button", { name: "Go" }));
+
   // Wait for form to load and select option
   await page.waitForTimeout(2000);
-  await page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link').click();
-  await page.getByRole('option', { name: 'Services', exact: true }).click();
-  await page.getByRole("button", { name: "Submit Print Job" }).click();
+  await clickElement(page, page.locator('form:has-text("Please Note: Only 100 student records can be printed at a time. Use the Return t")').getByRole('link'));
+  await clickElement(page, page.getByRole('option', { name: 'Services', exact: true }));
+  await clickElement(page, page.getByRole("button", { name: "Submit Print Job" }));
   
   // Enhanced waiting for print processing notification
   try {
-    await page.getByText("Processing print request in Print Queue.").click({ timeout: 10000 });
+    await clickElement(page, page.getByText("Processing print request in Print Queue."));
   } catch {
     console.warn('Processing notification not found, continuing...');
   }
@@ -139,7 +140,7 @@ export const printBulkIfspForms = async (page: Page) => {
         page.getByRole("button", { name: "1 pending" })
       );
       await pendingButton.waitFor({ state: 'visible', timeout: 5000 });
-      await pendingButton.click();
+      await clickElement(page, pendingButton);
       printQueueFound = true;
       break;
     } catch {
@@ -153,7 +154,7 @@ export const printBulkIfspForms = async (page: Page) => {
   
   // Close dialog
   try {
-    await page.getByRole("button", { name: "Close" }).click()
+    await clickElement(page, page.getByRole("button", { name: "Close" }));
   } catch {
     // Continue if close button not found
   }
@@ -162,31 +163,31 @@ export const printBulkIfspForms = async (page: Page) => {
 };
 
 export const filterOptionsAndCriteria = async (page: Page) => {
-  await page.locator('.ui-sortable-handle').last().click();
-  await page.getByRole('option', { name: 'Age', exact: true }).click();
-  await page.getByRole('option', { name: 'Grade Level' }).click();
+  await clickElement(page, page.locator('.ui-sortable-handle').last());
+  await clickElement(page, page.getByRole('option', { name: 'Age', exact: true }));
+  await clickElement(page, page.getByRole('option', { name: 'Grade Level' }));
   await page.keyboard.press('Tab')
-  await page.getByRole('button', { name: 'OK' }).click();
+  await clickElement(page, page.getByRole('button', { name: 'OK' }));
   await page.getByText('Search Columns Saved.').isVisible();
-  await page.locator('button:has-text("Add")').click();
-  await page.locator('.row > .col-xs-1').first().click();
-  await page.getByRole('link', { name: '-----Select One-----' }).click();
-  await page.getByRole('option', { name: 'Age', exact: true }).click();
-  await page.locator('input[name="number"]').click();
+  await clickElement(page, page.locator('button:has-text("Add")'));
+  await clickElement(page, page.locator('.row > .col-xs-1').first());
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Age', exact: true }));
+  await clickElement(page, page.locator('input[name="number"]'));
   await page.locator('input[name="number"]').fill('7');
-  await page.getByRole('button', { name: 'Search', exact: true }).first().click()
+  await clickElement(page, page.getByRole('button', { name: 'Search', exact: true }).first());
 };
 
 export const downloadResults = async (page: Page) => {
-  await page.getByRole('link', { name: 'Print', exact: true }).click()
-  await page.getByRole('option', { name: 'Download Data' }).click()
-  await page.getByRole('button', { name: 'Go' }).click()
-  await verifyFileDownload(page)
+  await clickElement(page, page.getByRole('link', { name: 'Print', exact: true }));
+  await clickElement(page, page.getByRole('option', { name: 'Download Data' }));
+  await clickElement(page, page.getByRole('button', { name: 'Go' }));
+  await verifyFileDownload(page);
 };
 
 export const printResults = async (page: Page) => {
-  await page.getByRole('button', { name: 'Print' }).click();
-  await page.locator('div[role="dialog"]:has-text("Print Options Print forms in English Spanish Orientation Portrait Landscape Auto")').getByRole('button', { name: 'Print' }).click();
-  await page.getByText('Processing print request in Print Queue.').click();
-  await verifyFileDownload(page)
+  await clickElement(page, page.getByRole('button', { name: 'Print' }));
+  await clickElement(page, page.locator('div[role="dialog"]:has-text("Print Options Print forms in English Spanish Orientation Portrait Landscape Auto")').getByRole('button', { name: 'Print' }));
+  await clickElement(page, page.getByText('Processing print request in Print Queue.'));
+  await verifyFileDownload(page);
 };

@@ -36,7 +36,7 @@ test.describe('TEACHER > Service Tracker Deliveries', () => {
     await page.getByText('Claim deleted successfully').isVisible();
   })
 
-  test("service tracker assessments add TCM @HD-Test", async ({ page }) => {
+  test("service tracker assessments add TCM @HD-Test-Debug", async ({ page }) => {
     await clickElement(page, locators.SERVICE_TRACKER)
     await clickElement(page, page.getByRole('link', { name: 'Assessments' }))
     await clickElement(page, "[title='Deliver TCM']")

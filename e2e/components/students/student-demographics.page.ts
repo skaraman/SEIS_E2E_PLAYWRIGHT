@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test"
 import { studentIepsPage } from "."
-import { enterTextField } from "../../helpers/actions"
+import { enterTextField, clickElement } from "../../helpers/actions"
 
 export const locators = {
 	QUICK_LINKS: "button:has-text('Quick Links')",
@@ -39,7 +39,7 @@ export const fillOutGeneratedSSID = async (page: Page, ssid: string)  => {
 }
 
 export const clickReturnToIeps = async (page: Page): Promise<void> => {
-	await page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }).click()
+	await clickElement(page, page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }))
 }
 
 function generateRandom() {

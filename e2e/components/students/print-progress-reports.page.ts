@@ -1,4 +1,5 @@
 import { Page } from "@playwright/test"
+import { clickElement } from "../../helpers/actions"
 
 export const locators = {
 	PRINT_BTN: "[title='View/Print']",
@@ -9,5 +10,5 @@ export const locators = {
 }
 
 export const clickReturnToIeps = async (page: Page): Promise<void> => {
-	await page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }).click()
+	await clickElement(page, page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }))
 }

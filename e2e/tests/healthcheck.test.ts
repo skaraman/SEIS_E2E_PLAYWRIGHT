@@ -91,8 +91,8 @@ test.describe("Checks", () => {
 			}
 		}
 		await clickElement(page, futureIepFormsPage.locators.EDIT_FORM)
-		await page.getByText('Print English Spanish').click()
-		await page.getByText('English').click()
+		await clickElement(page, page.getByText('Print English Spanish'))
+		await clickElement(page, page.getByText('English'))
 		await verifyFileDownload(page)
 	})
 

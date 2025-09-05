@@ -30,7 +30,7 @@ export const locators = {
 }
 
 export const clickReturnToIeps = async (page: Page): Promise<void> => {
-  await page.locator("#sticky-bar").getByRole("button", { name: "Return to Student IEPs" }).click()
+  await clickElement(page, page.locator("#sticky-bar").getByRole("button", { name: "Return to Student IEPs" }))
 }
 
 export const printAllForms = async (page: Page): Promise<void> => {
@@ -44,65 +44,48 @@ export const printAllForms = async (page: Page): Promise<void> => {
 }
 
 export const generateEsignaturePreMeeting = async (page: Page): Promise<void> => {
-  await page.locator("tr:nth-child(10) > td").first().click()
-
-  const generatePackageButton = page.getByRole("button", {
-    name: "Generate E-Signature Package",
-  });
-
-  // if (await page.locator('button:has-text("View Current IEP")').isVisible()) {
-  //   await page.locator('button:has-text("Cancel")').click()
-
-  // }
-
+  await clickElement(page, page.locator("tr:nth-child(10) > td"))
+  const generatePackageButton = page.getByRole("button", { name: "Generate E-Signature Package" });
   if (!(await generatePackageButton.isVisible())) {
     // Cancel if generate button is not visible
-    await page.getByRole('button', { name: 'View E-Signed Document' }).click()
-    await page.locator('input[name="cancelreason"]').click()
+    await clickElement(page, page.getByRole('button', { name: 'View E-Signed Document' }))
+    await clickElement(page, page.locator('input[name="cancelreason"]'))
     await page.locator('input[name="cancelreason"]').fill("testing")
-    await page.getByRole('button', { name: 'Void' }).click()
+    await clickElement(page, page.getByRole('button', { name: 'Void' }))
     await clickElement(page, "Request successfully cancelled.", 0, 'text')
   }
 
   // Generate new e-sign package
-  await generatePackageButton.click()
-  await page.getByRole("button", { name: "Pre-Meeting Form" }).click()
+  await clickElement(page, generatePackageButton)
+  await clickElement(page, page.getByRole("button", { name: "Pre-Meeting Form" }))
   await page.getByRole("heading", { name: "Success" }).isVisible()
   await page.getByText("Congratulations, the forms validation has passed!").isVisible()
-  await page.getByRole("button", { name: "Continue" }).click()
-  await page.getByLabel("Signer Full Name:").click()
+  await clickElement(page, page.getByRole("button", { name: "Continue" }))
+  await clickElement(page, page.getByLabel("Signer Full Name:"))
   await page.getByLabel("Signer Full Name:").fill("Testing")
-  await page.getByLabel("Title/Relationship to Student:").click()
+  await clickElement(page, page.getByLabel("Title/Relationship to Student:"))
   await page.getByLabel("Title/Relationship to Student:").fill("Tester")
-  await page.getByLabel("Email:").click()
+  await clickElement(page, page.getByLabel("Email:"))
   await page.getByLabel("Email:").fill("skaraman@sjcoe.net")
-  await page.getByPlaceholder("999-999-9999").click()
+  await clickElement(page, page.getByPlaceholder("999-999-9999"))
   await page.getByPlaceholder("999-999-9999").fill("913-345-3454")
-  await page.locator("[title='Save Signer']").click()
+  await clickElement(page, page.locator("[title='Save Signer']"))
   await page.getByText("Signer already exists.").isVisible()
   await enterTextField(page, locators.PASSWORD, "Test")
   await page.getByLabel("Include Spanish copy of forms").check()
   await page.getByLabel("Automatically Number Pages, ex: Page 1 of 14").check()
   await page.getByLabel("I acknowledge all documentation and signer information is correct.").check()
-  await page.getByRole("button", { name: "Send E-Signature Package" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Send E-Signature Package" }))
   await page.getByText("This field doesn't match pattern required").isVisible()
   await enterTextField(page, locators.PASSWORD, "Test123!")
-  await page.getByRole("button", { name: "Send E-Signature Package" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Send E-Signature Package" }))
   await page.getByText("Signer information has been entered, please Save Signer to add recipient or remove").isVisible()
-  await page.locator(".close > .fa").click()
-  await page.getByRole("button", { name: "Yes" }).click()
-  await page.locator("[title='Save Signer']").click()
-  await page.getByRole("button", { name: "Send E-Signature Package" }).click()
-  await page.getByRole("button", { name: "OK" }).click()
+  await clickElement(page, page.locator(".close > .fa"))
+  await clickElement(page, page.getByRole("button", { name: "Yes" }))
+  await clickElement(page, page.locator("[title='Save Signer']"))
+  await clickElement(page, page.getByRole("button", { name: "Send E-Signature Package" }))
+  await clickElement(page, page.getByRole("button", { name: "OK" }))
 
-  /* 	await page.getByText('Generating E-Signature Package E-Signature Info').isVisible();
-  await page.getByText('Congratulations! The E-Signature Package is processing. An email and text notifi').isVisible();
-  await page.getByRole('button', { name: 'OK' }).click();
-  await page.getByRole('button', { name: 'Cancel E-Signature Package' }).click();
-  await page.locator('input[name="cancelreason"]').click();
-  await page.locator('input[name="cancelreason"]').fill('testing');
-  await page.getByRole('button', { name: 'OK' }).click();
-  await page.getByText('Request successfully cancelled.').click(); */
 };
 
 export const validateEsignaturePage = async (page: Page, testInfo, request): Promise<void> => {
@@ -135,7 +118,7 @@ export const validateEsignaturePage = async (page: Page, testInfo, request): Pro
   await page.getByRole("button", { name: "Clear" }).isVisible()
 
   await page.locator("#signature-pad").click({ position: { x: 339, y: 64 } })
-  await page.getByRole("button", { name: "Submit Signature" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Submit Signature" }))
   await page.getByRole("heading", { name: "Signature Complete" }).isVisible()
 
   //Navigates back to seis page to view the signed e-sign
@@ -146,18 +129,10 @@ export const validateEsignaturePage = async (page: Page, testInfo, request): Pro
   await page.waitForSelector(studentIepsPage.locators.TABLE)
   await selectEligibility(page)
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-  /*   await page.waitForLoadState('networkidle')
-  
-    if (
-      await page.locator('button:has-text("View Current IEP")').isVisible()
-    ){
-      await page.locator('button:has-text("Cancel")').click()
-  
-    } */
   await waitForPageReady(page)
   //await page.waitForTimeout(10000)
-  await page.getByRole("button", { name: "View E-Signed Document" }).click()
-  await page.getByRole("button", { name: "Add Attachment" }).click()
+  await clickElement(page, page.getByRole("button", { name: "View E-Signed Document" }))
+  await clickElement(page, page.getByRole("button", { name: "Add Attachment" }))
 }
 
 export const generateEsignatureCompleted = async (page: Page, testInfo, request): Promise<void> => {
@@ -198,62 +173,50 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   }
   // Filter search results
   await enterTextField(page, studentIepsPage.locators.SEIS_ID, `${studentId}`)
-  await page.getByRole('button', { name: 'Find' }).click()
+  await clickElement(page, page.getByRole('button', { name: 'Find' }))
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
-
-  // if (
-  //   await page.locator('button:has-text("View Current IEP")').isVisible() || await page.locator('button:has-text("Go to E-Signature")').isVisible()
-  // ) {
-  //   await page.locator('button:has-text("Cancel")').first().click()
-  // }
   await waitForPageReady(page);
-
   // Create completed signature for student
-  await page.locator("tr:nth-child(10) > td").first().click()
-
-  const generatePackageButton = page.getByRole("button", {
-    name: "Generate E-Signature Package",
-  })
-
+  await clickElement(page, page.locator("tr:nth-child(10) > td").first())
+  const generatePackageButton = page.getByRole("button", { name: "Generate E-Signature Package" })
   if (!(await generatePackageButton.isVisible())) {
     // Cancel if generate button is not visible
-    await page.getByRole("button", { name: "Cancel E-Signature Package" }).click()
-    await page.locator('input[name="cancelreason"]').click()
+    await clickElement(page, page.getByRole("button", { name: "Cancel E-Signature Package" }))
+    await clickElement(page, page.locator('input[name="cancelreason"]'))
     await page.locator('input[name="cancelreason"]').fill("testing")
-    await page.getByRole("button", { name: "OK" }).click()
-    await page.getByText("Request successfully cancelled.").click()
+    await clickElement(page, page.getByRole("button", { name: "OK" }))
+    await clickElement(page, page.getByText("Request successfully cancelled."))
   }
-
   // Generate new e-sign package
   await generatePackageButton.click()
-  await page.getByRole("button", { name: "Completed Meeting" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Completed Meeting" }))
   await page.getByRole("heading", { name: "Success" }).isVisible()
   await page.getByText("Congratulations, the forms validation has passed!").isVisible()
-  await page.getByRole("button", { name: "Continue" }).click()
-  await page.getByLabel("Signer Full Name:").click()
+  await clickElement(page, page.getByRole("button", { name: "Continue" }))
+  await clickElement(page, page.getByLabel("Signer Full Name:"))
   await page.getByLabel("Signer Full Name:").fill("Testing")
-  await page.getByLabel("Title/Relationship to Student:").click()
+  await clickElement(page, page.getByLabel("Title/Relationship to Student:"))
   await page.getByLabel("Title/Relationship to Student:").fill("Tester")
-  await page.getByLabel("Email:").click()
+  await clickElement(page, page.getByLabel("Email:"))
   await page.getByLabel("Email:").fill("skaraman@sjcoe.net")
-  await page.getByPlaceholder("999-999-9999").click()
+  await clickElement(page, page.getByPlaceholder("999-999-9999"))
   await page.getByPlaceholder("999-999-9999").fill("913-345-3454")
-  await page.locator("[title='Save Signer']").click()
+  await clickElement(page, page.locator("[title='Save Signer']"))
   await page.getByText("Signer already exists.").isVisible()
   await enterTextField(page, locators.PASSWORD, "Test")
   await page.getByLabel("Include Spanish copy of forms").check()
   await page.getByLabel("Automatically Number Pages, ex: Page 1 of 14").check()
   await page.getByLabel("I acknowledge all documentation and signer information is correct.").check();
-  await page.getByRole("button", { name: "Send E-Signature Package" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Send E-Signature Package" }))
   await page.getByText("This field doesn't match pattern required").isVisible()
   await enterTextField(page, locators.PASSWORD, "Test123!")
-  await page.getByRole("button", { name: "Send E-Signature Package" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Send E-Signature Package" }))
   await page.getByText("Signer information has been entered, please Save Signer to add recipient or remove").isVisible()
-  await page.locator(".close > .fa").click()
-  await page.getByRole("button", { name: "Yes" }).click()
-  await page.locator("[title='Save Signer']").click()
-  await page.getByRole("button", { name: "Send E-Signature Package" }).click()
-  await page.getByRole("button", { name: "OK" }).click()
+  await clickElement(page, page.locator(".close > .fa"))
+  await clickElement(page, page.getByRole("button", { name: "Yes" }))
+  await clickElement(page, page.locator("[title='Save Signer']"))
+  await clickElement(page, page.getByRole("button", { name: "Send E-Signature Package" }))
+  await clickElement(page, page.getByRole("button", { name: "OK" }))
   // Get the signature url
   const response = await eSignService.getSignatureUrl(
     token,
@@ -267,10 +230,10 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
 //  await page.waitForTimeout(3000)
   await clickElement(page, locators.SUBMIT)
   await page.getByLabel('I agree to all parts of this document.').check()
-  await page.getByRole('button', { name: 'Submit Signature' }).click()
+  await clickElement(page, page.getByRole('button', { name: 'Submit Signature' }))
   await page.getByText('Signature is required').isVisible()
   await page.locator('#signature-pad').click({ position: { x: 241, y: 74 } })
-  await page.getByRole("button", { name: "Submit Signature" }).click()
+  await clickElement(page, page.getByRole("button", { name: "Submit Signature" }))
   await page.getByRole("heading", { name: "Signature Complete" }).isVisible()
   //Navigates back to seis page to view the signed e-sign
   await page.goto("/login")
@@ -278,36 +241,36 @@ export const generateEsignatureCompleted = async (page: Page, testInfo, request)
   await clickElement(page, studentsMenuDropDown.locators.STUDENTS, 0, 'text')
   await clickElement(page, studentsMenuDropDown.locators.STUDENT_IEPS, 0, 'text')
   await enterTextField(page, studentIepsPage.locators.SEIS_ID, `${studentId}`)
-  await page.getByRole('button', { name: 'Find' }).click()
+  await clickElement(page, page.getByRole('button', { name: 'Find' }))
   //await page.waitForTimeout(30000)
   await clickElement(page, studentIepsPage.locators.FUTURE_IEPS)
   await waitForPageReady(page)
   await page.pause()
-  await page.getByRole("button", { name: "View E-Signed Document" }).click()
-  await page.locator('form:has-text("To View the Electronic Signature document, click the download link below. The e-")').getByRole('button', { name: 'Affirm' }).click()
+  await clickElement(page, page.getByRole("button", { name: "View E-Signed Document" }))
+  await clickElement(page, page.locator('form:has-text("To View the Electronic Signature document, click the download link below. The e-")').getByRole('button', { name: 'Affirm' }))
   await page.getByLabel('Meeting Date').check()
   await page.getByLabel('Meeting Type').check()
   await page.getByLabel('Plan Type').check()
   await page.getByLabel('Yes').check()
-  await page.getByLabel('Affirm Remarks').click()
+  await clickElement(page, page.getByLabel('Affirm Remarks'))
   await page.getByLabel('Affirm Remarks').fill('testing')
   await page.getByLabel('Projected Next Annual Plan Review Date').check()
   await page.getByLabel('Last Reevaluation Date').check()
   await page.getByLabel('Projected Next Reevaluation Date').check()
-  await page.getByRole('button', { name: 'Continue Affirm' }).click()
+  await clickElement(page, page.getByRole('button', { name: 'Continue Affirm' }))
   if (await page.getByText('Alert - Meeting Date').isVisible()) {
-    await page.locator('button:has-text("Continue")').last().click()
+    await clickElement(page, page.locator('button:has-text("Continue")').last())
   }
 
 //  await page.waitForTimeout(4000)
-  await page.getByRole('button', { name: 'Continue' }).click()
-  await page.getByRole('button', { name: 'Continue' }).click()
-  await page.locator("tr:nth-child(10) > td").first().click()
-  await page.getByRole('button', { name: 'Submit' }).click()
-  await page.getByRole('button', { name: 'Affirm' }).click()
+  await clickElement(page, page.getByRole('button', { name: 'Continue' }))
+  await clickElement(page, page.getByRole('button', { name: 'Continue' }))
+  await clickElement(page, page.locator("tr:nth-child(10) > td").first())
+  await clickElement(page, page.getByRole('button', { name: 'Submit' }))
+  await clickElement(page, page.getByRole('button', { name: 'Affirm' }))
   await page.getByText('Please wait for process to complete').isVisible()
   await page.getByRole('heading', { name: 'Affirm Completed' }).isVisible()
-  await page.getByRole('button', { name: 'OK' }).click()
+  await clickElement(page, page.getByRole('button', { name: 'OK' }))
 }
 
 const isErrorFound = (errors) => {

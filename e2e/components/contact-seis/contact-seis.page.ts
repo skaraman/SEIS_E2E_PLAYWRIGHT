@@ -8,25 +8,25 @@ export const locators = {
 }
 
 export const fillOutForm = async (page: Page) => {
-  await page.getByLabel('Student\'s SEIS ID or SSID').click();
+  await clickElement(page, page.getByLabel('Student\'s SEIS ID or SSID'));
   await page.getByLabel('Student\'s SEIS ID or SSID').fill('432432454334');
-  await page.getByRole('link', { name: '---Select One---' }).click();
-  await page.getByRole('option', { name: 'CALPADS' }).click();
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'CALPADS' }));
   await page.locator('#quill-editor-Message div').first().fill('This is Automation testing, please dismiss');
 
   const [fileChooser] = await Promise.all([
 	// It is important to call waitForEvent before click to set up waiting.
-	page.waitForEvent('filechooser'),
-	page.locator('button[name="file"]').click(),
+    page.waitForEvent('filechooser'),
+    clickElement(page, page.locator('button[name="file"]')),
   ]);
   await fileChooser.setFiles('./e2e/data/testing.txt'); 
 
   await page.getByLabel('Email Address').fill('tester+123@sjcoe.net');
-  await page.getByLabel('Phone Number').click();
+  await clickElement(page, page.getByLabel('Phone Number'));
   await page.getByLabel('Phone Number').fill('9165464565');
-  await page.getByRole('link', { name: 'Classroom' }).click();
-  await page.getByRole('option', { name: 'Laptop' }).click();
-  await page.getByRole('button', { name: '✉ Send Email' }).click();
+  await clickElement(page, page.getByRole('link', { name: 'Classroom' }));
+  await clickElement(page, page.getByRole('option', { name: 'Laptop' }));
+  await clickElement(page, page.getByRole('button', { name: '✉ Send Email' }));
   await waitForPageReady(page);
   await page.locator('div:has-text("Email sent!")').nth(1).isVisible();
 

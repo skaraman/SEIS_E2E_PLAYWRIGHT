@@ -17,7 +17,7 @@ export const locators = {
 }
 
 export const clickReturnToIeps = async (page: Page): Promise<void> => {
-  await page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }).click()
+  await clickElement(page, page.locator('#sticky-bar').getByRole('button', { name: 'Return to Student IEPs' }))
 }
 
 export const printAllFormsCurrentIep = async (page: Page): Promise<void> => {

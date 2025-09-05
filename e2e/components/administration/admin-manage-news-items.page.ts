@@ -1,22 +1,15 @@
 import { Page } from "@playwright/test";
-
-
-export const locators = {
-
-
-}
-
-
+import { clickElement } from "../../helpers/actions"
 
 export const NewsItemsAddDelete = async (page: Page) => {
-await page.getByRole('button', { name: '+ Add' }).click();
-  await page.getByLabel('Title').click();
+  await clickElement(page, page.getByRole('button', { name: '+ Add' }))
+  await clickElement(page, page.getByLabel('Title'))
   await page.getByLabel('Title').fill('testing');
-  await page.locator('form[name="vm\\.form"]').getByText('District').click();
-  await page.locator('#quill-editor-newsItem div').first().click();
-  await page.getByRole('button', { name: 'Save' }).click();
-  await page.locator('span:has-text("testing")').nth(1).click();
-  await page.getByRole('link', { name: '' }).nth(0).click();
-  await page.getByRole('button', { name: 'Yes' }).click();
-  await page.getByText('News Item Deleted').click();
+  await clickElement(page, page.locator('form[name="vm\\.form"]').getByText('District'))
+  await clickElement(page, page.locator('#quill-editor-newsItem div').first())
+  await clickElement(page, page.getByRole('button', { name: 'Save' }))
+  await clickElement(page, page.locator('span:has-text("testing")').nth(1))
+  await clickElement(page, page.getByRole('link', { name: '' }).nth(0))
+  await clickElement(page, page.getByRole('button', { name: 'Yes' }))
+  await clickElement(page, page.getByText('News Item Deleted'))
 }

@@ -12,21 +12,21 @@ export const fillOutForm = async (page: Page): Promise<void> => {
 	await clickElement(page, page.locator(".today.day"))
 	await page.getByRole('radio', { name: 'Other' }).check();
 	await enterTextField(page, locators.OTHER_FIELD, "For Automated Testing")
-	await page.getByRole('button', { name: 'Affirm' }).click();
-	await page.getByRole('button', { name: 'Yes' }).click();
+	await clickElement(page, page.getByRole('button', { name: 'Affirm' }));
+	await clickElement(page, page.getByRole('button', { name: 'Yes' }));
 	await waitForPageReady(page)
 	await page.getByLabel('Yes').check();
-	await page.locator("[type='submit']").click();
-	await page.locator("[type='submit']").click();
+	await clickElement(page, page.locator("[type='submit']"));
+	await clickElement(page, page.locator("[type='submit']"));
 	await page.locator('input[type="checkbox"]').nth(7).check();
-	await page.getByRole('button', { name: 'Submit' }).click();
-	await page.getByRole('button', { name: 'Affirm' }).click();
+	await clickElement(page, page.getByRole('button', { name: 'Submit' }));
+	await clickElement(page, page.getByRole('button', { name: 'Affirm' }));
 	await page.getByRole('heading', { name: 'Affirm Completed' }).isVisible();
-	await page.getByRole('button', { name: 'OK' }).click();
+	await clickElement(page, page.getByRole('button', { name: 'OK' }));
 }
 
 export const deleteUnaffirmedAmendment = async (page: Page): Promise<void> => {
-	await page.locator("[title='Delete']").click()
-	await page.getByRole('button', { name: 'OK' }).click();
+	await clickElement(page, page.locator("[title='Delete']"));
+	await clickElement(page, page.getByRole('button', { name: 'OK' }));
 	//[title='Edit']
 }

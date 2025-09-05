@@ -1,6 +1,5 @@
 import { Page } from '@playwright/test'
-
-
+import { clickElement } from '../../helpers/actions'
 
 export const locators = {
 	LETTER_A: "letterA",
@@ -26,19 +25,17 @@ export const locators = {
 /* 	IEP GOAL POGRESS SUMMARY PAGE
 	//a[contains(text(),'Affirm Progress Report')] */
 
-
 export const selectEligibility = async (page: Page): Promise<void> => {
-	await page.getByRole('link', { name: '----Select One----' }).nth(1).click();
-    await page.getByRole('option', { name: 'Eligible' }).click();
+	await clickElement(page, page.getByRole('link', { name: 'Select One' }).nth(1));
+	await clickElement(page, page.getByRole('option', { name: 'Eligible' }));
 }
 
 export const selectPendingEligibility = async (page: Page): Promise<void> => {
-	await page.getByRole('link', { name: '----Select One----' }).nth(1).click();
-    await page.getByRole('option', { name: 'Pending' }).click();
+	await clickElement(page, page.getByRole('link', { name: 'Select One' }).nth(1));
+	await clickElement(page, page.getByRole('option', { name: 'Pending' }));
 }
 
 export const SelectGoalProgressTrackingIcn = async (page: Page): Promise<void> => {
-
-await page.getByRole('gridcell', { name: ' ' }).getByRole('link', { name: '' }).click();
+	await clickElement(page, page.getByRole('gridcell', { name: ' ' }).getByRole('link', { name: '' }));
 }
 

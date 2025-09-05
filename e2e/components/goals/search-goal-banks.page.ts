@@ -113,15 +113,10 @@ export const verifyAuSpLanGoals = async (page: Page) => {
    await clickElement(page, locators.RETURN_TO_GOAL_LIBRARIES);
 
     //next goal
-  await page.locator('text=Teacher Generated Goals').nth(1).click();
+  await clickElement(page, page.locator('text=Teacher Generated Goals').nth(1));
   await page.locator('#category').selectOption('1462');
   await page.locator('#tbody').isVisible();
 
-
-
-
-
-   
 }
 
 

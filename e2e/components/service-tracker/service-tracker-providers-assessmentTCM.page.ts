@@ -1,7 +1,5 @@
-import { Page, expect } from "@playwright/test";
-import { verify, actions } from "../../helpers";
-import { clickElement, enterTextField } from "../../helpers/actions";
-
+import { Page } from "@playwright/test";
+import { clickElement } from "../../helpers/actions";
 
 export const locators = {
   DELIVER_ASSESSMENT_ICN: "//*[@title='Deliver Assessment']",
@@ -12,53 +10,54 @@ export const locators = {
   ASSESSMENTS_TABLE: ".table"
 };
 
-
 //Edit Assessment Page
 export const fillOutEditAssessmentFields = async (page: Page): Promise<void> => {
 
   // await page.fill(locators.ASSESSMENT_DATE, "11/07/2022");
-  await page.locator('#AssessmentDate').click();
-  await page.locator('td.day.old').first().click();
-  await page.locator("#assessmentType2").selectOption("string:1");
-  await page.getByText('Group').first().click();
-  await page.getByRole('link', { name: '--Select One--', exact: true }).click();
-  await page.getByRole('option', { name: 'Bauxbatons' }).click();
-  await page.getByRole('link', { name: '----Select One----' }).click();
-  await page.getByRole('option', { name: 'Materials provided for home use' }).click();
-  await page.locator('[id="s2id_AttendanceSchool"]').click();
-  await page.getByRole('option', { name: 'Another School Elementary' }).click();
+  await clickElement(page, page.locator('#AssessmentDate'));
+  await clickElement(page, page.locator('td.day.old').first());
+  await page.locator("#assessmentType2").selectOption("string:1")
+  await clickElement(page, page.getByText('Group').first());
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Materials provided for home use' }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Bauxbatons' }));
+
+  await clickElement(page, page.locator('[id="s2id_AttendanceSchool"]'));
+  await clickElement(page, page.getByRole('option', { name: 'Another School Elementary' }));
+  await clickElement(page, page.getByPlaceholder('Comments'));
   await page.getByPlaceholder('Comments').fill('Testing Assessment page');
-  await page.getByRole('button', { name: 'Save' }).click();
+  await clickElement(page, page.getByRole('button', { name: 'Save' }));
 
 }
 
 export const fillOutAddTcmFields = async (page: Page): Promise<void> => {
-  await page.locator('#TcmDate').click();
-  await page.locator('.old.day').nth(0).click();
-  await page.getByRole('link', { name: '---Select One---', exact: true }).click();
-  await page.getByRole('option', { name: 'Developing Plan' }).click();
-  await page.getByRole('link', { name: '--Select One--', exact: true }).click();
-  await page.getByRole('option', { name: 'Bauxbatons' }).click();
-  await page.getByRole('link', { name: '----Select One----' }).click();
-  await page.getByRole('option', { name: 'Supported student on digital accommodations' }).click();
-  await page.getByRole('link', { name: 'Supported student on digital accommodations' }).click();
-  await page.locator('#select2-drop-mask').click();
-  await page.getByRole('link', { name: 'Supported student on digital accommodations' }).click();
-  await page.getByRole('option', { name: 'Service provided via Google Hangout' }).click();
-  await page.locator('#TCMMinutes').click();
-  await page.locator('#TCMMinutes').fill('40');
-  await page.getByRole('link', { name: '---Select One---' }).click();
-  await page.getByRole('option', { name: 'Objectives' }).click();
-  await page.getByPlaceholder('Comments').click();
-  await page.getByPlaceholder('Comments').fill('this is a test!');
-  await page.locator('input[type="checkbox"]').check();
-  await page.locator('#Name').click();
-  await page.locator('#Name').fill('Tester');
-  await page.getByRole('button', { name: 'Save' }).click();
-  /*  await page.getByRole('button', { name: '' }).click();
-   await page.getByRole('button', { name: ' this is a test!' }).click(); */
-  //await page.waitForTimeout(5000)
-  await page.locator("[id='deleteTcm']").last().click();
-  await page.getByRole('button', { name: 'Delete Assessment' }).click();
+  await clickElement(page, page.locator('#TcmDate'));
+  await clickElement(page, page.locator('.old.day').nth(0));
+
+  await clickElement(page, page.getByRole('link', { name: 'Select One'}));
+  await clickElement(page, page.getByRole('option', { name: 'Developing Plan' }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Objectives' }));
+
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Bauxbatons' }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Supported student on digital accommodations' }));
+  await clickElement(page, page.getByRole('link', { name: 'Supported student on digital accommodations' }));
+  await clickElement(page, page.locator('#select2-drop-mask'));
+  await clickElement(page, page.getByRole('link', { name: 'Supported student on digital accommodations' }));
+  await clickElement(page, page.getByRole('option', { name: 'Service provided via Google Hangout' }));
+  await clickElement(page, page.locator('#TCMMinutes'));
+  await page.locator('#TCMMinutes').fill('40')
+
+  await clickElement(page, page.getByPlaceholder('Comments'));
+  await page.getByPlaceholder('Comments').fill('this is a test!')
+  await page.locator('input[type="checkbox"]').check()
+  await clickElement(page, page.locator('#Name'));
+  await page.locator('#Name').fill('Tester')
+  await clickElement(page, page.getByRole('button', { name: 'Save' }));
+  await clickElement(page, page.locator("[id='deleteTcm']").last());
+  await clickElement(page, page.getByRole('button', { name: 'Delete Assessment' }));
 
 }

@@ -6,7 +6,7 @@ const {
   verifyIfElementIsVisible,
   verifyIfElementTextContentIsCorrect,
 } = verify
-const { getTextContent } = actions
+const { getTextContent, clickElement } = actions
 
 export const locators = {
   HEADER_H1: "//h1[contains(text(),'Deliveries')]",
@@ -23,29 +23,25 @@ export const locators = {
   BULK_DELIVERY_BTN: "//button[contains(text(),'Bulk Delivery')]",
 }
 
-
 // FOR TEACHER ROLE
 export const addNewDelivery = async (page: Page) => {
-
-  await page.locator('#ClaimsDate').click();
-  await page.getByRole('cell', { name: '12' }).click();
-  await page.locator('#ClaimsDate').press('Tab');
-  await page.locator('#s2id_attendanceCode').getByRole('link', { name: '--Select One--' }).click();
-  await page.getByRole('option', { name: 'Unexcused Absence' }).click();
-  await page.getByRole('link', { name: '--Select One--', exact: true }).click();
-  await page.getByRole('option', { name: 'Bauxbatons' }).click();
-  await page.getByRole('link', { name: '----Select One----' }).click();
-  await page.getByRole('option', { name: 'Referred to community resources/agency' }).click();
-  await page.locator('#ClaimableMinutes').click();
-  await page.locator('#ClaimableMinutes').click({ clickCount: 3 });
+  await clickElement(page, page.locator('#ClaimsDate'));
+  await clickElement(page, page.getByRole('cell', { name: '12' }));
+  await page.locator('#ClaimsDate').press('Tab')
+  await clickElement(page, page.locator('#s2id_attendanceCode').getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Unexcused Absence' }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Referred to community resources/agency' }));
+  await clickElement(page, page.getByRole('link', { name: 'Select One' }));
+  await clickElement(page, page.getByRole('option', { name: 'Bauxbatons' }));
+  await clickElement(page, page.locator('#ClaimableMinutes'));
+  await page.locator('#ClaimableMinutes').click({ clickCount: 3 })
   await page.locator('#ClaimableMinutes').fill('50');
-  await page.getByPlaceholder('Comments').click();
+  await clickElement(page, page.getByPlaceholder('Comments'));
   await page.getByPlaceholder('Comments').fill('This is a Test!');
-  await page.getByRole('button', { name: 'Save', exact: true }).click();
-  await page.locator("[title='Comment']").last().click();
+  await clickElement(page, page.getByRole('button', { name: 'Save', exact: true }));
+  await clickElement(page, page.locator("[title='Comment']").last());
   await page.getByRole('button', { name: ' This is a Test!' }).isVisible();
-  await page.locator("[title='Delete']").last().click()
-  await page.getByRole('button', { name: 'Delete Claim' }).click();
-
-
+  await clickElement(page, page.locator("[title='Delete']").last());
+  await clickElement(page, page.getByRole('button', { name: 'Delete Claim' }));
 }
