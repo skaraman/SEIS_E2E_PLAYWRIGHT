@@ -60,7 +60,7 @@ test.describe("Checks", () => {
 		await clickFollowUp(page, FollowUp.UnaffirmedIeps)
 		await verifyIfTitleIsCorrect(page, 'Unaffirmed IEPs')
 		const newPage = await openWindow(page, async () => {
-			clickElement(page, unaffirmedIepPage.locators.HELP_GUIDE)
+			await clickElement(page, unaffirmedIepPage.locators.HELP_GUIDE)
 		})
 		test.expect(newPage).toHaveURL(/helpguides/)
 	})
