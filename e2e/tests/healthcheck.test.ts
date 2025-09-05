@@ -17,7 +17,7 @@ const { locators } = seisHeaderComponent
 test.describe("Checks", () => {
 	test.beforeEach(async ({ page, users }) => {
 		await page.goto("/login")
-		await loginSelpaRole(page)
+		await loginSelpaRole(page, "0")
 	})
 	
 	test.afterEach(async ({ page }) => {
@@ -62,16 +62,16 @@ test.describe("Checks", () => {
 		const newPage = await openWindow(page, async () => {
 			await clickElement(page, unaffirmedIepPage.locators.HELP_GUIDE)
 		})
-		test.expect(newPage).toHaveURL(/helpguides/)
+		await test.expect(newPage).toHaveURL(/helpguides/)
 	})
 
 	test('verify dashboard api @Health-Check', async ({ page, request }, configs) => {
 		const announcementsApiUrl = `${configs.project.use.config.apiBaseUrl}/api/home/announcements`
 		const announcements = await request.get(announcementsApiUrl)
-		expect(announcements.status()).toEqual(200)
+		await expect(announcements.status()).toEqual(200)
 		const carouselApiUrl = `${configs.project.use.config.apiBaseUrl}/api/home/carousel`
 		const carousel = await request.get(carouselApiUrl)
-		expect(carousel.status()).toEqual(200)
+		await expect(carousel.status()).toEqual(200)
 	})
 
 	test('Print Future Ieps Form @Health-Check', async ({ page }) => {

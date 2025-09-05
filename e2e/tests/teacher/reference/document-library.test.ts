@@ -24,15 +24,12 @@ test.describe('TEACHER > Reports HD Tests', () => {
 	test('Document Library Load Verify @HD-Test', async ({ page }) => {
 		await clickElement(page, referenceMenuLocators.REFERENCE)
 		await clickElement(page, referenceMenuLocators.DOCUMENT_LIBRARY)
-		test.expect(await hasPageLoadedCorrectly(page)).toBe(true)
+		await test.expect(await hasPageLoadedCorrectly(page)).toBe(true)
 		await verifyIfElementIsVisible(page, referenceLocators.SEARCH_INPUT)
 		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
 		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
 		const newPage = await openWindowForDocLibrary(page, async () => {
-			await clickElement(
-				page,
-				page.locator('[title="Download"]', { hasText: 'a district level doc' })
-			)
+			await clickElement(page, page.locator('[title="Download"]', { hasText: 'a district level doc' }))
 		})
 	})
 })

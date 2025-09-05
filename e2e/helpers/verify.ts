@@ -19,7 +19,7 @@ export const verifyIfElementIsVisible = async (page: Page, locator: Locator | st
   while (attempts < maxAttempts) {
     try {
       await element.waitFor({ state: 'visible', timeout: 10000 });
-      expect(
+      await expect(
         await element.isVisible(),
         `Element ${locator} was not visible on page ${await page.title()}`
       ).toBe(true);
@@ -37,16 +37,16 @@ export const verifyIfElementIsVisible = async (page: Page, locator: Locator | st
 export const verifyIfTitleIsCorrect = async (page: Page, title: string): Promise<void> => {
   const headerTitle = page.locator('#headerTitle')
   const text = ((await headerTitle.textContent()) || '').trim()
-  expect(text).toEqual(title)
+  await expect(text).toEqual(title)
 }
 
 export const verifyIfPageUrlIsCorrect = async (page: Page, url: string): Promise<void> => {
-  expect(page.url().indexOf(url)).toBeGreaterThan(-1)
+  await expect(page.url().indexOf(url)).toBeGreaterThan(-1)
 }
 
 export const verifyIfElementTextContentIsCorrect = async (page: Page, locator: Locator | string, text: string): Promise<void> => {
   const textContent = await getTextContent(page, locator)
-  expect(textContent).toContain(text)
+  await expect(textContent).toContain(text)
 }
 export const verifyTableHeaderColumns = async (page: Page, headers: string[]) => {
   headers.forEach(async (col) => {

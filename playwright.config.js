@@ -7,7 +7,7 @@ const { devices } = require('@playwright/test');
 const envName = require('./e2e/environments/all-envs.json');
 let getEnv = require('./e2e/environments/dev-env.json');
 
-const env = (process.env.NODE_ENV || '').trim();
+const env = process.env.NODE_ENV.trim();
 
 switch (env) {
 	case envName.v4:

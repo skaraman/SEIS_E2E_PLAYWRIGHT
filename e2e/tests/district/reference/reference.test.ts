@@ -23,7 +23,7 @@ test.describe('District > Reference Tests', () => {
 	test('reference doc library open document @HD-Test', async ({ page }) => {
 		await clickElement(page, referenceMenuLocators.REFERENCE)
 		await clickElement(page, referenceMenuLocators.DOCUMENT_LIBRARY)
-		test.expect(await hasPageLoadedCorrectly(page)).toBe(true)
+		await test.expect(await hasPageLoadedCorrectly(page)).toBe(true)
 		await verifyIfElementIsVisible(page, referenceLocators.SEARCH_INPUT)
 		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
 		await clickElement(page, referenceLocators.SHOW_ALL_BTN)
@@ -33,6 +33,6 @@ test.describe('District > Reference Tests', () => {
 				page.locator('[title="Download"]', { hasText: 'small doc' })
 			)
 		})
-		//test.expect(newPage).toHaveURL(/documentlibrary-storage/)
+		// await test.expect(newPage).toHaveURL(/documentlibrary-storage/)
 	})
 })
